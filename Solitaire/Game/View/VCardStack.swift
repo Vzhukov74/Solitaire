@@ -17,33 +17,31 @@ struct VCardStack: View {
     
     var body: some View {
         GeometryReader { geo in
-            if cards.isEmpty {
-                Rectangle()
-                    .foregroundColor(Color.orange)
+            ZStack {
+                RoundedRectangle(cornerRadius: 4)
+                    .foregroundColor(Color.black.opacity(0.3))
                     .frame(width: geo.size.width, height: geo.size.width * 1.5)
-            } else {
-                ZStack {
-                    ForEach(0..<cards.count, id: \.self) { index in
-                        CardView(card: cards[index])
-                            .frame(width: geo.size.width, height: geo.size.width * 1.5)
-                            .offset(x: 0, y: CGFloat(index * 24))
-                            .gesture (
-                                DragGesture(coordinateSpace: .named("screen"))
-                                    .onChanged { value in
-                                        guard cards[index].isOpen else { return }
-                                        //print(value.location)
-                                        onChanged(cards[index], value.location)
-                                    }.onEnded { value in
-                                        onEnded(cards[index], value.location)
-                                    }
-                            )
-                            .onTapGesture {
-                                guard cards[index].isOpen else { return }
-                                onTap(cards[index])
-                            }
-                            .opacity(cards[index].isHide ? 0 : 1)
-                            .matchedGeometryEffect(id: cards[index].id, in: animation)
-                    }
+                
+                ForEach(0..<cards.count, id: \.self) { index in
+                    CardView(card: cards[index])
+                        .frame(width: geo.size.width, height: geo.size.width * 1.5)
+                        .offset(x: 0, y: CGFloat(index * 24))
+                        .gesture (
+                            DragGesture(coordinateSpace: .named("screen"))
+                                .onChanged { value in
+                                    guard cards[index].isOpen else { return }
+                                    //print(value.location)
+                                    onChanged(cards[index], value.location)
+                                }.onEnded { value in
+                                    onEnded(cards[index], value.location)
+                                }
+                        )
+                        .onTapGesture {
+                            guard cards[index].isOpen else { return }
+                            onTap(cards[index])
+                        }
+                        .opacity(cards[index].isHide ? 0 : 1)
+                        .matchedGeometryEffect(id: cards[index].id, in: animation)
                 }
             }
         }

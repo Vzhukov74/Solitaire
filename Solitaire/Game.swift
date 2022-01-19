@@ -34,6 +34,7 @@ class Game: ObservableObject {
             movingCards?.position = position
         } else {
             var movingCards = findMovingCards(by: card)
+            hide(movingCards: movingCards)
             movingCards?.position = position
             self.movingCards = movingCards
         }
@@ -97,11 +98,11 @@ class Game: ObservableObject {
     }
     
     func openCard() {
-        if extra.cards.isEmpty && !extra.openCards.isEmpty && !extra.toShowCards.isEmpty {
+        if extra.cards.isEmpty {
             extra.cards = extra.openCards + extra.toShowCards
             extra.openCards = []
             extra.toShowCards = []
-        } else if !extra.cards.isEmpty {
+        } else {
             let card = extra.cards.popLast()
             
             if extra.toShowCards.count < 3 {
@@ -119,30 +120,52 @@ class Game: ObservableObject {
                     
             let cards = Array(columns[columnIndex].cards[cardIndex..<columns[columnIndex].cards.count])
             
-            (cardIndex..<columns[columnIndex].cards.count).forEach {
-                columns[columnIndex].cards[$0].isHide = true
-            }
-            
             return MovingCards(cards: cards, stackType: .column, stackIndex: columnIndex, cardIndex: cardIndex, position: .zero)
         } else if extra.toShowCards.contains(card) {
             guard extra.toShowCards.first?.id == card.id else { return nil }
-            
-            extra.toShowCards[0].isHide = true
-            
+                        
             return MovingCards(cards: [card], stackType: .extra, stackIndex: 0, cardIndex: 0, position: .zero)
         } else if let pileIndex = piles.firstIndex(where: { $0.cards.contains(card)}) {
             guard let cardIndex = piles[pileIndex].cards.firstIndex(where: { $0.id == card.id }) else { return nil }
             
             let cards = Array(piles[pileIndex].cards[cardIndex..<piles[pileIndex].cards.count])
             
-            (cardIndex..<piles[pileIndex].cards.count).forEach {
-                piles[pileIndex].cards[$0].isHide = true
-            }
-            
             return MovingCards(cards: cards, stackType: .pile, stackIndex: pileIndex, cardIndex: cardIndex, position: .zero)
         }
         return nil
     }
+    
+    private func hide(movingCards: MovingCards?) {
+        guard let movingCards = movingCards else { return }
+        switch movingCards.stackType {
+        case .pile:
+            (movingCards.cardIndex..<piles[movingCards.stackIndex].cards.count).forEach {
+                piles[movingCards.stackIndex].cards[$0].isHide = true
+            }
+        case .extra:
+            extra.toShowCards[0].isHide = true
+        case .column:
+            (movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count).forEach {
+                columns[movingCards.stackIndex].cards[$0].isHide = true
+            }
+        }
+    }
+    
+//    private func unhide(movingCards: MovingCards?) {
+//        guard let movingCards = movingCards else { return }
+//        switch movingCards.stackType {
+//        case .pile:
+//            (movingCards.cardIndex..<piles[movingCards.stackIndex].cards.count).forEach {
+//                piles[movingCards.stackIndex].cards[$0].isHide = false
+//            }
+//        case .extra:
+//            extra.toShowCards[0].isHide = false
+//        case .column:
+//            (movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count).forEach {
+//                columns[movingCards.stackIndex].cards[$0].isHide = false
+//            }
+//        }
+//    }
     
     private func removeFromStartStack(movingCards: MovingCards) {
         switch movingCards.stackType {

@@ -29,8 +29,8 @@ struct CardView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
         } else {
-            RoundedRectangle(cornerRadius: 4)
-                            .foregroundColor(Color.gray)
+            Image("card_back")
+                .resizable()
         }
 
     }
@@ -74,8 +74,8 @@ extension Card.Rank {
 extension Card.Suit {
     var title: String {
         switch self {
-        case .clubs: return "♣︎"
-        case .diamonds: return "♦︎"
+        case .clubs: return "♣"
+        case .diamonds: return "♦"
         case .hearts: return "♥︎"
         case .spades: return "♠︎"
         }
@@ -107,4 +107,8 @@ extension Card.Rank {
         case .king: return "K"
         }
     }
+}
+
+extension Card {
+    var image: String { rank.title + suit.title }
 }

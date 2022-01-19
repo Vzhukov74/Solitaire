@@ -42,7 +42,14 @@ struct GameView: View {
                                        onTap: game.onTap)
                                 .frame(height: cardSize.height)
                             
-                            CardView(card: Card.init(suit: .spades, rank: .ace, isOpen: false, isHide: false))
+                            Group {
+                                if game.extra.cards.isEmpty {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .foregroundColor(Color.black.opacity(0.3))
+                                } else {
+                                    CardView(card: Card.init(suit: .spades, rank: .ace, isOpen: false, isHide: false))  
+                                }
+                            }
                                 .frame(width: cardSize.width, height: cardSize.height)
                                 .onTapGesture { game.openCard() }
                         }
