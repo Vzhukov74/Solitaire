@@ -14,6 +14,9 @@ class Game: ObservableObject {
     
     @Published var movingCards: MovingCards?
     
+    @Published var hasMoves: Bool = true
+    @Published var gameOver: Bool = false
+    
     init(with deck: Deck = Deck.initial()) {
         var deck = deck.shuffled()
         
@@ -53,6 +56,7 @@ class Game: ObservableObject {
                 piles[columnEndIndex].cards.append(contentsOf: cards)
                 
                 removeFromStartStack(movingCards: movingCards)
+                checkForGameOver()
             } else {
                 backCardsToStartStack()
             }
@@ -64,6 +68,7 @@ class Game: ObservableObject {
                 columns[columnEndIndex].cards.append(contentsOf: cards)
                 
                 removeFromStartStack(movingCards: movingCards)
+                checkForGameOver()
             } else {
                 backCardsToStartStack()
             }
@@ -80,6 +85,7 @@ class Game: ObservableObject {
                     withAnimation {
                         piles[index].cards.append(contentsOf: movingCards.cards)
                         removeFromStartStack(movingCards: movingCards)
+                        checkForGameOver()
                     }
                     return
                 }
@@ -91,6 +97,7 @@ class Game: ObservableObject {
                 withAnimation {
                     columns[index].cards.append(contentsOf: movingCards.cards)
                     removeFromStartStack(movingCards: movingCards)
+                    checkForGameOver()
                 }
                 return
             }
@@ -98,19 +105,17 @@ class Game: ObservableObject {
     }
     
     func openCard() {
-        if extra.cards.isEmpty {
-            extra.cards = extra.openCards + extra.toShowCards
-            extra.openCards = []
-            extra.toShowCards = []
-        } else {
-            let card = extra.cards.popLast()
-            
-            if extra.toShowCards.count < 3 {
-                extra.toShowCards.insert(card!, at: 0)
+        if let card = extra.cards.popLast() {
+            if extra.openCards.count < 3 {
+                extra.openCards.insert(card, at: 0)
             } else {
-                extra.openCards.append(extra.toShowCards.popLast()!)
-                extra.toShowCards.insert(card!, at: 0)
+                extra.showedCards.append(extra.openCards.popLast()!)
+                extra.openCards.insert(card, at: 0)
             }
+        } else {
+            extra.cards = extra.showedCards + extra.openCards
+            extra.showedCards = []
+            extra.openCards = []
         }
     }
     
@@ -121,8 +126,8 @@ class Game: ObservableObject {
             let cards = Array(columns[columnIndex].cards[cardIndex..<columns[columnIndex].cards.count])
             
             return MovingCards(cards: cards, stackType: .column, stackIndex: columnIndex, cardIndex: cardIndex, position: .zero)
-        } else if extra.toShowCards.contains(card) {
-            guard extra.toShowCards.first?.id == card.id else { return nil }
+        } else if extra.openCards.contains(card) {
+            guard extra.openCards.first?.id == card.id else { return nil }
                         
             return MovingCards(cards: [card], stackType: .extra, stackIndex: 0, cardIndex: 0, position: .zero)
         } else if let pileIndex = piles.firstIndex(where: { $0.cards.contains(card)}) {
@@ -143,36 +148,20 @@ class Game: ObservableObject {
                 piles[movingCards.stackIndex].cards[$0].isHide = true
             }
         case .extra:
-            extra.toShowCards[0].isHide = true
+            extra.openCards[0].isHide = true
         case .column:
             (movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count).forEach {
                 columns[movingCards.stackIndex].cards[$0].isHide = true
             }
         }
     }
-    
-//    private func unhide(movingCards: MovingCards?) {
-//        guard let movingCards = movingCards else { return }
-//        switch movingCards.stackType {
-//        case .pile:
-//            (movingCards.cardIndex..<piles[movingCards.stackIndex].cards.count).forEach {
-//                piles[movingCards.stackIndex].cards[$0].isHide = false
-//            }
-//        case .extra:
-//            extra.toShowCards[0].isHide = false
-//        case .column:
-//            (movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count).forEach {
-//                columns[movingCards.stackIndex].cards[$0].isHide = false
-//            }
-//        }
-//    }
-    
+        
     private func removeFromStartStack(movingCards: MovingCards) {
         switch movingCards.stackType {
         case .pile:
             piles[movingCards.stackIndex].cards.removeLast()
         case .extra:
-            extra.toShowCards.removeFirst()
+            extra.openCards.removeFirst()
         case .column:
             columns[movingCards.stackIndex].cards.removeSubrange(movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count)
 
@@ -189,11 +178,21 @@ class Game: ObservableObject {
         case .pile:
             piles[movingCards.stackIndex].cards[piles[movingCards.stackIndex].cards.count - 1].isHide = false
         case .extra:
-            extra.toShowCards[0].isHide = false
+            extra.openCards[0].isHide = false
         case .column:
             (movingCards.cardIndex..<columns[movingCards.stackIndex].cards.count).forEach {
                 columns[movingCards.stackIndex].cards[$0].isHide = false
             }
+        }
+    }
+    
+    private func checkForMoves() {
+        //?
+    }
+    
+    private func checkForGameOver() {
+        if piles.compactMap({ $0.cards.count }).reduce(0, +) == 56 {
+            gameOver = true
         }
     }
 }
@@ -245,8 +244,8 @@ struct Pile {
 
 struct Extra {
     var cards: [Card]
+    var showedCards: [Card] = []
     var openCards: [Card] = []
-    var toShowCards: [Card] = []
 }
 
 struct MovingCards {
@@ -261,16 +260,13 @@ struct MovingCards {
     var position: CGPoint
 }
 
-//4 ячейки, для складирования карт от туза
-//основная колода, с возможностью переворачивать карты
-//7 колоннок с картами начинающимися с лева на право с увеличением на 1
 
 typealias Deck = [Card]
 
 extension Deck {
     static func initial() -> Self {
         Card.Suit.allCases.compactMap { suit in
-            Card.Rank.allCases.compactMap { Card(suit: suit, rank: $0) }//.shuffled()
-        }.flatMap { $0 }//.shuffled()
+            Card.Rank.allCases.compactMap { Card(suit: suit, rank: $0) }
+        }.flatMap { $0 }
     }
 }

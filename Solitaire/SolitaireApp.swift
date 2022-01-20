@@ -11,7 +11,8 @@ import SwiftUI
 struct SolitaireApp: App {
     var body: some Scene {
         WindowGroup {
-            GameView(game: Game())
+            MainView()
+            //GameView(game: Game())
         }
     }
 }

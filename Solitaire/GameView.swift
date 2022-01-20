@@ -35,7 +35,7 @@ struct GameView: View {
                         Spacer(minLength: spacing)
                         
                         HStack {
-                            HCardStack(cards: game.extra.toShowCards,
+                            HCardStack(cards: game.extra.openCards,
                                        animation: animation,
                                        onChanged: game.move,
                                        onEnded: game.stack,
