@@ -15,6 +15,8 @@
 		573351B5271EFB8300AB166E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573351B4271EFB8300AB166E /* CardView.swift */; };
 		573351B72720560000AB166E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573351B62720560000AB166E /* Game.swift */; };
 		5774A64B2799851E00C0A64F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A64A2799851E00C0A64F /* MainView.swift */; };
+		5774A6542799B0CA00C0A64F /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5774A6562799B0CA00C0A64F /* infoPlist.strings */; };
+		5774A6592799B23A00C0A64F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5774A65B2799B23A00C0A64F /* Localizable.strings */; };
 		57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F88275516BF00E3D063 /* ZCardStack.swift */; };
 		57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F8A27551EC900E3D063 /* HCardStack.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +32,10 @@
 		573351B4271EFB8300AB166E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		573351B62720560000AB166E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		5774A64A2799851E00C0A64F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		5774A6552799B0CA00C0A64F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		5774A65A2799B23A00C0A64F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5774A65C2799B25E00C0A64F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5774A65D2799B27200C0A64F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		57890F88275516BF00E3D063 /* ZCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCardStack.swift; sourceTree = "<group>"; };
 		57890F8A27551EC900E3D063 /* HCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCardStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,10 +89,10 @@
 		573351A4271EFB5600AB166E /* Solitaire */ = {
 			isa = PBXGroup;
 			children = (
+				5774A64E2799AFD900C0A64F /* Resources */,
 				57088BD02747DA43004B817A /* Game */,
 				573351A5271EFB5600AB166E /* SolitaireApp.swift */,
 				573351A7271EFB5600AB166E /* GameView.swift */,
-				573351A9271EFB5900AB166E /* Assets.xcassets */,
 				573351AE271EFB5900AB166E /* Info.plist */,
 				573351AB271EFB5900AB166E /* Preview Content */,
 				573351B62720560000AB166E /* Game.swift */,
@@ -101,6 +107,16 @@
 				573351AC271EFB5900AB166E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5774A64E2799AFD900C0A64F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5774A6562799B0CA00C0A64F /* infoPlist.strings */,
+				5774A65B2799B23A00C0A64F /* Localizable.strings */,
+				573351A9271EFB5900AB166E /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +160,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 57335199271EFB5600AB166E;
 			productRefGroup = 573351A3271EFB5600AB166E /* Products */;
@@ -161,6 +178,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				573351AD271EFB5900AB166E /* Preview Assets.xcassets in Resources */,
+				5774A6592799B23A00C0A64F /* Localizable.strings in Resources */,
+				5774A6542799B0CA00C0A64F /* infoPlist.strings in Resources */,
 				573351AA271EFB5900AB166E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +203,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5774A6562799B0CA00C0A64F /* infoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5774A6552799B0CA00C0A64F /* en */,
+				5774A65D2799B27200C0A64F /* ru */,
+			);
+			name = infoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5774A65B2799B23A00C0A64F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5774A65A2799B23A00C0A64F /* en */,
+				5774A65C2799B25E00C0A64F /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		573351AF271EFB5900AB166E /* Debug */ = {

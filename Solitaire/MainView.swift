@@ -10,19 +10,32 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         VStack {
-            
             Spacer(minLength: 0)
             
-            Text("Solitaire")
+            Text("game name")
+                .foregroundColor(Color("primary"))
             //Text("")
             
-            Button(action: {}) {
-                Text("Продолжить игру")
-            }.background(Capsule().foregroundColor(Color.gray))
-            Button(action: {}) {
-                Text("Новая Игра")
-            }.background(Capsule().foregroundColor(Color.gray))
+            VStack(spacing: 16) {
+                Button(action: {}) {
+                    Text("Продолжить игру")
+                }
+                .frame(width: UIScreen.main.bounds.width - 64, height: 46)
+                .background(Color.green)
+                .clipShape(Capsule())
+                
+                Button(action: {}) {
+                    Text("Новая Игра")
+                }
+                .frame(width: UIScreen.main.bounds.width - 64, height: 46)
+                .background(Color.white)
+                .clipShape(Capsule())
+                .shadow(color: Color.black, radius: 0, x: 3, y: 3)
+            }
         }
             .padding(.vertical, 48)
+            .ignoresSafeArea()
+            .background(Color("mainViewBg"))
+        
     }
 }
