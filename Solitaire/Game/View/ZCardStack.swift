@@ -50,8 +50,8 @@ struct ZCardStack: View {
     }
 }
 
-//struct ZCardStack_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ZCardStack()
-//    }
-//}
+struct ZCardStack_Previews: PreviewProvider {
+    static var previews: some View {
+        ZCardStack([Card(suit: .diamonds, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .hearts, rank: .ace)])
+    }
+}
