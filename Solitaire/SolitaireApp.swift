@@ -11,8 +11,10 @@ import SwiftUI
 struct SolitaireApp: App {
     var body: some Scene {
         WindowGroup {
-            GameTableView(viewModel: GameTableViewModel(with: Game()))
-            //MainView()
+            //GameTableView(viewModel: GameTableViewModel(with: Game()))
+            MainView(viewModel: MainViewModel())
+            
+            
             //GameView(game: Game())
         }
     }

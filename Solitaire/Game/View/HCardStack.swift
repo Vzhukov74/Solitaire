@@ -52,8 +52,8 @@ struct HCardStack: View {
     }
 }
 
-struct DeckView_Previews: PreviewProvider {
-    static var previews: some View {
-        HCardStack(cards: [Card(suit: .diamonds, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .hearts, rank: .ace)])
-    }
-}
+//struct DeckView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HCardStack(cards: [Card(suit: .diamonds, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .hearts, rank: .ace)])
+//    }
+//}

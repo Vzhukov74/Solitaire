@@ -21,6 +21,7 @@
 		5774A661279B0E8F00C0A64F /* GameTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A660279B0E8F00C0A64F /* GameTableViewModel.swift */; };
 		5774A663279B16FE00C0A64F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A662279B16FE00C0A64F /* Card.swift */; };
 		5774A666279B182000C0A64F /* MVCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A665279B182000C0A64F /* MVCardStack.swift */; };
+		5774A668279EDD4400C0A64F /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A667279EDD4400C0A64F /* LogoView.swift */; };
 		57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F88275516BF00E3D063 /* ZCardStack.swift */; };
 		57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F8A27551EC900E3D063 /* HCardStack.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		5774A660279B0E8F00C0A64F /* GameTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewModel.swift; sourceTree = "<group>"; };
 		5774A662279B16FE00C0A64F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		5774A665279B182000C0A64F /* MVCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCardStack.swift; sourceTree = "<group>"; };
+		5774A667279EDD4400C0A64F /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		57890F88275516BF00E3D063 /* ZCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCardStack.swift; sourceTree = "<group>"; };
 		57890F8A27551EC900E3D063 /* HCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCardStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,6 +110,7 @@
 				573351A7271EFB5600AB166E /* GameView.swift */,
 				573351AE271EFB5900AB166E /* Info.plist */,
 				573351AB271EFB5900AB166E /* Preview Content */,
+				5774A667279EDD4400C0A64F /* LogoView.swift */,
 			);
 			path = Solitaire;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				573351B72720560000AB166E /* Game.swift in Sources */,
 				5774A65F279B0E5400C0A64F /* GameTableView.swift in Sources */,
 				5774A663279B16FE00C0A64F /* Card.swift in Sources */,
+				5774A668279EDD4400C0A64F /* LogoView.swift in Sources */,
 				5774A666279B182000C0A64F /* MVCardStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

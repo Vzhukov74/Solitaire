@@ -53,8 +53,8 @@ struct VCardStack: View {
 
 
 
-struct ColumnView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColumnView([Card(suit: .diamonds, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .hearts, rank: .ace)])
-    }
-}
+//struct ColumnView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ColumnView([Card(suit: .diamonds, rank: .ace), Card(suit: .clubs, rank: .ace), Card(suit: .hearts, rank: .ace)])
+//    }
+//}
