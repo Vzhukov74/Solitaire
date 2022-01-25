@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Game {
+struct Game: Codable {
     var piles: [Deck]
     var columns: [Deck]
     

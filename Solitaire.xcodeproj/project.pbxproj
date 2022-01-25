@@ -22,6 +22,7 @@
 		5774A663279B16FE00C0A64F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A662279B16FE00C0A64F /* Card.swift */; };
 		5774A666279B182000C0A64F /* MVCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A665279B182000C0A64F /* MVCardStack.swift */; };
 		5774A668279EDD4400C0A64F /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A667279EDD4400C0A64F /* LogoView.swift */; };
+		5774A66B27A00FD500C0A64F /* GameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A66A27A00FD500C0A64F /* GameStore.swift */; };
 		57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F88275516BF00E3D063 /* ZCardStack.swift */; };
 		57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F8A27551EC900E3D063 /* HCardStack.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		5774A662279B16FE00C0A64F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		5774A665279B182000C0A64F /* MVCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCardStack.swift; sourceTree = "<group>"; };
 		5774A667279EDD4400C0A64F /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		5774A66A27A00FD500C0A64F /* GameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStore.swift; sourceTree = "<group>"; };
 		57890F88275516BF00E3D063 /* ZCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCardStack.swift; sourceTree = "<group>"; };
 		57890F8A27551EC900E3D063 /* HCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCardStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +105,7 @@
 		573351A4271EFB5600AB166E /* Solitaire */ = {
 			isa = PBXGroup;
 			children = (
+				5774A66927A00FBA00C0A64F /* Services */,
 				5774A64E2799AFD900C0A64F /* Resources */,
 				57088BD02747DA43004B817A /* Game */,
 				573351A5271EFB5600AB166E /* SolitaireApp.swift */,
@@ -140,6 +143,14 @@
 				573351B62720560000AB166E /* Game.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		5774A66927A00FBA00C0A64F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5774A66A27A00FD500C0A64F /* GameStore.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +230,7 @@
 				57088BD32747DA5B004B817A /* VCardStack.swift in Sources */,
 				573351B5271EFB8300AB166E /* CardView.swift in Sources */,
 				57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */,
+				5774A66B27A00FD500C0A64F /* GameStore.swift in Sources */,
 				5774A661279B0E8F00C0A64F /* GameTableViewModel.swift in Sources */,
 				57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */,
 				573351A6271EFB5600AB166E /* SolitaireApp.swift in Sources */,

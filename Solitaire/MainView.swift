@@ -22,7 +22,7 @@ struct MainView: View {
                 Text("game name")
                     .font(Font.system(size: 40, weight: .semibold, design: .rounded))
                     .foregroundColor(Color("primary"))
-                Text("score 28600")
+                Text("🏆 28600")
                     .font(Font.system(size: 30, weight: .regular, design: .rounded))
                     .foregroundColor(Color("primary"))
                 
@@ -65,6 +65,12 @@ final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
     @Published var game: Game?
     
+    private let gameStore: GameStore
+    
+    init(with gameStore: GameStore) {
+        self.gameStore = gameStore
+    }
+    
     func newGame() {
         game = Game()
     }
@@ -76,7 +82,7 @@ final class MainViewModel: ObservableObject {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(viewModel: MainViewModel())
+        MainView(viewModel: MainViewModel(with: GameStore()))
     }
 }
 

@@ -9,16 +9,16 @@ import SwiftUI
 
 typealias Deck = [Card]
 
-struct Card: Hashable, Identifiable {
-    enum Suit: CaseIterable {
+struct Card: Codable, Hashable, Identifiable {
+    enum Suit: Int, Codable, CaseIterable {
         case clubs, diamonds, hearts, spades
     }
 
-    enum Rank: Int, CaseIterable {
+    enum Rank: Int, Codable, CaseIterable {
         case ace, two, three, four, five, six, seven, eight, nine, ten, jack, queen, king
     }
     
-    let id = UUID()
+    var id: String { suit.title + rank.title }
     let suit: Suit
     let rank: Rank
     var isOpen: Bool = false
