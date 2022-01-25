@@ -8,9 +8,33 @@
 import Foundation
 
 final class GameStore {
-    private let key = "com.solitaire.game.store.key"
+    private let persistentStore: GamePersistentStoreProtocol
     
-    var hasSavedGame: Bool { restore() != nil }
+    var game: Game?
+    var hasSavedGame: Bool { game != nil }
+    
+    init(persistentStore: GamePersistentStoreProtocol = GamePersistentStore()) {
+        self.persistentStore = persistentStore
+        self.game = persistentStore.restore()
+    }
+    
+    func save() {
+        guard let game = game else { return }
+        persistentStore.save(game)
+    }
+    
+    func newGame() {
+        game = Game()
+    }
+}
+
+protocol GamePersistentStoreProtocol: AnyObject {
+    func save(_ game: Game)
+    func restore() -> Game?
+}
+
+final class GamePersistentStore: GamePersistentStoreProtocol {
+    private let key = "com.solitaire.game.store.key"
     
     func save(_ game: Game) {
         guard let data = try? JSONEncoder().encode(game) else { return }

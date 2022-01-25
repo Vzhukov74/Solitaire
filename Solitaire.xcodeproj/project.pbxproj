@@ -23,6 +23,8 @@
 		5774A666279B182000C0A64F /* MVCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A665279B182000C0A64F /* MVCardStack.swift */; };
 		5774A668279EDD4400C0A64F /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A667279EDD4400C0A64F /* LogoView.swift */; };
 		5774A66B27A00FD500C0A64F /* GameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A66A27A00FD500C0A64F /* GameStore.swift */; };
+		5774A66D27A01EEA00C0A64F /* ScoreStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A66C27A01EEA00C0A64F /* ScoreStore.swift */; };
+		5774A67027A03E4E00C0A64F /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5774A66F27A03E4E00C0A64F /* MainViewModel.swift */; };
 		57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F88275516BF00E3D063 /* ZCardStack.swift */; };
 		57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57890F8A27551EC900E3D063 /* HCardStack.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +50,8 @@
 		5774A665279B182000C0A64F /* MVCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCardStack.swift; sourceTree = "<group>"; };
 		5774A667279EDD4400C0A64F /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		5774A66A27A00FD500C0A64F /* GameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStore.swift; sourceTree = "<group>"; };
+		5774A66C27A01EEA00C0A64F /* ScoreStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreStore.swift; sourceTree = "<group>"; };
+		5774A66F27A03E4E00C0A64F /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		57890F88275516BF00E3D063 /* ZCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZCardStack.swift; sourceTree = "<group>"; };
 		57890F8A27551EC900E3D063 /* HCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCardStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,15 +109,13 @@
 		573351A4271EFB5600AB166E /* Solitaire */ = {
 			isa = PBXGroup;
 			children = (
+				5774A66E27A03E1D00C0A64F /* Views */,
 				5774A66927A00FBA00C0A64F /* Services */,
 				5774A64E2799AFD900C0A64F /* Resources */,
 				57088BD02747DA43004B817A /* Game */,
 				573351A5271EFB5600AB166E /* SolitaireApp.swift */,
-				5774A64A2799851E00C0A64F /* MainView.swift */,
-				573351A7271EFB5600AB166E /* GameView.swift */,
 				573351AE271EFB5900AB166E /* Info.plist */,
 				573351AB271EFB5900AB166E /* Preview Content */,
-				5774A667279EDD4400C0A64F /* LogoView.swift */,
 			);
 			path = Solitaire;
 			sourceTree = "<group>";
@@ -149,8 +151,28 @@
 			isa = PBXGroup;
 			children = (
 				5774A66A27A00FD500C0A64F /* GameStore.swift */,
+				5774A66C27A01EEA00C0A64F /* ScoreStore.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5774A66E27A03E1D00C0A64F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5774A67127A03E6800C0A64F /* ViewModels */,
+				5774A64A2799851E00C0A64F /* MainView.swift */,
+				573351A7271EFB5600AB166E /* GameView.swift */,
+				5774A667279EDD4400C0A64F /* LogoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5774A67127A03E6800C0A64F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5774A66F27A03E4E00C0A64F /* MainViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +254,7 @@
 				57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */,
 				5774A66B27A00FD500C0A64F /* GameStore.swift in Sources */,
 				5774A661279B0E8F00C0A64F /* GameTableViewModel.swift in Sources */,
+				5774A66D27A01EEA00C0A64F /* ScoreStore.swift in Sources */,
 				57890F89275516BF00E3D063 /* ZCardStack.swift in Sources */,
 				573351A6271EFB5600AB166E /* SolitaireApp.swift in Sources */,
 				573351B72720560000AB166E /* Game.swift in Sources */,
@@ -239,6 +262,7 @@
 				5774A663279B16FE00C0A64F /* Card.swift in Sources */,
 				5774A668279EDD4400C0A64F /* LogoView.swift in Sources */,
 				5774A666279B182000C0A64F /* MVCardStack.swift in Sources */,
+				5774A67027A03E4E00C0A64F /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,10 +420,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.solitaire.Solitaire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.solitaire.game;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -417,10 +441,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.solitaire.Solitaire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.solitaire.game;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

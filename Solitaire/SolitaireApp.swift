@@ -9,13 +9,27 @@ import SwiftUI
 
 @main
 struct SolitaireApp: App {
+    @Environment(\.scenePhase) var scenePhase
+        
+    private let gameStore = GameStore()
+    private let scoreStore = ScoreStore()
+    
     var body: some Scene {
         WindowGroup {
-            //GameTableView(viewModel: GameTableViewModel(with: Game()))
-            MainView(viewModel: MainViewModel())
-            
-            
-            //GameView(game: Game())
+            NavigationView {
+                MainView(viewModel: MainViewModel(gameStore: gameStore, scoreStore: scoreStore))
+            }
+                .accentColor(Color("primary"))
         }
+            .onChange(of: scenePhase) { newScenePhase in
+                switch newScenePhase {
+                case .active: break
+                case .background: break
+                case .inactive:
+                    gameStore.save()
+                    //scoreStore.save(appState.score)
+                @unknown default: break
+                }
+            }
     }
 }

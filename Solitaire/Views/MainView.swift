@@ -15,6 +15,11 @@ struct MainView: View {
             Color("mainViewBg")
                 .ignoresSafeArea()
             
+            NavigationLink(destination: GameView(), isActive: $viewModel.hasGame) {
+                EmptyView()
+            }
+                .navigationTitle("")
+            
             VStack {
                 LogoView()
                     .padding()
@@ -22,7 +27,7 @@ struct MainView: View {
                 Text("game name")
                     .font(Font.system(size: 40, weight: .semibold, design: .rounded))
                     .foregroundColor(Color("primary"))
-                Text("🏆 28600")
+                Text("🏆 ")
                     .font(Font.system(size: 30, weight: .regular, design: .rounded))
                     .foregroundColor(Color("primary"))
                 
@@ -31,27 +36,27 @@ struct MainView: View {
                 VStack(spacing: 16) {
                     if viewModel.hasPausedGame {
                         Button(action: viewModel.resumeGame) {
-                            Text("Продолжить игру")
+                            Text("continue")
                                 .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                                 .frame(maxWidth: .infinity)
                                 .foregroundColor(Color.white)
                         }
-                        .frame(height: 46)
-                        .padding(.horizontal, 32)
-                        .background(Color("accent"))
-                        .clipShape(Capsule())
+                            .frame(height: 46)
+                            .padding(.horizontal, 32)
+                            .background(Color("accent"))
+                            .clipShape(Capsule())
                     }
-                    
+            
                     Button(action: viewModel.newGame) {
-                        Text("Новая Игра")
+                        Text("new game")
                             .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                             .frame(maxWidth: .infinity)
                             .foregroundColor(Color("accent"))
                     }
-                    .padding(.horizontal, 32)
-                    .frame(height: 46)
-                    .background(Color.white)
-                    .clipShape(Capsule())
+                        .padding(.horizontal, 32)
+                        .frame(height: 46)
+                        .background(Color.white)
+                        .clipShape(Capsule())
                 }
                 .padding(.horizontal, 32)
                 .frame(maxWidth: .infinity)
@@ -61,32 +66,8 @@ struct MainView: View {
     }
 }
 
-final class MainViewModel: ObservableObject {
-    @Published var hasPausedGame: Bool = false
-    @Published var game: Game?
-    
-    private let gameStore: GameStore
-    
-    init(with gameStore: GameStore) {
-        self.gameStore = gameStore
-    }
-    
-    func newGame() {
-        game = Game()
-    }
-    
-    func resumeGame() {
-        game = Game()
-    }
-}
-
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(viewModel: MainViewModel(with: GameStore()))
+        MainView(viewModel: MainViewModel(gameStore: GameStore(), scoreStore: ScoreStore()))
     }
 }
-
-class AppState: ObservableObject {
-    //@Published var game: Game?
-}
-

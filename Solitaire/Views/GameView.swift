@@ -9,6 +9,6 @@ import SwiftUI
 
 struct GameView: View {
     var body: some View {
-        EmptyView()
+        GameTableView(viewModel: GameTableViewModel(with: Game()))
     }
 }
