@@ -30,7 +30,6 @@ struct VCardStack: View {
                             DragGesture(coordinateSpace: .named("screen"))
                                 .onChanged { value in
                                     guard cards[index].isOpen else { return }
-                                    //print(value.location)
                                     onChanged(cards[index], value.location)
                                 }.onEnded { value in
                                     onEnded(cards[index], value.location)

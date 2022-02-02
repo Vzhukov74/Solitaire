@@ -15,6 +15,8 @@ final class GameTableViewModel: ObservableObject {
     @Published var hasMoves: Bool = true
     @Published var gameOver: Bool = false
     
+    private var moves: [Game] = []
+    
     init(with game: Game = Game()) {
         self.game = game
     }

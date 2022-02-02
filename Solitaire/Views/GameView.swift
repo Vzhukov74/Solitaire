@@ -10,5 +10,7 @@ import SwiftUI
 struct GameView: View {
     var body: some View {
         GameTableView(viewModel: GameTableViewModel(with: Game()))
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("0")
     }
 }
