@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AA00F9F2B6810870032338D /* PileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA00F9E2B6810870032338D /* PileView.swift */; };
 		57088BD32747DA5B004B817A /* VCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57088BD22747DA5B004B817A /* VCardStack.swift */; };
 		573351A6271EFB5600AB166E /* SolitaireApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573351A5271EFB5600AB166E /* SolitaireApp.swift */; };
 		573351A8271EFB5600AB166E /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573351A7271EFB5600AB166E /* GameView.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3AA00F9E2B6810870032338D /* PileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PileView.swift; sourceTree = "<group>"; };
 		57088BD22747DA5B004B817A /* VCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCardStack.swift; sourceTree = "<group>"; };
 		573351A2271EFB5600AB166E /* Solitaire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Solitaire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		573351A5271EFB5600AB166E /* SolitaireApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireApp.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				57890F88275516BF00E3D063 /* ZCardStack.swift */,
 				57890F8A27551EC900E3D063 /* HCardStack.swift */,
 				5774A665279B182000C0A64F /* MVCardStack.swift */,
+				3AA00F9E2B6810870032338D /* PileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				5774A64B2799851E00C0A64F /* MainView.swift in Sources */,
 				57088BD32747DA5B004B817A /* VCardStack.swift in Sources */,
 				573351B5271EFB8300AB166E /* CardView.swift in Sources */,
+				3AA00F9F2B6810870032338D /* PileView.swift in Sources */,
 				57890F8B27551EC900E3D063 /* HCardStack.swift in Sources */,
 				5774A66B27A00FD500C0A64F /* GameStore.swift in Sources */,
 				5774A661279B0E8F00C0A64F /* GameTableViewModel.swift in Sources */,
@@ -415,7 +419,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Solitaire/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Solitaire/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -436,7 +440,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Solitaire/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Solitaire/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
