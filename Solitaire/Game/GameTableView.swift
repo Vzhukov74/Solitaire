@@ -18,7 +18,7 @@ struct GameTableView: View {
             pilesBgView
         
             ForEach(vm.columns.indices, id: \.self) {
-                PileView(size: vm.cardSize)
+                PileView(title: "", size: vm.cardSize)
                     .position(vm.columns[$0])
             }
             
@@ -35,14 +35,10 @@ struct GameTableView: View {
     
     @ViewBuilder
     private var pilesBgView: some View {
-        PileView(size: vm.cardSize)
-            .position(vm.pile1)
-        PileView(size: vm.cardSize)
-            .position(vm.pile2)
-        PileView(size: vm.cardSize)
-            .position(vm.pile3)
-        PileView(size: vm.cardSize)
-            .position(vm.pile4)
+        ForEach(vm.piles.indices, id: \.self) {
+            PileView(title: "A", size: vm.cardSize)
+                .position(vm.piles[$0])
+        }
     }
     
     func card(_ column: Int, _ row: Int) -> some View {

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct PileView: View {
     
+    let title: String
     let size: CGSize
     
     var body: some View {
-        Text("A")
+        Text(title)
             .font(Font.system(size: 26).bold())
             .foregroundColor(Color.white.opacity(0.4))
             .frame(width: size.width, height: size.height, alignment: .center)

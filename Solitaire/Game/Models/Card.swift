@@ -12,6 +12,8 @@ typealias Deck = [Card]
 struct Card: Codable, Hashable, Identifiable {
     enum Suit: Int, Codable, CaseIterable {
         case clubs, diamonds, hearts, spades
+        
+        var isRed: Bool { self == .hearts || self == .diamonds }
     }
 
     enum Rank: Int, Codable, CaseIterable {
@@ -34,8 +36,6 @@ extension Card.Rank {
         return Self(rawValue: nextRaw)!
     }
 }
-
-
 
 extension Card.Suit {
     var title: String {
@@ -71,6 +71,16 @@ extension Card.Rank {
         case .jack: return "J"
         case .queen: return "Q"
         case .king: return "K"
+        }
+    }
+}
+
+extension Card {
+    func canStackOn(card: Card, onPile: Bool) -> Bool {
+        if onPile {
+            return (self.suit == card.suit) && (self.rank.rawValue - 1 == card.rank.rawValue)
+        } else {
+            return (self.suit.isRed != card.suit.isRed) && (self.rank.rawValue + 1 == card.rank.rawValue)
         }
     }
 }
