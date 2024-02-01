@@ -25,7 +25,9 @@ final class GameTableViewModel: ObservableObject {
     @Published var gameOver: Bool = false
     
     // индексы 0-6 кучки, 7 - доп карты, 8-11 бита
-    @Published var cards: [[CardViewModel]] = []
+    @Published var cards: [CardViewModel] = []
+    
+    private var cardsIndexes: [Int: [Int]] = [:]
     
     private var moves: [Game] = [] // ??
     
@@ -70,17 +72,17 @@ final class GameTableViewModel: ObservableObject {
         
         offsetY = height / 3.3
         
-        var cards: [[CardViewModel]] = []
+        var cards: [CardViewModel] = []
         
-        cards.append([]) //pile1
-        cards.append([]) //pile2
-        cards.append([]) //pile3
-        cards.append([]) //pile4
+        for index in (0...12) {
+            cardsIndexes[index] = []
+        }
 
+        var cardIndexR: Int = 0
+        
         game.columns.indices.forEach { columnIndex in
-            var column: [CardViewModel] = []
             game.columns[columnIndex].indices.forEach { cardIndex in
-                column.append(CardViewModel(
+                let card = CardViewModel(
                     card: game.columns[columnIndex][cardIndex],
                     column: columnIndex,
                     row: cardIndex,
@@ -88,14 +90,15 @@ final class GameTableViewModel: ObservableObject {
                         x: columns[columnIndex].x,
                         y: columns[columnIndex].y + offsetY * CGFloat(cardIndex)
                     )
-                ))
+                )
+                cards.append(card)
+                cardsIndexes[columnIndex + 4]?.append(cardIndexR)
+                cardIndexR += 1
             }
-            cards.append(column)
         }
         
-        var column: [CardViewModel] = []
         game.extraCards.forEach {
-            column.append(CardViewModel(
+            cards.append(CardViewModel(
                 card: $0,
                 column: 99,
                 row: 0,
@@ -104,136 +107,193 @@ final class GameTableViewModel: ObservableObject {
                     y: extra.y
                 )
             ))
+            cardsIndexes[11]?.append(cardIndexR)
+            cardIndexR += 1
         }
-        cards.append(column)
-        cards.append([])
                 
         self.cards = cards
     }
     
     // MARK: target column
     
-    func targetColumn(_ column: Int, _ row: Int, at position: CGPoint) -> Int? {
-        guard cards[column][row].card.isOpen else { return nil }
+    func targetColumn(_ index: Int, at position: CGPoint) -> (Int, Int)? {
+        guard cards[index].card.isOpen else { return nil }
         
-        let columnEndIndex = Int(position.x / (UIScreen.main.bounds.width / 7))
+        guard let cardColumn = cardsIndexes.first(where: { $0.value.contains(index) })?.key else { return nil }
+        
+        let toColumn = Int(position.x / (UIScreen.main.bounds.width / 7))
 
-        if position.y < (UIScreen.main.bounds.width / 7) * 1.5, columnEndIndex <= 3 {
+        if position.y < (UIScreen.main.bounds.width / 7) * 1.5, toColumn <= 3 {
             return nil
         } else {
-            let targetColumn = 4 + Int(position.x / (UIScreen.main.bounds.width / 7))
-            if let otherCard = cards[targetColumn].last,
-               canStack(card: cards[column][row].card, onCard: otherCard.card, isColumn: true) {
-
-                return targetColumn
+            var onCard: Card?
+            if let targetCardIndex = cardsIndexes[toColumn + 4]?.last {
+                onCard = cards[targetCardIndex].card
+            }
+                        
+            let card = cards[index].card
+            if canStack(card: card, onCard: onCard, isColumn: true) {
+                return (cardColumn, toColumn + 4)
             } else {
                 return nil
             }
         }
     }
     
-    func targetColumnByTap(_ column: Int, _ row: Int) -> Int? {
-        guard cards[column][row].card.isOpen else { return nil }
-                
-        let card = cards[column][row].card
+    func targetColumnByTap(_ index: Int) -> (Int, Int)? {
+        guard let cardColumn = cardsIndexes.first(where: { $0.value.contains(index) })?.key else { return nil }
+        
+        guard cards[index].card.isOpen || cardColumn > 10 else { return nil }
+        
+        if cardColumn == 11 {
+            return (cardColumn, 12)
+        }
 
-        for index in cards.indices {
+        let card = cards[index].card
+
+        for index in (0...12) where index != cardColumn {
+            var onCard: Card?
+            if let targetCardIndex = cardsIndexes[index]?.last {
+                onCard = cards[targetCardIndex].card
+            }
+            
             let isColumn = index > 3 && index < 11
             
-            if canStack(card: card, onCard: cards[index].last?.card, isColumn: isColumn) {
-                return index
+            if canStack(card: card, onCard: onCard, isColumn: isColumn) {
+                return (cardColumn, index)
             }
         }
         
-        if column == 11 {
-            return 12
-        }
-
         return nil
+    }
+    
+    func refreshExtraPile() {
+//        guard cards[11].isEmpty else { return }
+//        
+//        for index in cards[12].indices {
+//            cards[12][index].moving = extra
+//            cards[12][index].card.isOpen = false
+//        }
+    }
+    
+    func moveCardsToExtraPile() {
+//        cards[11] = cards[12]
+//        cards[12].removeAll()
+    }
+    
+    func restart() {
+        
     }
     
     // MARK: moving cards
 
-    func movingCards(_ column: Int, _ row: Int, at position: CGPoint) {
-        guard cards[column][row].card.isOpen else { return }
-                
-        let count = cards[column].count - row
-        (0..<count).forEach { indexOffset in
-            cards[column][row + indexOffset].moving = CGPoint(
+    func movingCards(_ index: Int, at position: CGPoint) {
+        guard cards[index].card.isOpen else { return }
+        guard let cardColumn = cardsIndexes.first(where: { $0.value.contains(index) })?.key else { return }
+        let row = cardsIndexes[cardColumn]!.firstIndex(of: index)!
+
+        let count = cardsIndexes[cardColumn]!.count
+        (row..<count).forEach { cardIndex in
+            cards[cardsIndexes[cardColumn]![cardIndex]].moving = CGPoint(
                 x: position.x,
-                y: position.y + CGFloat(indexOffset) * offsetY
+                y: position.y + CGFloat(count - 1 - cardIndex) * offsetY
             )
-            cards[column][row + indexOffset].zIndex = 1
+            cards[cardsIndexes[cardColumn]![cardIndex]].zIndex = 1
         }
     }
     
     // MARK: moving finish
     
-    func backCardsToStartStack(_ column: Int, _ row: Int) {
-        let count = cards[column].count - row
-        (0..<count).forEach { indexOffset in
-            cards[column][row + indexOffset].moving = nil
-            cards[column][row + indexOffset].zIndex = 0
+    func backCardsToStartStack(_ index: Int) {
+        guard cards[index].card.isOpen else { return }
+        guard let cardColumn = cardsIndexes.first(where: { $0.value.contains(index) })?.key else { return }
+        let row = cardsIndexes[cardColumn]!.firstIndex(of: index)!
+
+        let count = cardsIndexes[cardColumn]!.count
+        (row..<count).forEach { cardIndex in
+            cards[cardsIndexes[cardColumn]![cardIndex]].moving = nil
+            cards[cardsIndexes[cardColumn]![cardIndex]].zIndex = 0
         }
     }
     
-    func moveCards(_ column: Int, _ row: Int, _ targetColumn: Int) {
+    func moveCards(_ index: Int, _ fromColumn: Int, _ toColumn: Int) {
         let endPosition: CGPoint!
         
-        if targetColumn < 4 {
-            endPosition = piles[targetColumn]
-        } else if targetColumn < 11 {
-            endPosition = cards[targetColumn].last?.position ?? columns[targetColumn - 4]
-        } else if targetColumn == 12 {
+        if toColumn < 4 {
+            endPosition = piles[toColumn]
+        } else if toColumn < 11 {
+            if let toColumnLastIndex = cardsIndexes[toColumn]?.last {
+                endPosition = cards[toColumnLastIndex].position
+            } else {
+                endPosition = columns[toColumn - 4]
+            }
+        } else if toColumn == 12 {
             endPosition = extraPile
         } else {
             fatalError("wrong target column")
         }
         
-        if targetColumn == 12 {
-            cards[column][row].position = endPosition
-            cards[column][row].moving = nil
-            cards[column][row].zIndex = 1
-            
-            for index in cards[targetColumn].indices.reversed() {
-                let factor = cards[targetColumn].count - index <= 2 ? cards[targetColumn].count - index : 2
-                cards[targetColumn][index].position = CGPoint(
-                    x: endPosition.x - offsetY * CGFloat(factor),
-                    y: endPosition.y
-                )
-            }
+        if toColumn == 12 {
+//            cards[column][row].position = endPosition
+//            cards[column][row].card.isOpen = true
+//            cards[column][row].moving = nil
+//            cards[column][row].zIndex = 1
+//            
+//            for index in cards[targetColumn].indices.reversed() {
+//                let factor = cards[targetColumn].count - index <= 2 ? cards[targetColumn].count - index : 2
+//                cards[targetColumn][index].position = CGPoint(
+//                    x: endPosition.x - offsetY * CGFloat(factor),
+//                    y: endPosition.y
+//                )
+//            }
         } else {
-            let offset = targetColumn < 4 ? 0 : offsetY
-            let additional = cards[targetColumn].isEmpty ? 0 : 1
+            let offset = toColumn < 4 ? 0 : offsetY
             
-            for index in (row..<cards[column].count) {
-                cards[column][index].position = CGPoint(
+            let row = cardsIndexes[fromColumn]!.firstIndex(of: index)!
+            let additional = cardsIndexes[toColumn]!.isEmpty ? 0 : 1
+            
+            for index in (row..<cardsIndexes[fromColumn]!.count) {
+                let cardIndex = cardsIndexes[fromColumn]![index]
+                cards[cardIndex].position = CGPoint(
                     x: endPosition.x,
                     y: endPosition.y + offset * CGFloat(index - row + additional)
                 )
-                cards[column][index].moving = nil
-                cards[column][index].zIndex = 1
+                cards[cardIndex].moving = nil
+                cards[cardIndex].zIndex = 1
             }
             
             if row > 0 {
-                cards[column][row - 1].card.isOpen = true
+                let cardIndex = cardsIndexes[fromColumn]![row - 1]
+                cards[cardIndex].card.isOpen = true
             }
         }
+        
+        moveCardsCompletion(index, fromColumn, toColumn)
     }
     
-    func moveCardsCompletion(_ column: Int, _ row: Int, _ targetColumn: Int) {
-        let count = cards[column].count - row
+    func moveCardsCompletion(_ index: Int, _ fromColumn: Int, _ toColumn: Int) {
+        let row = cardsIndexes[fromColumn]!.firstIndex(of: index)!
+        let count = cardsIndexes[fromColumn]!.count - row
         
-        var movingCardsVM: [CardViewModel] = []
+        var movingCardIndexes: [Int] = []
         for _ in (0..<(count)) {
-            movingCardsVM.append(cards[column].removeLast())
+            movingCardIndexes.append(cardsIndexes[fromColumn]!.removeLast())
         }
-        cards[targetColumn].append(contentsOf: movingCardsVM.reversed())
+        cardsIndexes[toColumn]?.append(contentsOf: movingCardIndexes.reversed())
+        
+        checkForGameOver()
     }
             
     private func checkForGameOver() {
-        if game.piles.compactMap({ $0.count }).reduce(0, +) == 56 {
-            gameOver = true
+        gameOver = hasUnopenCards()
+        print(gameOver)
+    }
+    
+    private func hasUnopenCards() -> Bool {
+        if let _ = cards.first(where: { !$0.card.isOpen }) {
+            return false
+        } else {
+            return true
         }
     }
     

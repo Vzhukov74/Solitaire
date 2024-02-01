@@ -8,14 +8,9 @@
 import SwiftUI
 
 struct Game: Codable {
-    var piles: [Deck]
-    var columns: [Deck]
-    
-    // extra card
-    var extraCards: Deck
-    var showedCards: Deck = []
-    var openCards: Deck = []
-        
+    let columns: [Deck]
+    let extraCards: Deck
+
     init(with deck: Deck = Deck.initial()) {
         var deck = deck.shuffled()
         
@@ -25,11 +20,7 @@ struct Game: Codable {
             deck.removeSubrange(0..<$0)
             return cards
         }
-        
-        piles = [[], [], [], []]
-        
-        (0..<deck.count).forEach { deck[$0].isOpen = true }
-        
+
         extraCards = deck
     }
 }

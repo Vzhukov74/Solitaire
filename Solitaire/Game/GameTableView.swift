@@ -17,16 +17,31 @@ struct GameTableView: View {
         ZStack {
             pilesBgView
         
+            PileView(title: "", size: vm.cardSize)
+                .position(vm.extra)
+                .onTapGesture {
+                    withAnimation {
+                        vm.refreshExtraPile()
+                    } completion: {
+                        vm.moveCardsToExtraPile()
+                    }
+                }
+            
             ForEach(vm.columns.indices, id: \.self) {
                 PileView(title: "", size: vm.cardSize)
                     .position(vm.columns[$0])
             }
             
-            ForEach(vm.cards.indices, id: \.self) { column in
-                ForEach(vm.cards[column].indices, id: \.self) { row in
-                    card(column, row)
+            ForEach(vm.cards.indices, id: \.self) { index in
+                card(index)
+            }
+            
+            if vm.gameOver {
+                Text("Готово").onTapGesture {
+                    vm.restart()
                 }
             }
+            
         }
             .coordinateSpace(name: "screen")
             .padding(8)
@@ -41,8 +56,8 @@ struct GameTableView: View {
         }
     }
     
-    func card(_ column: Int, _ row: Int) -> some View {
-        let cardVM = vm.cards[column][row]
+    func card(_ index: Int) -> some View {
+        let cardVM = vm.cards[index]
         
         return CardView(card: cardVM.card)
             .frame(width: vm.cardSize.width, height: vm.cardSize.height)
@@ -51,29 +66,30 @@ struct GameTableView: View {
             .gesture (
                 DragGesture(coordinateSpace: .named("screen"))
                     .onChanged { value in
-                        vm.movingCards(column, row, at: value.location)
+                        vm.movingCards(index, at: value.location)
                     }.onEnded { value in
-                        if let targetColumn = vm.targetColumn(column, row, at: value.location) {
+                        if let columns = vm.targetColumn(index, at: value.location) {
                             withAnimation {
-                                vm.moveCards(column, row, targetColumn)
+                                vm.moveCards(index, columns.0, columns.1)
                             } completion: {
-                                vm.moveCardsCompletion(column, row, targetColumn)
+                                //vm.moveCardsCompletion(column, row, targetColumn)
                             }
                         } else {
                             withAnimation {
-                                vm.backCardsToStartStack(column, row)
+                                vm.backCardsToStartStack(index)
                             }
                         }
                     }
             )
             .onTapGesture {
                 withAnimation {
-                    if let targetColumn = vm.targetColumnByTap(column, row) {
-                        withAnimation {
-                            vm.moveCards(column, row, targetColumn)
-                        } completion: {
-                            vm.moveCardsCompletion(column, row, targetColumn)
-                        }
+                    if let columns = vm.targetColumnByTap(index) {
+                        vm.moveCards(index, columns.0, columns.1)
+//                        withAnimation {
+//                            vm.moveCards(column, row, targetColumn)
+//                        } completion: {
+//                            vm.moveCardsCompletion(column, row, targetColumn)
+//                        }
                     } else {
 
                     }

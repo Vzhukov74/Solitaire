@@ -3,4 +3,182 @@
    uuid = "59F737EF-C369-44FC-B514-BCE6B9471AB5"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3FFC5E03-C8E6-49B0-A379-80187A0DDDA5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "targetColumnByTap(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3FFC5E03-C8E6-49B0-A379-80187A0DDDA5 - 701dc54f5739c37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Solitaire.GameTableViewModel.targetColumnByTap(Swift.Int) -&gt; Swift.Optional&lt;(Swift.Int, Swift.Int)&gt;"
+                  moduleName = "Solitaire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladislavzukov/pet/Solitaire/Solitaire/Game/GameTableViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "227">
+               </Location>
+               <Location
+                  uuid = "3FFC5E03-C8E6-49B0-A379-80187A0DDDA5 - 147609519fd91b48"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 ((key: Swift.Int, value: Swift.Array&lt;Swift.Int&gt;)) -&gt; Swift.Bool in Solitaire.GameTableViewModel.targetColumnByTap(Swift.Int) -&gt; Swift.Optional&lt;(Swift.Int, Swift.Int)&gt;"
+                  moduleName = "Solitaire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladislavzukov/pet/Solitaire/Solitaire/Game/GameTableViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "577BF57C-AD3F-4EB7-81BE-1C9D79DF8A9E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "targetColumnByTap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31881B73-74FE-460F-A9CD-651FF1233042"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "targetColumnByTap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6CAC0773-828C-462C-B8CD-B5E33F0B3E79"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "targetColumnByTap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D764ED58-4CE4-4D85-B97F-CC03A16C4224"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "targetColumnByTap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2FA4F431-B547-4195-85B8-331B7911EBDE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "movingCards(_:at:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A1E686E-5163-4ED0-9E61-EDB957D599C5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solitaire/Game/GameTableViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "movingCards(_:at:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4A1E686E-5163-4ED0-9E61-EDB957D599C5 - 28730dcfbc81a48e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Int) -&gt; () in Solitaire.GameTableViewModel.movingCards(_: Swift.Int, at: __C.CGPoint) -&gt; ()"
+                  moduleName = "Solitaire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladislavzukov/pet/Solitaire/Solitaire/Game/GameTableViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "198"
+                  endingLineNumber = "198"
+                  offsetFromSymbolStart = "257">
+               </Location>
+               <Location
+                  uuid = "4A1E686E-5163-4ED0-9E61-EDB957D599C5 - 28730dcfbc81a48e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Int) -&gt; () in Solitaire.GameTableViewModel.movingCards(_: Swift.Int, at: __C.CGPoint) -&gt; ()"
+                  moduleName = "Solitaire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladislavzukov/pet/Solitaire/Solitaire/Game/GameTableViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "198"
+                  endingLineNumber = "198"
+                  offsetFromSymbolStart = "291">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
