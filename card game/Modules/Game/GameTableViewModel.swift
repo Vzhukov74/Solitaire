@@ -83,16 +83,19 @@ final class GameTableViewModel: ObservableObject {
         if column == 12 { // в открытые дополнительные карты можно двигать всегда
             moveCards(column: column, row: row, to: 11)
             return
-        }
+        } else if gCards[index].card.isOpen {
+            if column == 11 {
+                guard row == sCards[column].count - 1 else { return }
+            }
+            // ищем можем ли мы передвинуть куда либо карту, если нет то показываем ошибку
+            guard let targetColumn = targetColumn(column: column, row: row) else {
+                gCards[index].error += 1
+                return
+            }
             
-        // ищем можем ли мы передвинуть куда либо карту, если нет то показываем ошибку
-        guard let targetColumn = targetColumn(column: column, row: row) else {
-            gCards[index].error += 1
-            return
+            // нашли куда передвинуть, передвигаем
+            moveCards(column: column, row: row, to: targetColumn)
         }
-        
-        // нашли куда передвинуть, передвигаем
-        moveCards(column: column, row: row, to: targetColumn)
     }
     
     // возвращаем открытые карты из дополнительной стопки обратно в стопку
@@ -115,6 +118,10 @@ final class GameTableViewModel: ObservableObject {
         
         guard let (column, row) = columnAndRowFor(card: index) else { return }
 
+        if column == 11 {
+            guard row == sCards[column].count - 1 else { return }
+        }
+        
         // если карт больше чем 1, то делаем поправку на offsetY и Z индекс
         let count = sCards[column].count
         (row..<count).forEach { sCardIndex in
@@ -128,6 +135,8 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
+        guard gCards[index].moving != nil else { return } // если не двигаем, то ничего не делаем
+        
         guard let targetColumn = columnFor(position: position),
               let (column, row) = columnAndRowFor(card: index)
         else {
