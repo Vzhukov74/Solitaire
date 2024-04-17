@@ -49,7 +49,7 @@ struct GameTableView: View {
                             )
                     }
                     
-                    if vm.gameOver, !vm.hasMoves {
+                    if vm.gameOver {
                         Text("Готово").onTapGesture { withAnimation { vm.newGame() } }
                     }
                 }

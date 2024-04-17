@@ -384,38 +384,34 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func checkProgress() {
-        var isHasMoves: Bool = false
-        var isEndGame: Bool = true
+        
+        var isGameOver = true
+        var isHasMoves = false
         
         for column in (0...6) {
             for row in sCards[column].indices {
                 if sCards[column][row].card.isOpen {
-                    if isHasMoves {
+                    if !isHasMoves {
                         isHasMoves = targetColumn(column: column, row: row) != nil
                     }
                 } else {
-                    isEndGame = false
-                    if !isEndGame, isHasMoves {
-                        break
+                    isGameOver = false
+                }
+            }
+        }
+        
+        if !isHasMoves, !isGameOver {
+            for column in (11...12) {
+                for row in sCards[column].indices {
+                    if !isHasMoves {
+                        isHasMoves = targetColumn(column: column, row: row) != nil
                     }
                 }
             }
         }
         
-        if !isHasMoves, !isEndGame {
-            for column in (11...12) {
-                for row in sCards[column].indices {
-                    if !isHasMoves {
-                        isHasMoves = targetColumn(column: column, row: row) != nil
-                    } else {
-                        break
-                    }
-                }
-            }
-        }
-
+        self.gameOver = isGameOver
         self.hasMoves = isHasMoves
-        self.gameOver = gameOver
     }
     
     func backCardsToStartStack(_ index: Int) {
