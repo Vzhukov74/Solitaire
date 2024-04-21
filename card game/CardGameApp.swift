@@ -28,6 +28,7 @@ struct card_gameApp: App {
                 @unknown default: break
                 }
             }
+            .defaultSize(width: 582.0, height: 582.0)
     }
 }
 

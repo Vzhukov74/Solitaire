@@ -47,7 +47,6 @@ final class GameTableViewModel: ObservableObject {
     private var isPauseBetweenMoves = false
     
     // MARK: piles coordinate
-    private(set) var cardSize: CGSize = .zero
     private(set) var piles: [CGPoint] = []
     private(set) var columns: [CGPoint] = []
     private(set) var extra: CGPoint = .zero
@@ -56,8 +55,11 @@ final class GameTableViewModel: ObservableObject {
     
     private let size: CGSize
     
-    init(with game: Game = Game(), size: CGSize) {
+    let cardSize: CGSize
+    
+    init(with game: Game = Game(), size: CGSize, cardSize: CGSize) {
         self.size = size
+        self.cardSize = cardSize
         self.calculateFrames(with: size)
         self.initCards(from: game)
     }
@@ -219,12 +221,11 @@ final class GameTableViewModel: ObservableObject {
     
     private func calculateFrames(with size: CGSize) {
         let spacing: CGFloat = 8
-        let width = (size.width - spacing * 8) / 7
-        let height = width * 1.5
-        
+        let width = cardSize.width
+        let height = cardSize.height
+    
         offsetY = height / 3.3
-        cardSize = CGSize(width: width, height: height)
-        
+                
         func column(for index: CGFloat, heightDelta: CGFloat = 0) -> CGPoint {
             CGPoint(
                 x: width / 2 + (width + spacing) * index,
