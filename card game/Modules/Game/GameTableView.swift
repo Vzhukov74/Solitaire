@@ -10,6 +10,8 @@ import SwiftUI
 struct GameTableView: View {
     @StateObject var vm: GameTableViewModel
     
+    @Binding var isPresenting: Bool
+    
     var body: some View {
         VStack(spacing: 8) {
             headerView
@@ -58,6 +60,10 @@ struct GameTableView: View {
                 label: { Text("Отменить")}
             )
                 .disabled(!vm.hasCancelMove)
+            Button(
+                action: { vm.save(); isPresenting = false },
+                label: { Text("Закрыть")}
+            )
         }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GameView: View {
     
+    @Binding var isPresenting: Bool
+    
     let gameStore: GameStore
     let game: Game?
     
@@ -18,7 +20,10 @@ struct GameView: View {
                 let (size, cardSize) = sizes(from: geo.size)
                 HStack {
                     Spacer(minLength: 0)
-                    GameTableView(vm: GameTableViewModel(with: game, gameStore: gameStore, size: size, cardSize: cardSize))
+                    GameTableView(
+                        vm: GameTableViewModel(with: game, gameStore: gameStore, size: size, cardSize: cardSize),
+                        isPresenting: $isPresenting
+                    )
                         .frame(width: size.width, height: size.height)
                 }
             } else {

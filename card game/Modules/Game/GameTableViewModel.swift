@@ -57,9 +57,11 @@ final class GameTableViewModel: ObservableObject {
     
     let cardSize: CGSize
 
+    private let gameStore: GameStore
     private let game: Game
     
     init(with game: Game?, gameStore: GameStore, size: CGSize, cardSize: CGSize) {
+        self.gameStore = gameStore
         self.size = size
         self.cardSize = cardSize
         
@@ -218,6 +220,10 @@ final class GameTableViewModel: ObservableObject {
         } else {
             backCardsToStartStack(index)
         }
+    }
+    
+    func save() {
+        gameStore.save()
     }
     
     // MARK: private

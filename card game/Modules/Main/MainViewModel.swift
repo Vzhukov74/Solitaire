@@ -9,9 +9,9 @@ import SwiftUI
 
 final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
-    @Published var hasGame: Bool = false
-    
     @Published var presentGameScreen: Bool = false
+    
+    var presentFromSaved: Bool = false
     
     let gameStore: GameStore
     let scoreStore: ScoreStore
@@ -19,17 +19,18 @@ final class MainViewModel: ObservableObject {
     init(gameStore: GameStore, scoreStore: ScoreStore) {
         self.gameStore = gameStore
         self.scoreStore = scoreStore
+        
+        hasPausedGame = gameStore.hasSavedGame
     }
 
     func newGame() {
-        gameStore.newGame()
-        
-        guard gameStore.game != nil else { return }
+        presentFromSaved = false
         presentGameScreen = true
     }
 
     func resumeGame() {
         guard gameStore.game != nil else { return }
+        presentFromSaved = true
         presentGameScreen = true
     }
     

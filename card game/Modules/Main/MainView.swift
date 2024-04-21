@@ -58,7 +58,8 @@ struct MainView: View {
                 .padding(.vertical, 32)
             
             if vm.presentGameScreen {
-                GameView(gameStore: vm.gameStore, game: nil)
+                let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
+                GameView(isPresenting: $vm.presentGameScreen, gameStore: vm.gameStore, game: game)
             }
         }
     }
