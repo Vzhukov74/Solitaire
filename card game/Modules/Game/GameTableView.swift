@@ -9,13 +9,6 @@ import SwiftUI
 
 struct GameTableView: View {
     @StateObject var vm: GameTableViewModel
-    @Namespace private var animation
-    
-    @State var isStartedGame = false
-    
-    @State var screenSize: CGSize = .zero
-    
-    private let spacing: CGFloat = 8
     
     var body: some View {
         VStack(spacing: 8) {

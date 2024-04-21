@@ -43,7 +43,9 @@ final class GameTableViewModel: ObservableObject {
     
     private var gCardsHistory: [[CardViewModel]] = []
     private var sCardsHistory: [[[ShadowCardModel]]] = []
-        
+    
+    private var isPauseBetweenMoves = false
+    
     // MARK: piles coordinate
     private(set) var cardSize: CGSize = .zero
     private(set) var piles: [CGPoint] = []
@@ -78,10 +80,13 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func moveCardIfPossible(index: Int) {
+        guard !onPause() else { return }
         guard let (column, row) = columnAndRowFor(card: index) else { return }
         
+        // для фикса бага с 3 картами, сами выбираем 1 последнию карту из колоды
         if column == 12 { // в открытые дополнительные карты можно двигать всегда
-            moveCards(column: column, row: row, to: 11)
+            let realRow = sCards[12].count - 1
+            moveCards(column: column, row: realRow, to: 11)
             return
         } else if gCards[index].card.isOpen {
             if column == 11 {
@@ -100,6 +105,7 @@ final class GameTableViewModel: ObservableObject {
     
     // возвращаем открытые карты из дополнительной стопки обратно в стопку
     func refreshExtraCards() {
+        guard !onPause() else { return }
         guard !sCards[11].isEmpty, sCards[12].isEmpty else { return }
                 
         sCards[12] = sCards[11].reversed()
@@ -111,9 +117,27 @@ final class GameTableViewModel: ObservableObject {
             gCards[sCards[12][index].index].position = extra
             gCards[sCards[12][index].index].zIndex = index
         }
+        
+        /*
+         var newGCards = gCards
+         var newSCards = sCards
+         
+         newSCards[12] = newSCards[11].reversed()
+         newSCards[11] = []
+         
+         for index in newSCards[12].indices {
+             newSCards[12][index].card.isOpen = false
+             newGCards[sCards[12][index].index].card.isOpen = false
+             newGCards[sCards[12][index].index].position = extra
+             newGCards[sCards[12][index].index].zIndex = index
+         }
+         
+         applay(newGCards, newSCards)
+         */
     }
         
     func movingCards(_ index: Int, at position: CGPoint) {
+        guard !isPauseBetweenMoves else { return }
         guard gCards[index].card.isOpen else { return }
         
         guard let (column, row) = columnAndRowFor(card: index) else { return }
@@ -135,6 +159,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
+        guard !isPauseBetweenMoves else { return }
         guard gCards[index].moving != nil else { return } // если не двигаем, то ничего не делаем
         
         guard let targetColumn = columnFor(position: position),
@@ -414,13 +439,27 @@ final class GameTableViewModel: ObservableObject {
         self.hasMoves = isHasMoves
     }
     
-    func backCardsToStartStack(_ index: Int) {
+    private func backCardsToStartStack(_ index: Int) {
         guard let (column, row) = columnAndRowFor(card: index) else { return }
 
         let count = sCards[column].count
         (row..<count).forEach { sCardIndex in
             let gCardIndex = sCards[column][sCardIndex].index
             gCards[gCardIndex].moving = nil
+        }
+    }
+
+    private func onPause() -> Bool {
+        if isPauseBetweenMoves {
+            return isPauseBetweenMoves
+        } else {
+            isPauseBetweenMoves = true
+            Task { @MainActor in
+                try await Task.sleep(nanoseconds: 100_000_000)
+                isPauseBetweenMoves = false
+            }
+            
+            return false
         }
     }
 }
