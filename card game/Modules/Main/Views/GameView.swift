@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct GameView: View {
+    
+    let gameStore: GameStore
+    let game: Game?
+    
     var body: some View {
         GeometryReader { geo in
             if geo.size.width > 0, geo.size.height > 0 {
                 let (size, cardSize) = sizes(from: geo.size)
                 HStack {
                     Spacer(minLength: 0)
-                    GameTableView(vm: GameTableViewModel(with: Game(), size: size, cardSize: cardSize))
+                    GameTableView(vm: GameTableViewModel(with: game, gameStore: gameStore, size: size, cardSize: cardSize))
                         .frame(width: size.width, height: size.height)
                 }
             } else {

@@ -58,7 +58,7 @@ struct MainView: View {
                 .padding(.vertical, 32)
             
             if vm.presentGameScreen {
-                GameView()
+                GameView(gameStore: vm.gameStore, game: nil)
             }
         }
     }

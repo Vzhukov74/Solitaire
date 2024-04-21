@@ -26,7 +26,7 @@ struct CardViewModel: Hashable, Codable {
     }
 }
 
-fileprivate struct ShadowCardModel {
+struct ShadowCardModel: Codable {
     var card: Card
     let index: Int
 }
@@ -56,16 +56,38 @@ final class GameTableViewModel: ObservableObject {
     private let size: CGSize
     
     let cardSize: CGSize
+
+    private let game: Game
     
-    init(with game: Game = Game(), size: CGSize, cardSize: CGSize) {
+    init(with game: Game?, gameStore: GameStore, size: CGSize, cardSize: CGSize) {
         self.size = size
         self.cardSize = cardSize
-        self.calculateFrames(with: size)
-        self.initCards(from: game)
+        
+        if game != nil {
+            self.game = game!
+            
+            hasCancelMove = !game!.sCardsHistory.isEmpty
+                
+            gCards = game!.gCards
+            sCards = game!.sCards
+            movesNumber = game!.movesNumber
+
+            gCardsHistory = game!.gCardsHistory
+            sCardsHistory = game!.sCardsHistory
+            
+            self.calculateFrames(with: size)
+            
+        } else {
+            self.game = Game()
+            self.calculateFrames(with: size)
+            self.initCards(from: DeckShuffler())
+        }
+
+        gameStore.game = self.game
     }
         
     func newGame() {
-        initCards(from: Game())
+        initCards(from: DeckShuffler())
     }
     
     // MARK: public
@@ -77,6 +99,11 @@ final class GameTableViewModel: ObservableObject {
         
         self.gCards = previousGCards
         self.sCards = previousSCards
+        
+        game.gCards = previousGCards
+        game.sCards = previousSCards
+        game.gCardsHistory = gCardsHistory
+        game.sCardsHistory = sCardsHistory
                 
         self.hasCancelMove = !gCardsHistory.isEmpty
     }
@@ -243,24 +270,24 @@ final class GameTableViewModel: ObservableObject {
         columns = indexes.map { CGFloat($0) }.compactMap { column(for: $0, heightDelta: height + 2 * spacing ) }
     }
 
-    private func initCards(from game: Game) {
+    private func initCards(from deckShuffler: DeckShuffler) {
         var cards: [CardViewModel] = []
         let indexes = Array(0...12)
         var shadowIndex = 0
         indexes.forEach { index in
             if index >= 0, index < 7 {
                 var shadowCardsColumn: [ShadowCardModel] = []
-                for row in game.columns[index].indices {
+                for row in deckShuffler.columns[index].indices {
                     cards.append(
                         CardViewModel(
-                            card: game.columns[index][row],
+                            card: deckShuffler.columns[index][row],
                             position: CGPoint(
                                 x: columns[index].x,
                                 y: columns[index].y + offsetY * CGFloat(row)
                             )
                         )
                     )
-                    shadowCardsColumn.append(ShadowCardModel(card: game.columns[index][row], index: shadowIndex))
+                    shadowCardsColumn.append(ShadowCardModel(card: deckShuffler.columns[index][row], index: shadowIndex))
                     shadowIndex += 1
                 }
                 sCards.append(shadowCardsColumn)
@@ -269,14 +296,14 @@ final class GameTableViewModel: ObservableObject {
                 sCards.append([])
             } else if index == 12 {
                 var shadowCardsColumn: [ShadowCardModel] = []
-                for row in game.extraCards.indices {
+                for row in deckShuffler.extraCards.indices {
                     cards.append(
                         CardViewModel(
-                            card: game.extraCards[row],
+                            card: deckShuffler.extraCards[row],
                             position: extra
                         )
                     )
-                    shadowCardsColumn.append(ShadowCardModel(card: game.extraCards[row], index: shadowIndex))
+                    shadowCardsColumn.append(ShadowCardModel(card: deckShuffler.extraCards[row], index: shadowIndex))
                     shadowIndex += 1
                 }
                 sCards.append(shadowCardsColumn)
@@ -284,6 +311,12 @@ final class GameTableViewModel: ObservableObject {
         }
         
         self.gCards = cards
+        
+        game.gCards = gCards
+        game.sCards = sCards
+        game.gCardsHistory = gCardsHistory
+        game.sCardsHistory = sCardsHistory
+        game.movesNumber = movesNumber
     }
     
     private func applay(_ newGCards: [CardViewModel], _ newSCards: [[ShadowCardModel]]) {
@@ -299,6 +332,12 @@ final class GameTableViewModel: ObservableObject {
         
         self.gCards = newGCards
         self.sCards = newSCards
+        
+        game.gCards = newGCards
+        game.sCards = newSCards
+        game.gCardsHistory = gCardsHistory
+        game.sCardsHistory = sCardsHistory
+        game.movesNumber = movesNumber
         
         checkProgress()
     }
