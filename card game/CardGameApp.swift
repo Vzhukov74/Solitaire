@@ -16,10 +16,7 @@ struct card_gameApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                MainView(viewModel: MainViewModel(gameStore: gameStore, scoreStore: scoreStore))
-            }
-                .accentColor(Color("primary"))
+            MainView(vm: MainViewModel(gameStore: gameStore, scoreStore: scoreStore))
         }
             .onChange(of: scenePhase) { newScenePhase in
                 switch newScenePhase {

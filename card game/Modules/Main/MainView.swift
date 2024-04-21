@@ -8,18 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject var viewModel: MainViewModel
+    @StateObject var vm: MainViewModel
     
     var body: some View {
         ZStack {
             Color("mainViewBg")
                 .ignoresSafeArea()
-            
-            NavigationLink(destination: GameView(), isActive: $viewModel.hasGame) {
-                EmptyView()
-            }
-                .navigationTitle("")
-            
             VStack {
                 LogoView()
                     .padding()
@@ -34,8 +28,8 @@ struct MainView: View {
                 Spacer(minLength: 0)
                 
                 VStack(spacing: 16) {
-                    if viewModel.hasPausedGame {
-                        Button(action: viewModel.resumeGame) {
+                    if vm.hasPausedGame {
+                        Button(action: vm.resumeGame) {
                             Text("continue")
                                 .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                                 .frame(maxWidth: .infinity)
@@ -47,7 +41,7 @@ struct MainView: View {
                             .clipShape(Capsule())
                     }
             
-                    Button(action: viewModel.newGame) {
+                    Button(action: vm.newGame) {
                         Text("new game")
                             .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                             .frame(maxWidth: .infinity)
@@ -62,13 +56,12 @@ struct MainView: View {
                 .frame(maxWidth: .infinity)
             }
                 .padding(.vertical, 32)
+            
+            if vm.presentGameScreen {
+                GameView()
+            }
+            
         }
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView(viewModel: MainViewModel(gameStore: GameStore(), scoreStore: ScoreStore()))
     }
 }
 
@@ -134,6 +127,6 @@ struct GameView: View {
             }
 
         }
-            .navigationTitle("0")
+        .background(Color.green)
     }
 }

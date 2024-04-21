@@ -10,7 +10,9 @@ import SwiftUI
 final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
     @Published var hasGame: Bool = false
-        
+    
+    @Published var presentGameScreen: Bool = false
+    
     let gameStore: GameStore
     let scoreStore: ScoreStore
 
@@ -23,12 +25,12 @@ final class MainViewModel: ObservableObject {
         gameStore.newGame()
         
         guard gameStore.game != nil else { return }
-        hasGame = true
+        presentGameScreen = true
     }
 
     func resumeGame() {
         guard gameStore.game != nil else { return }
-        hasGame = true
+        presentGameScreen = true
     }
     
     func checkForSavedGame() {
