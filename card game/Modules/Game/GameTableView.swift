@@ -13,8 +13,6 @@ struct GameTableView: View {
     var body: some View {
         VStack(spacing: 8) {
             headerView
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
             GeometryReader { geo in
                 ZStack {
                     pilesBgView
@@ -54,12 +52,21 @@ struct GameTableView: View {
     private var headerView: some View {
         HStack(spacing: 16) {
             Text("ходы: \(vm.movesNumber, format: .number)")
+            Spacer(minLength: 0)
             Button(
                 action: { withAnimation { vm.cancelMove() } },
                 label: { Text("Отменить")}
             )
                 .disabled(!vm.hasCancelMove)
         }
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity)
+            .frame(height: 60)
+            .background {
+                Capsule().foregroundColor(.cyan)
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 8)
     }
     
     private var pilesBgView: some View {
