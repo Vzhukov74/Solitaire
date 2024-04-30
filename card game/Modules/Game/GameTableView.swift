@@ -9,8 +9,9 @@ import SwiftUI
 
 struct GameTableView: View {
     @StateObject var vm: GameTableViewModel
-    
     @Binding var isPresenting: Bool
+    
+    let uiSettings: IGameUISettingsService
     
     var body: some View {
         VStack(spacing: 8) {
@@ -19,12 +20,12 @@ struct GameTableView: View {
                 ZStack {
                     pilesBgView
 
-                    PileView(title: "", size: vm.cardSize)
+                    PileView(title: "", icon: Image(systemName: "arrow.clockwise"), size: vm.cardSize)
                         .position(vm.extra)
                         .onTapGesture { withAnimation { vm.refreshExtraCards() } }
 
                     ForEach(vm.columns.indices, id: \.self) {
-                        PileView(title: "", size: vm.cardSize)
+                        PileView(title: "", icon: nil, size: vm.cardSize)
                             .position(vm.columns[$0])
                     }
 
@@ -77,13 +78,16 @@ struct GameTableView: View {
     
     private var pilesBgView: some View {
         ForEach(vm.piles.indices, id: \.self) {
-            PileView(title: "A", size: vm.cardSize)
+            PileView(title: "A", icon: nil, size: vm.cardSize)
                 .position(vm.piles[$0])
         }
     }
     
     func card(card: CardViewModel) -> some View {
-        return CardView(card: card.card)
+        return CardView(
+            card: card.card,
+            back: uiSettings.cardBack
+        )
             .frame(width: vm.cardSize.width, height: vm.cardSize.height)
             .position(card.moving ?? card.position)
             .zIndex(card.moving != nil ? Double(card.movingZIndex) : Double(card.zIndex))

@@ -22,7 +22,8 @@ struct GameView: View {
                     Spacer(minLength: 0)
                     GameTableView(
                         vm: GameTableViewModel(with: game, gameStore: gameStore, size: size, cardSize: cardSize),
-                        isPresenting: $isPresenting
+                        isPresenting: $isPresenting, 
+                        uiSettings: AppDI.shared.service()
                     )
                         .frame(width: size.width, height: size.height)
                 }

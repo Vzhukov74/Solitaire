@@ -57,6 +57,7 @@ final class GameTableViewModel: ObservableObject {
     
     let cardSize: CGSize
 
+    private let generator = UINotificationFeedbackGenerator()
     private let gameStore: GameStore
     private let game: Game
     
@@ -126,11 +127,13 @@ final class GameTableViewModel: ObservableObject {
             // ищем можем ли мы передвинуть куда либо карту, если нет то показываем ошибку
             guard let targetColumn = targetColumn(column: column, row: row) else {
                 gCards[index].error += 1
+                generator.notificationOccurred(.error)
                 return
             }
             
             // нашли куда передвинуть, передвигаем
             moveCards(column: column, row: row, to: targetColumn)
+            generator.notificationOccurred(.success)
         }
     }
     
@@ -148,23 +151,6 @@ final class GameTableViewModel: ObservableObject {
             gCards[sCards[12][index].index].position = extra
             gCards[sCards[12][index].index].zIndex = index
         }
-        
-        /*
-         var newGCards = gCards
-         var newSCards = sCards
-         
-         newSCards[12] = newSCards[11].reversed()
-         newSCards[11] = []
-         
-         for index in newSCards[12].indices {
-             newSCards[12][index].card.isOpen = false
-             newGCards[sCards[12][index].index].card.isOpen = false
-             newGCards[sCards[12][index].index].position = extra
-             newGCards[sCards[12][index].index].zIndex = index
-         }
-         
-         applay(newGCards, newSCards)
-         */
     }
         
     func movingCards(_ index: Int, at position: CGPoint) {
@@ -257,7 +243,7 @@ final class GameTableViewModel: ObservableObject {
         let width = cardSize.width
         let height = cardSize.height
     
-        offsetY = height / 3.3
+        offsetY = (height / 3.3) / 2
                 
         func column(for index: CGFloat, heightDelta: CGFloat = 0) -> CGPoint {
             CGPoint(
@@ -400,7 +386,7 @@ final class GameTableViewModel: ObservableObject {
                     newGCards[newSCards[11][rIndex].index].zIndex = 5 - delta
                     if delta < 3 {
                         newGCards[newSCards[11][rIndex].index].position = CGPoint(
-                            x: extraPile.x - offsetY * CGFloat(delta),
+                            x: extraPile.x - offsetY * 2 * CGFloat(delta),
                             y: extraPile.y
                         )
                     }

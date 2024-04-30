@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A9B52BA2BE0E95E00D35F35 /* GameUISettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */; };
+		3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52BC2BE0EA3E00D35F35 /* AppDI.swift */; };
+		3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */; };
+		3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */; };
+		3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */; };
 		3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288E12BB8727F00744832 /* CardGameApp.swift */; };
 		3AD288E62BB8728100744832 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E52BB8728100744832 /* Assets.xcassets */; };
 		3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E92BB8728100744832 /* Preview Assets.xcassets */; };
@@ -25,6 +30,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUISettingsService.swift; sourceTree = "<group>"; };
+		3A9B52BC2BE0EA3E00D35F35 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
+		3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		3AD288DE2BB8727F00744832 /* card game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "card game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD288E12BB8727F00744832 /* CardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameApp.swift; sourceTree = "<group>"; };
 		3AD288E52BB8728100744832 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,6 +65,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A9B52BB2BE0EA3000D35F35 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				3A9B52BC2BE0EA3E00D35F35 /* AppDI.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		3A9B52BE2BE0EB6A00D35F35 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */,
+				3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3A9B52C32BE0EDA200D35F35 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		3AD288D52BB8727F00744832 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +109,8 @@
 		3AD288E02BB8727F00744832 /* card game */ = {
 			isa = PBXGroup;
 			children = (
+				3A9B52C32BE0EDA200D35F35 /* Extension */,
+				3A9B52BB2BE0EA3000D35F35 /* DI */,
 				3AD289032BD5912400744832 /* Models */,
 				3AD288F62BB8732500744832 /* Services */,
 				3AD288F02BB872D500744832 /* Modules */,
@@ -96,6 +133,7 @@
 		3AD288F02BB872D500744832 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				3A9B52BE2BE0EB6A00D35F35 /* Settings */,
 				3AD288F72BB8733800744832 /* Game */,
 				3AD288F12BB872DE00744832 /* Main */,
 			);
@@ -116,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				3AD289012BD590C300744832 /* GameStore.swift */,
+				3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -228,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A9B52BA2BE0E95E00D35F35 /* GameUISettingsService.swift in Sources */,
 				3AD288FE2BD58E5700744832 /* MainViewCardsLogo.swift in Sources */,
 				3AD289052BD5913200744832 /* Card.swift in Sources */,
 				3AD2890C2BD591E700744832 /* PileView.swift in Sources */,
@@ -235,10 +275,14 @@
 				3AD289022BD590C300744832 /* GameStore.swift in Sources */,
 				3AD288F92BB8734A00744832 /* GameTableView.swift in Sources */,
 				3AD288F32BB872F000744832 /* MainView.swift in Sources */,
+				3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */,
 				3AD2890E2BD5920200744832 /* CardView.swift in Sources */,
+				3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */,
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
+				3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */,
 				3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */,
 				3AD288F52BB8730C00744832 /* MainViewModel.swift in Sources */,
+				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
 				3AD289002BD58E7B00744832 /* GameView.swift in Sources */,
 			);
@@ -385,7 +429,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
@@ -424,7 +468,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;

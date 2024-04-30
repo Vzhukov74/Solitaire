@@ -10,6 +10,7 @@ import SwiftUI
 final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
     @Published var presentGameScreen: Bool = false
+    @Published var presentSettingsScreen: Bool = false
     
     var presentFromSaved: Bool = false
     

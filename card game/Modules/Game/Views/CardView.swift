@@ -10,6 +10,8 @@ import SwiftUI
 struct CardView: View {
     let card: Card
     
+    let back: Image
+    
     var body: some View {
         if card.isOpen {
             VStack {
@@ -29,7 +31,7 @@ struct CardView: View {
                         .stroke(Color.gray, lineWidth: 1)
                 )
         } else {
-            Image("card_back")
+            back
                 .resizable()
         }
 

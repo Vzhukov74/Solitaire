@@ -15,6 +15,23 @@ struct MainView: View {
             Color("mainViewBg")
                 .ignoresSafeArea()
             VStack {
+                HStack {
+                    Spacer()
+                    Button(
+                        action: { vm.presentSettingsScreen = true },
+                        label: {
+                            Image(systemName: "gearshape")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .padding(9)
+                        }
+                    )
+                        .frame(width: 44, height: 44)
+                }
+                    .frame(height: 44)
+                    .padding(.horizontal, 16)
+                
                 MainViewCardsLogo()
                     .padding()
             
@@ -60,6 +77,11 @@ struct MainView: View {
             if vm.presentGameScreen {
                 let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
                 GameView(isPresenting: $vm.presentGameScreen, gameStore: vm.gameStore, game: game)
+            } else if vm.presentSettingsScreen {
+                SettingsView(
+                    vm: SettingsViewModel(uiSettings: AppDI.shared.service()),
+                    isPresenting: $vm.presentSettingsScreen
+                )
             }
         }
     }
