@@ -12,6 +12,7 @@ struct GameView: View {
     @Binding var isPresenting: Bool
     
     let gameStore: GameStore
+    let feedbackService: IFeedbackService
     let game: Game?
     
     var body: some View {
@@ -21,8 +22,14 @@ struct GameView: View {
                 HStack {
                     Spacer(minLength: 0)
                     GameTableView(
-                        vm: GameTableViewModel(with: game, gameStore: gameStore, size: size, cardSize: cardSize),
-                        isPresenting: $isPresenting, 
+                        vm: GameTableViewModel(
+                            with: game,
+                            gameStore: gameStore, 
+                            feedbackService: feedbackService,
+                            size: size,
+                            cardSize: cardSize
+                        ),
+                        isPresenting: $isPresenting,
                         uiSettings: AppDI.shared.service()
                     )
                         .frame(width: size.width, height: size.height)

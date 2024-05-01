@@ -50,11 +50,15 @@ struct GameTableView: View {
             }
                 .padding(8)
         }
+            .onDisappear { vm.save() }
     }
     
     private var headerView: some View {
         HStack(spacing: 16) {
             Text("ходы: \(vm.movesNumber, format: .number)")
+            Text("время: \(vm.timeStr)")
+            Text("очки: \(vm.pointsNumber)")
+            Text(vm.pointsCoefficient)
             Spacer(minLength: 0)
             Button(
                 action: { withAnimation { vm.cancelMove() } },
@@ -62,7 +66,7 @@ struct GameTableView: View {
             )
                 .disabled(!vm.hasCancelMove)
             Button(
-                action: { vm.save(); isPresenting = false },
+                action: { isPresenting = false },
                 label: { Text("Закрыть")}
             )
         }

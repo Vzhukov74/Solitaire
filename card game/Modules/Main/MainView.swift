@@ -76,7 +76,12 @@ struct MainView: View {
             
             if vm.presentGameScreen {
                 let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
-                GameView(isPresenting: $vm.presentGameScreen, gameStore: vm.gameStore, game: game)
+                GameView(
+                    isPresenting: $vm.presentGameScreen,
+                    gameStore: vm.gameStore, 
+                    feedbackService: AppDI.shared.service(),
+                    game: game
+                )
             } else if vm.presentSettingsScreen {
                 SettingsView(
                     vm: SettingsViewModel(uiSettings: AppDI.shared.service()),

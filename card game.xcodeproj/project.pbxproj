@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A8E0A802BE28C18004043B1 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E0A7F2BE28C18004043B1 /* FeedbackService.swift */; };
 		3A9B52BA2BE0E95E00D35F35 /* GameUISettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */; };
 		3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52BC2BE0EA3E00D35F35 /* AppDI.swift */; };
 		3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A8E0A7F2BE28C18004043B1 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUISettingsService.swift; sourceTree = "<group>"; };
 		3A9B52BC2BE0EA3E00D35F35 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
 		3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				3AD289012BD590C300744832 /* GameStore.swift */,
 				3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */,
+				3A8E0A7F2BE28C18004043B1 /* FeedbackService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
 				3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */,
 				3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */,
+				3A8E0A802BE28C18004043B1 /* FeedbackService.swift in Sources */,
 				3AD288F52BB8730C00744832 /* MainViewModel.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,

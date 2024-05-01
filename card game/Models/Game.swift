@@ -15,6 +15,7 @@ class Game: Codable {
     var sCardsHistory: [[[ShadowCardModel]]] = []
     
     var movesNumber: Int = 0
+    var timeNumber: Int = 0
     var points: Int = 0
 }
 

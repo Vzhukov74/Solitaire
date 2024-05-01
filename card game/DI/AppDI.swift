@@ -17,4 +17,7 @@ final class AppDI {
         GameUISettingsService()
     }
     
+    func service() -> IFeedbackService {
+        FeedbackService(uiSettings: service())
+    }
 }
