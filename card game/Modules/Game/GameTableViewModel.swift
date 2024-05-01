@@ -117,6 +117,10 @@ final class GameTableViewModel: ObservableObject {
         initCards(from: DeckShuffler())
     }
     
+    func onMainScreen() {
+        gameStore.reset()
+    }
+    
     // MARK: public
     func cancelMove() {
         guard !gCardsHistory.isEmpty, !sCardsHistory.isEmpty  else { return }
@@ -300,6 +304,11 @@ final class GameTableViewModel: ObservableObject {
     private func initCards(from deckShuffler: DeckShuffler) {
         timerTask?.cancel()
         
+        gCards = []
+        sCards = []
+        gCardsHistory = []
+        sCardsHistory = []
+
         var cards: [CardViewModel] = []
         let indexes = Array(0...12)
         var shadowIndex = 0
@@ -496,7 +505,7 @@ final class GameTableViewModel: ObservableObject {
             }
         }
 
-        gameOver = true
+        withAnimation { gameOver = true }
         
         timerIsActive = false
         timerTask?.cancel()
@@ -533,6 +542,9 @@ final class GameTableViewModel: ObservableObject {
         game.movesNumber = movesNumber
         
         startTimerIfNeeded()
+        
+        // TODO: remove later
+        withAnimation { gameOver = true }
     }
     
     private func onTime() {

@@ -48,9 +48,7 @@ struct GameView: View {
         let cHeight = cWidth * 1.5
         
         let width: CGFloat = cWidth * 7 + spacing * 8
-        
-        print(width)
-        
+                
         return (
             CGSize(width: width, height: screenSize.height),
             CGSize(width: cWidth, height: cHeight)

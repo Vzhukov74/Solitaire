@@ -28,6 +28,10 @@
 		3AD289092BD591A800744832 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD289082BD591A800744832 /* Game.swift */; };
 		3AD2890C2BD591E700744832 /* PileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD2890B2BD591E700744832 /* PileView.swift */; };
 		3AD2890E2BD5920200744832 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD2890D2BD5920200744832 /* CardView.swift */; };
+		3ADD8D902BE2CE7E00B28D9B /* ConfettiSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D8F2BE2CE7E00B28D9B /* ConfettiSwiftUI.swift */; };
+		3ADD8D922BE2CEF200B28D9B /* View+ConfettiCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */; };
+		3ADD8D942BE2CF8C00B28D9B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */; };
+		3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +58,10 @@
 		3AD289082BD591A800744832 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		3AD2890B2BD591E700744832 /* PileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PileView.swift; sourceTree = "<group>"; };
 		3AD2890D2BD5920200744832 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		3ADD8D8F2BE2CE7E00B28D9B /* ConfettiSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiSwiftUI.swift; sourceTree = "<group>"; };
+		3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConfettiCannon.swift"; sourceTree = "<group>"; };
+		3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversingScale.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */,
+				3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -111,6 +120,7 @@
 		3AD288E02BB8727F00744832 /* card game */ = {
 			isa = PBXGroup;
 			children = (
+				3ADD8D8E2BE2CE6400B28D9B /* Confetti */,
 				3A9B52C32BE0EDA200D35F35 /* Extension */,
 				3A9B52BB2BE0EA3000D35F35 /* DI */,
 				3AD289032BD5912400744832 /* Models */,
@@ -196,8 +206,18 @@
 			children = (
 				3AD2890B2BD591E700744832 /* PileView.swift */,
 				3AD2890D2BD5920200744832 /* CardView.swift */,
+				3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3ADD8D8E2BE2CE6400B28D9B /* Confetti */ = {
+			isa = PBXGroup;
+			children = (
+				3ADD8D8F2BE2CE7E00B28D9B /* ConfettiSwiftUI.swift */,
+				3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */,
+			);
+			path = Confetti;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,19 +296,23 @@
 				3AD2890C2BD591E700744832 /* PileView.swift in Sources */,
 				3AD289072BD5917200744832 /* Deck.swift in Sources */,
 				3AD289022BD590C300744832 /* GameStore.swift in Sources */,
+				3ADD8D922BE2CEF200B28D9B /* View+ConfettiCannon.swift in Sources */,
 				3AD288F92BB8734A00744832 /* GameTableView.swift in Sources */,
 				3AD288F32BB872F000744832 /* MainView.swift in Sources */,
 				3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */,
 				3AD2890E2BD5920200744832 /* CardView.swift in Sources */,
 				3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */,
+				3ADD8D942BE2CF8C00B28D9B /* GameOverView.swift in Sources */,
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
 				3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */,
+				3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */,
 				3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */,
 				3A8E0A802BE28C18004043B1 /* FeedbackService.swift in Sources */,
 				3AD288F52BB8730C00744832 /* MainViewModel.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
 				3AD289002BD58E7B00744832 /* GameView.swift in Sources */,
+				3ADD8D902BE2CE7E00B28D9B /* ConfettiSwiftUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

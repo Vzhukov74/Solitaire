@@ -18,12 +18,14 @@ struct MainView: View {
                 HStack {
                     Spacer()
                     Button(
-                        action: { vm.presentSettingsScreen = true },
+                        action: { withAnimation { vm.presentSettingsScreen = true } },
                         label: {
                             Image(systemName: "gearshape")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 26, height: 26)
+                                .rotationEffect(vm.presentSettingsScreen ? Angle(degrees: -90) : Angle(degrees: 0))
+                                .animation(.easeInOut, value: vm.presentSettingsScreen)
                                 .padding(9)
                         }
                     )
@@ -73,6 +75,7 @@ struct MainView: View {
                 .frame(maxWidth: .infinity)
             }
                 .padding(.vertical, 32)
+                .onAppear { vm.checkForSavedGame() }
             
             if vm.presentGameScreen {
                 let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
@@ -82,11 +85,15 @@ struct MainView: View {
                     feedbackService: AppDI.shared.service(),
                     game: game
                 )
+                    .transition(.move(edge: .trailing))
+                    .zIndex(1)
             } else if vm.presentSettingsScreen {
                 SettingsView(
                     vm: SettingsViewModel(uiSettings: AppDI.shared.service()),
                     isPresenting: $vm.presentSettingsScreen
                 )
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
             }
         }
     }

@@ -10,6 +10,7 @@ import Foundation
 protocol GamePersistentStoreProtocol: AnyObject {
     func save(_ game: Game)
     func restore() -> Game?
+    func reset()
 }
 
 final class GameStore {
@@ -31,6 +32,11 @@ final class GameStore {
     func newGame() {
         game = Game()
     }
+    
+    func reset() {
+        game = nil
+        persistentStore.reset()
+    }
 }
 
 final class GamePersistentStore: GamePersistentStoreProtocol {
@@ -47,5 +53,9 @@ final class GamePersistentStore: GamePersistentStoreProtocol {
         guard let game = try? JSONDecoder().decode(Game.self, from: data) else { return nil }
         
         return game
+    }
+    
+    func reset() {
+        UserDefaults.standard.removeObject(forKey: key)
     }
 }

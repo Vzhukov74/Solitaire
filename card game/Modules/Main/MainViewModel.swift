@@ -26,13 +26,13 @@ final class MainViewModel: ObservableObject {
 
     func newGame() {
         presentFromSaved = false
-        presentGameScreen = true
+        withAnimation { presentGameScreen = true }
     }
 
     func resumeGame() {
         guard gameStore.game != nil else { return }
         presentFromSaved = true
-        presentGameScreen = true
+        withAnimation { presentGameScreen = true }
     }
     
     func checkForSavedGame() {

@@ -32,7 +32,7 @@ struct SettingsView: View {
                     .font(.title2)
                 Spacer(minLength: 0)
                 Button(
-                    action: { isPresenting = false },
+                    action: { withAnimation { isPresenting = false } },
                     label: {
                         Image(systemName: "xmark")
                             .resizable()

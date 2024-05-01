@@ -42,14 +42,23 @@ struct GameTableView: View {
                                     }
                             )
                     }
-                    
-                    if vm.gameOver {
-                        Text("Готово").onTapGesture { withAnimation { vm.newGame() } }
-                    }
                 }
             }
                 .padding(8)
         }
+            .overlay {
+                if vm.gameOver {
+                    GameOverView(
+                        isPresenting: $vm.gameOver,
+                        moveNumber: vm.movesNumber,
+                        timeNumber: vm.timeStr,
+                        pointsNumber: vm.pointsNumber,
+                        onNewGame: { withAnimation { vm.newGame() } },
+                        onMainScreen: { vm.onMainScreen(); withAnimation { isPresenting = false } }
+                    )
+                        .transition(.opacity)
+                }
+            }
             .onDisappear { vm.save() }
     }
     
@@ -66,7 +75,7 @@ struct GameTableView: View {
             )
                 .disabled(!vm.hasCancelMove)
             Button(
-                action: { isPresenting = false },
+                action: { withAnimation { isPresenting = false } },
                 label: { Text("Закрыть")}
             )
         }
