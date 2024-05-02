@@ -9,9 +9,9 @@ import SwiftUI
 
 struct MainViewCardsLogo: View {
     @State private var cRotation: Double = 0
-    @State private var stackRotation: Double = -4
-    @State private var cScale: Double = 0.7
-    @State private var yOffset: Double = 0
+    @State private var stackRotation: Double = 0
+    @State private var cScale: Double = 0.9
+    @State private var yOffset: Double = 70
         
     private var width: Double { 300 * 0.5 }
     private var height: Double { 1.5 * width }
@@ -95,6 +95,17 @@ struct MainViewCardsLogo: View {
                 }
                 Task { @MainActor in
                     try await Task.sleep(nanoseconds: 5_00_000_000)
+                    withAnimation {
+                        cRotation = 12
+                        stackRotation = -4
+                        cScale = 1
+                        yOffset = 0
+                    }
+                }
+            }
+            .onAppear {
+                Task { @MainActor in
+                    //try await Task.sleep(nanoseconds: 5_00_000_000)
                     withAnimation {
                         cRotation = 12
                         stackRotation = -4

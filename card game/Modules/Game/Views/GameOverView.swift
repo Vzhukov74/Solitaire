@@ -90,9 +90,11 @@ struct GameOverView: View {
         .overlay {
             VStack {
                 HStack {
-                    Circle()
-                        .foregroundColor(.red)
+                    Image("firecracker_left")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 60, height: 60)
+                        .offset(x: -5, y: -18)
                         .modifier(ReversingScale(to: scaleFactor1) { self.scaleFactor1 = 1.0 })
                         .animation(.easeInOut, value: scaleFactor1)
                     Circle()
@@ -104,9 +106,11 @@ struct GameOverView: View {
                         .foregroundColor(.clear)
                         .frame(width: 60, height: 60)
                         .confettiCannon(counter: $confettiCannonCounter, num: 40)
-                    Circle()
-                        .foregroundColor(.red)
+                    Image("firecracker_right")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 60, height: 60)
+                        .offset(x: 5, y: -18)
                         .modifier(ReversingScale(to: scaleFactor2) { self.scaleFactor2 = 1.0 })
                         .animation(.easeInOut, value: scaleFactor2)
                 }

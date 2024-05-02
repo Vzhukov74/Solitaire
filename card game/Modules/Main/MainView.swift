@@ -24,6 +24,7 @@ struct MainView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 26, height: 26)
+                                .foregroundColor(Color("accent"))
                                 .rotationEffect(vm.presentSettingsScreen ? Angle(degrees: -90) : Angle(degrees: 0))
                                 .animation(.easeInOut, value: vm.presentSettingsScreen)
                                 .padding(9)
@@ -36,20 +37,13 @@ struct MainView: View {
                 
                 MainViewCardsLogo()
                     .padding()
-            
-                Text("game name")
-                    .font(Font.system(size: 40, weight: .semibold, design: .rounded))
-                    .foregroundColor(Color("primary"))
-                Text("🏆 ")
-                    .font(Font.system(size: 30, weight: .regular, design: .rounded))
-                    .foregroundColor(Color("primary"))
-                
+                            
                 Spacer(minLength: 0)
                 
                 VStack(spacing: 16) {
                     if vm.hasPausedGame {
                         Button(action: vm.resumeGame) {
-                            Text("continue")
+                            Text("Продолжить")
                                 .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                                 .frame(maxWidth: .infinity)
                                 .foregroundColor(Color.white)
@@ -61,7 +55,7 @@ struct MainView: View {
                     }
             
                     Button(action: vm.newGame) {
-                        Text("new game")
+                        Text("Новая игра")
                             .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                             .frame(maxWidth: .infinity)
                             .foregroundColor(Color("accent"))
@@ -72,6 +66,7 @@ struct MainView: View {
                         .clipShape(Capsule())
                 }
                 .padding(.horizontal, 32)
+                .padding(.bottom, 24)
                 .frame(maxWidth: .infinity)
             }
                 .padding(.vertical, 32)
