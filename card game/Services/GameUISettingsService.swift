@@ -33,9 +33,7 @@ final class GameUISettingsService: IGameUISettingsService {
     @UserDefault(wrappedValue: true, "com.solitaire.game.vibration.key")
     private(set) var isVibrationOn: Bool
     
-    init() {
-        
-    }
+    init() {}
     
     func cardImage(for card: Card) -> Image {
         Image("card_back")

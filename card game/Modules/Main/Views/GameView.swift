@@ -11,7 +11,7 @@ struct GameView: View {
     
     @Binding var isPresenting: Bool
     
-    let gameStore: GameStore
+    let gameStore: IGamePersistentStore
     let feedbackService: IFeedbackService
     let game: Game?
     

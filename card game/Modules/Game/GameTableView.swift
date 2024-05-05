@@ -94,7 +94,7 @@ struct GameTableView: View {
             infoView(title: "очки", subtitle: vm.pointsCoefficient, value: "\(vm.pointsNumber)")
             Spacer(minLength: 0)
             Button(
-                action: { withAnimation { isPresenting = false } },
+                action: { vm.save(); vm.newGame(); withAnimation { isPresenting = false } },
                 label: {
                     Image(systemName: "xmark")
                         .resizable()

@@ -66,8 +66,8 @@ final class GameTableViewModel: ObservableObject {
     let cardSize: CGSize
 
     private let feedbackService: IFeedbackService
-    private let gameStore: GameStore
-    private let game: Game
+    private let gameStore: IGamePersistentStore
+    private var game: Game
     
     // timer
     private var timerTask: Task<Void, Never>?
@@ -76,7 +76,7 @@ final class GameTableViewModel: ObservableObject {
     
     init(
         with game: Game?,
-        gameStore: GameStore,
+        gameStore: IGamePersistentStore,
         feedbackService: IFeedbackService,
         size: CGSize,
         cardSize: CGSize
@@ -109,8 +109,6 @@ final class GameTableViewModel: ObservableObject {
             self.calculateFrames(with: size)
             self.initCards(from: DeckShuffler())
         }
-
-        gameStore.game = self.game
     }
         
     func newGame() {
@@ -120,7 +118,6 @@ final class GameTableViewModel: ObservableObject {
     
     func onMainScreen() {
         gameStore.reset()
-        resetGame()
     }
     
     // MARK: public
@@ -252,7 +249,15 @@ final class GameTableViewModel: ObservableObject {
         timerTask?.cancel()
         timerIsActive = false
         
-        gameStore.save()
+        game.gCards = gCards
+        game.sCards = sCards
+        game.gCardsHistory = gCardsHistory
+        game.sCardsHistory = sCardsHistory
+        game.movesNumber = movesNumber
+        game.points = pointsNumber
+        game.timeNumber = timeNumber
+        
+        gameStore.save(game)
     }
     
     // MARK: private
@@ -271,14 +276,7 @@ final class GameTableViewModel: ObservableObject {
         self.pointsNumber = 0
         self.timerIsActive = false
         self.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        
-        game.gCards = gCards
-        game.sCards = sCards
-        game.gCardsHistory = gCardsHistory
-        game.sCardsHistory = sCardsHistory
-        game.movesNumber = movesNumber
-        game.points = pointsNumber
-        game.timeNumber = timeNumber
+        self.game = Game()
     }
     
     private func columnAndRowFor(card index: Int) -> (Int, Int)? {

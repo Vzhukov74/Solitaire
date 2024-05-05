@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
@@ -14,14 +15,28 @@ final class MainViewModel: ObservableObject {
     
     var presentFromSaved: Bool = false
     
-    let gameStore: GameStore
+    let gameStore: IGamePersistentStore
     let scoreStore: ScoreStore
 
-    init(gameStore: GameStore, scoreStore: ScoreStore) {
+    private var cancellable = Set<AnyCancellable>()
+    
+    init(gameStore: IGamePersistentStore, scoreStore: ScoreStore) {
         self.gameStore = gameStore
         self.scoreStore = scoreStore
         
         hasPausedGame = gameStore.hasSavedGame
+        
+        $presentGameScreen
+            .dropFirst()
+            .sink { [weak self] isPresentGameScreen in
+                guard !isPresentGameScreen else { return }
+                guard let self else { return }
+                let flag = gameStore.hasSavedGame
+                Task { @MainActor in
+                    self.hasPausedGame = flag
+                }
+            }
+            .store(in: &cancellable)
     }
 
     func newGame() {

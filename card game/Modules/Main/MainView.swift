@@ -15,25 +15,7 @@ struct MainView: View {
             Color("mainViewBg")
                 .ignoresSafeArea()
             VStack {
-                HStack {
-                    Spacer()
-                    Button(
-                        action: { withAnimation { vm.presentSettingsScreen = true } },
-                        label: {
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 26, height: 26)
-                                .foregroundColor(Color("accent"))
-                                .rotationEffect(vm.presentSettingsScreen ? Angle(degrees: -90) : Angle(degrees: 0))
-                                .animation(.easeInOut, value: vm.presentSettingsScreen)
-                                .padding(9)
-                        }
-                    )
-                        .frame(width: 44, height: 44)
-                }
-                    .frame(height: 44)
-                    .padding(.horizontal, 16)
+                gearSettingsView
                 
                 MainViewCardsLogo()
                     .padding()
@@ -41,34 +23,7 @@ struct MainView: View {
                             
                 Spacer(minLength: 0)
                 
-                VStack(spacing: 16) {
-                    if vm.hasPausedGame {
-                        Button(action: vm.resumeGame) {
-                            Text("Продолжить")
-                                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(Color.white)
-                        }
-                            .frame(height: 46)
-                            .padding(.horizontal, 32)
-                            .background(Color("accent"))
-                            .clipShape(Capsule())
-                    }
-            
-                    Button(action: vm.newGame) {
-                        Text("Новая игра")
-                            .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(Color("accent"))
-                    }
-                        .padding(.horizontal, 32)
-                        .frame(height: 46)
-                        .background(Color.white)
-                        .clipShape(Capsule())
-                }
-                .padding(.horizontal, 32)
-                .padding(.bottom, 24)
-                .frame(maxWidth: .infinity)
+                buttonsView
             }
                 .padding(.vertical, 16)
                 .onAppear { vm.checkForSavedGame() }
@@ -95,5 +50,58 @@ struct MainView: View {
                     .zIndex(1)
             }
         }
+    }
+    
+    private var gearSettingsView: some View {
+        HStack {
+            Spacer()
+            Button(
+                action: { withAnimation { vm.presentSettingsScreen = true } },
+                label: {
+                    Image(systemName: "gearshape")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 26, height: 26)
+                        .foregroundColor(Color("accent"))
+                        .rotationEffect(vm.presentSettingsScreen ? Angle(degrees: -90) : Angle(degrees: 0))
+                        .animation(.easeInOut, value: vm.presentSettingsScreen)
+                        .padding(9)
+                }
+            )
+                .frame(width: 44, height: 44)
+        }
+            .frame(height: 44)
+            .padding(.horizontal, 16)
+    }
+    
+    private var buttonsView: some View {
+        VStack(spacing: 16) {
+            if vm.hasPausedGame {
+                Button(action: vm.resumeGame) {
+                    Text("Продолжить")
+                        .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(Color.white)
+                }
+                    .frame(height: 46)
+                    .padding(.horizontal, 32)
+                    .background(Color("accent"))
+                    .clipShape(Capsule())
+            }
+    
+            Button(action: vm.newGame) {
+                Text("Новая игра")
+                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color("accent"))
+            }
+                .padding(.horizontal, 32)
+                .frame(height: 46)
+                .background(Color.white)
+                .clipShape(Capsule())
+        }
+        .padding(.horizontal, 32)
+        .padding(.bottom, 24)
+        .frame(maxWidth: .infinity)
     }
 }

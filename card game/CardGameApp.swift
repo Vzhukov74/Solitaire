@@ -11,22 +11,26 @@ import SwiftUI
 struct card_gameApp: App {
     @Environment(\.scenePhase) var scenePhase
         
-    private let gameStore = GameStore()
     private let scoreStore = ScoreStore()
     
     var body: some Scene {
         WindowGroup {
-            MainView(vm: MainViewModel(gameStore: gameStore, scoreStore: scoreStore))
+            MainView(
+                vm: MainViewModel(
+                    gameStore: AppDI.shared.service(),
+                    scoreStore: scoreStore
+                )
+            )
         }
-            .onChange(of: scenePhase) {
-                switch scenePhase {
-                case .active, .background: break
-                case .inactive:
-                    gameStore.save()
-                    //scoreStore.save(appState.score)
-                @unknown default: break
-                }
-            }
+//            .onChange(of: scenePhase) {
+//                switch scenePhase {
+//                case .active, .background: break
+//                case .inactive:
+//                    gameStore.save()
+//                    //scoreStore.save(appState.score)
+//                @unknown default: break
+//                }
+//            }
             .defaultSize(width: 582.0, height: 582.0)
     }
 }
