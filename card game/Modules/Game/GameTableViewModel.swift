@@ -151,6 +151,7 @@ final class GameTableViewModel: ObservableObject {
         if column == 12 { // в открытые дополнительные карты можно двигать всегда
             let realRow = sCards[12].count - 1
             moveCards(column: column, row: realRow, to: 11)
+            feedbackService.success()
             onMove()
             return
         } else if gCards[index].card.isOpen {
@@ -514,6 +515,8 @@ final class GameTableViewModel: ObservableObject {
         timerIsActive = false
         timerTask?.cancel()
 
+        print("gameOver")
+        
         withAnimation { gameOver = true }
     }
     
@@ -551,6 +554,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func onTime() {
+        print("onTime")
         timeNumber += 1
         pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         timeStr = timeNumber.toTime
@@ -561,13 +565,14 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func startTimerIfNeeded() {
-        guard !timerIsActive else { return }
+        guard !timerIsActive, !gameOver else { return }
         timerIsActive = true
 
         startTimer()
     }
     
     private func startTimer() {
+        print("startTimer")
         timerTask = Task { @MainActor in
             guard !Task.isCancelled else { return }
             try? await Task.sleep(for: .seconds(1))
