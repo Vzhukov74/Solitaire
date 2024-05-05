@@ -37,6 +37,7 @@ struct MainView: View {
                 
                 MainViewCardsLogo()
                     .padding()
+                    .padding(.vertical, 24)
                             
                 Spacer(minLength: 0)
                 
@@ -69,7 +70,7 @@ struct MainView: View {
                 .padding(.bottom, 24)
                 .frame(maxWidth: .infinity)
             }
-                .padding(.vertical, 32)
+                .padding(.vertical, 16)
                 .onAppear { vm.checkForSavedGame() }
             
             if vm.presentGameScreen {
@@ -84,7 +85,10 @@ struct MainView: View {
                     .zIndex(1)
             } else if vm.presentSettingsScreen {
                 SettingsView(
-                    vm: SettingsViewModel(uiSettings: AppDI.shared.service()),
+                    vm: SettingsViewModel(
+                        uiSettings: AppDI.shared.service(),
+                        feedbackService: AppDI.shared.service()
+                    ),
                     isPresenting: $vm.presentSettingsScreen
                 )
                     .transition(.move(edge: .bottom))

@@ -45,6 +45,31 @@ struct GameTableView: View {
                 }
             }
                 .padding(8)
+            HStack {
+                Spacer(minLength: 0)
+                Button(
+                    action: { withAnimation { vm.cancelMove() } },
+                    label: {
+                        VStack(alignment: .center, spacing: 4) {
+                            Circle().foregroundColor(.black.opacity(0.4))
+                                .frame(width: 32, height: 32)
+                                .overlay {
+                                    Image(systemName: "arrow.counterclockwise")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 22, height: 22)
+                                        .foregroundColor(.white)
+                                }
+                            Text("Отменить ход")
+                                .font(.system(size: 16, weight: .regular))
+                                .foregroundColor(.white)
+                        }
+                    }
+                )
+                    .disabled(!vm.hasCancelMove)
+                Spacer(minLength: 0)
+            }
+                .padding(.bottom, 24)
         }
             .overlay {
                 if vm.gameOver {
@@ -63,29 +88,32 @@ struct GameTableView: View {
     }
     
     private var headerView: some View {
-        HStack(spacing: 16) {
-            Text("ходы: \(vm.movesNumber, format: .number)")
-            Text("время: \(vm.timeStr)")
-            Text("очки: \(vm.pointsNumber)")
-            Text(vm.pointsCoefficient)
+        HStack(spacing: 10) {
+            infoView(title: "ходы", value: "\(vm.movesNumber)")
+            infoView(title: "время", value: vm.timeStr)
+            infoView(title: "очки", subtitle: vm.pointsCoefficient, value: "\(vm.pointsNumber)")
             Spacer(minLength: 0)
             Button(
-                action: { withAnimation { vm.cancelMove() } },
-                label: { Text("Отменить")}
-            )
-                .disabled(!vm.hasCancelMove)
-            Button(
                 action: { withAnimation { isPresenting = false } },
-                label: { Text("Закрыть")}
+                label: {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .foregroundColor(.black)
+                }
             )
+                .frame(width: 44, height: 44)
         }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .frame(height: 60)
             .background {
-                Capsule().foregroundColor(.cyan)
+                Capsule()
+                    .foregroundColor(.cyan)
+                    .shadow(radius: 2, x: 0.5, y: 1)
             }
-            .padding(.top, 24)
+            .padding(.top, 16)
             .padding(.horizontal, 8)
     }
     
@@ -105,6 +133,32 @@ struct GameTableView: View {
             .position(card.moving ?? card.position)
             .zIndex(card.moving != nil ? Double(card.movingZIndex) : Double(card.zIndex))
             .modifier(Shake(animatableData: CGFloat(card.error)))
+    }
+    
+    private func infoView(title: String, subtitle: String? = nil, value: String) -> some View {
+        VStack(alignment: .center, spacing: 4) {
+            HStack(alignment: .center, spacing: 0) {
+                Text(title)
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.8))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(2)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundColor(.blue.opacity(0.4))
+                        }
+                }
+            }
+            Text(value)
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
     }
 }
 

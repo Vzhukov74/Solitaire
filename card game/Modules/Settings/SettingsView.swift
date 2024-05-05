@@ -17,7 +17,9 @@ struct SettingsView: View {
         VStack(spacing: 8) {
             headerView
             ScrollView(showsIndicators: false) {
-                
+                soundAndVibrationView
+                    .padding(.horizontal, 16)
+                    .padding(.top, 24)
             }
         }
             .background {
@@ -45,10 +47,65 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 60)
                 .background {
-                    Capsule().foregroundColor(.cyan)
+                    Capsule()
+                        .foregroundColor(.cyan)
+                        .shadow(radius: 2, x: 0.5, y: 1)
                 }
                 .padding(.top, 24)
                 .padding(.horizontal, 8)
+        }
+    }
+    
+    private var soundAndVibrationView: some View {
+        HStack(spacing: 16) {
+            Button(
+                action: { vm.toggleSound() },
+                label: {
+                    VStack {
+                        Text("Звук \(vm.isSoundOn ? "вкл" : "выкл")")
+                            .font(.system(size: 16, weight: .regular))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Image(systemName: vm.isSoundOn ? "speaker" : "speaker.slash")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 22)
+                            .foregroundColor(.white)
+                    }
+                    .padding(16)
+                    .background {
+                        RoundedRectangle(cornerRadius: 16)
+                            .foregroundColor(Color("accent"))
+                            .shadow(radius: 2, x: 0.5, y: 1)
+                    }
+                }
+            )
+                .frame(maxWidth: .infinity)
+            #if os(iOS)
+            Button(
+                action: { vm.toggleVibration() },
+                label: {
+                    VStack {
+                        Text("Вибрация \(vm.isVibrationOn ? "вкл" : "выкл")")
+                            .font(.system(size: 16, weight: .regular))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Image(vm.isVibrationOn ? "vibration_on" : "vibration_off")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 22)
+                            .foregroundColor(.white)
+                    }
+                    .padding(16)
+                    .background {
+                        RoundedRectangle(cornerRadius: 16)
+                            .foregroundColor(Color("accent"))
+                            .shadow(radius: 2, x: 0.5, y: 1)
+                    }
+                }
+            )
+                .frame(maxWidth: .infinity)
+            #endif
         }
     }
 }

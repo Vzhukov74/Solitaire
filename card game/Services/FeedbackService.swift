@@ -6,6 +6,10 @@
 //
 
 import Foundation
+#if os(iOS)
+import UIKit
+#endif
+
 
 protocol IFeedbackService {
     func error()
@@ -13,7 +17,7 @@ protocol IFeedbackService {
 }
 
 final class FeedbackService: IFeedbackService {
-    #if iOS
+    #if os(iOS)
     let generator = UINotificationFeedbackGenerator()
     #endif
     
@@ -24,7 +28,7 @@ final class FeedbackService: IFeedbackService {
     }
     
     func error() {
-        #if iOS
+        #if os(iOS)
         if uiSettings.isVibrationOn {
             generator.notificationOccurred(.error)
         }
@@ -32,9 +36,10 @@ final class FeedbackService: IFeedbackService {
     }
     
     func success() {
-        #if iOS
+        #if os(iOS)
         if uiSettings.isVibrationOn {
-            generator.notificationOccurred(.success)
+            let generator = UIImpactFeedbackGenerator(style: .soft)
+            generator.impactOccurred()
         }
         #endif
     }

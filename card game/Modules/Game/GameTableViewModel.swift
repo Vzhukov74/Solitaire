@@ -45,7 +45,7 @@ final class GameTableViewModel: ObservableObject {
     @Published var movesNumber: Int = 0
     @Published var pointsNumber: Int = 0
     @Published var timeStr: String = "0:00"
-    @Published var pointsCoefficient: String = ""
+    @Published var pointsCoefficient: String = "x 3.0"
     
     private var sCards: [[ShadowCardModel]] = []
     
@@ -97,7 +97,7 @@ final class GameTableViewModel: ObservableObject {
             pointsNumber = game!.points
             timeNumber = game!.timeNumber
             timeStr = timeNumber.toTime
-            pointsCoefficient = timeAndMovesCoefficient().toStr
+            pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
 
             gCardsHistory = game!.gCardsHistory
             sCardsHistory = game!.sCardsHistory
@@ -114,11 +114,13 @@ final class GameTableViewModel: ObservableObject {
     }
         
     func newGame() {
+        resetGame()
         initCards(from: DeckShuffler())
     }
     
     func onMainScreen() {
         gameStore.reset()
+        resetGame()
     }
     
     // MARK: public
@@ -253,6 +255,30 @@ final class GameTableViewModel: ObservableObject {
     
     // MARK: private
     
+    private func resetGame() {
+        timerTask?.cancel()
+        
+        gCards = []
+        sCards = []
+        gCardsHistory = []
+        sCardsHistory = []
+        
+        self.movesNumber = 0
+        self.timeStr = "0:00"
+        self.timeNumber = 0
+        self.pointsNumber = 0
+        self.timerIsActive = false
+        self.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
+        
+        game.gCards = gCards
+        game.sCards = sCards
+        game.gCardsHistory = gCardsHistory
+        game.sCardsHistory = sCardsHistory
+        game.movesNumber = movesNumber
+        game.points = pointsNumber
+        game.timeNumber = timeNumber
+    }
+    
     private func columnAndRowFor(card index: Int) -> (Int, Int)? {
         for column in sCards.indices {
             for row in sCards[column].indices {
@@ -302,13 +328,6 @@ final class GameTableViewModel: ObservableObject {
     }
 
     private func initCards(from deckShuffler: DeckShuffler) {
-        timerTask?.cancel()
-        
-        gCards = []
-        sCards = []
-        gCardsHistory = []
-        sCardsHistory = []
-
         var cards: [CardViewModel] = []
         let indexes = Array(0...12)
         var shadowIndex = 0
@@ -347,21 +366,8 @@ final class GameTableViewModel: ObservableObject {
                 sCards.append(shadowCardsColumn)
             }
         }
-        
+
         self.gCards = cards
-        self.movesNumber = 0
-        self.timeStr = "0:00"
-        self.pointsNumber = 0
-        self.timerIsActive = false
-        self.pointsCoefficient = timeAndMovesCoefficient().toStr
-        
-        game.gCards = gCards
-        game.sCards = sCards
-        game.gCardsHistory = gCardsHistory
-        game.sCardsHistory = sCardsHistory
-        game.movesNumber = movesNumber
-        game.points = pointsNumber
-        game.timeNumber = timeNumber
     }
     
     private func applay(_ newGCards: [CardViewModel], _ newSCards: [[ShadowCardModel]]) {
@@ -505,10 +511,10 @@ final class GameTableViewModel: ObservableObject {
             }
         }
 
-        withAnimation { gameOver = true }
-        
         timerIsActive = false
         timerTask?.cancel()
+
+        withAnimation { gameOver = true }
     }
     
     private func backCardsToStartStack(_ index: Int) {
@@ -537,19 +543,16 @@ final class GameTableViewModel: ObservableObject {
     
     private func onMove() {
         movesNumber += 1
-        pointsCoefficient = timeAndMovesCoefficient().toStr
+        pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         
         game.movesNumber = movesNumber
         
         startTimerIfNeeded()
-        
-        // TODO: remove later
-        withAnimation { gameOver = true }
     }
     
     private func onTime() {
         timeNumber += 1
-        pointsCoefficient = timeAndMovesCoefficient().toStr
+        pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         timeStr = timeNumber.toTime
         
         game.timeNumber = timeNumber
