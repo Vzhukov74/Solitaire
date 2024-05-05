@@ -188,6 +188,7 @@ final class GameTableViewModel: ObservableObject {
             gCards[sCards[12][index].index].zIndex = index
         }
         onMove()
+        feedbackService.success()
     }
         
     func movingCards(_ index: Int, at position: CGPoint) {
