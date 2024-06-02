@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-// ходы
-// время
-// очки
-// выйти
-// отменить ход
-
 struct CardViewModel: Hashable, Codable {
     var card: Card
 
@@ -419,7 +413,11 @@ final class GameTableViewModel: ObservableObject {
         let toLastIndex = newSCards[to].last?.index
         let toStart: CGPoint? = toLastIndex == nil ? nil : newGCards[toLastIndex!].position
         
+        var finalMovingCardsIndices: [Int] = []
+
         movingCards.indices.forEach { index in
+            finalMovingCardsIndices.append(newSCards[to].count)
+
             var card = movingCards[index]
             card.card.isOpen = true
             newSCards[to].append(card)
@@ -460,6 +458,13 @@ final class GameTableViewModel: ObservableObject {
             newSCards[index].indices.forEach {
                 newGCards[newSCards[index][$0].index].zIndex = $0
             }
+        }
+        
+        // ставим zIndex для перемещаемых карт как самый высокий,
+        // что бы они были над всеми
+        finalMovingCardsIndices.forEach { index in
+            let gameCardIndex = newSCards[to][index].index
+            newGCards[gameCardIndex].zIndex = 36 + 1 + index
         }
         
         applay(newGCards, newSCards)
