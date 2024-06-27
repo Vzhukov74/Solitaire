@@ -200,7 +200,7 @@ final class GameTableViewModel: ObservableObject {
                 x: position.x,
                 y: position.y - CGFloat(row - sCardIndex) * offsetY
             )
-            gCards[gCardIndex].movingZIndex = 50 - (row - sCardIndex)
+            gCards[gCardIndex].movingZIndex = 52 + 1 + sCardIndex
         }
     }
     
@@ -298,7 +298,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func calculateFrames(with size: CGSize) {
-        let spacing: CGFloat = 8
+        let spacing: CGFloat = 6
         let width = cardSize.width
         let height = cardSize.height
     
@@ -464,7 +464,7 @@ final class GameTableViewModel: ObservableObject {
         // что бы они были над всеми
         finalMovingCardsIndices.forEach { index in
             let gameCardIndex = newSCards[to][index].index
-            newGCards[gameCardIndex].zIndex = 36 + 1 + index
+            newGCards[gameCardIndex].zIndex = 52 + 1 + index
         }
         
         applay(newGCards, newSCards)

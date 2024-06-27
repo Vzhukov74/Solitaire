@@ -30,7 +30,7 @@ struct GameView: View {
                             cardSize: cardSize
                         ),
                         isPresenting: $isPresenting,
-                        uiSettings: AppDI.shared.service()
+                        cardUIServices: AppDI.shared.service()
                     )
                         .frame(width: size.width, height: size.height)
                 }
@@ -39,11 +39,16 @@ struct GameView: View {
             }
 
         }
-        .background(Color.green)
+        .background {
+            Image("game_bg")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+        }
     }
     
     private func sizes(from screenSize: CGSize) -> (CGSize, CGSize) {
-        let spacing: CGFloat = 8
+        let spacing: CGFloat = 6
         let cWidth = min((screenSize.width - spacing * 8) / 7, 74)
         let cHeight = cWidth * 1.5
         

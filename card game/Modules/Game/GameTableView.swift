@@ -11,7 +11,7 @@ struct GameTableView: View {
     @StateObject var vm: GameTableViewModel
     @Binding var isPresenting: Bool
     
-    let uiSettings: IGameUISettingsService
+    let cardUIServices: ICardUIServices
     
     var body: some View {
         VStack(spacing: 8) {
@@ -126,8 +126,9 @@ struct GameTableView: View {
     
     func card(card: CardViewModel) -> some View {
         return CardView(
-            card: card.card,
-            back: uiSettings.cardBack
+            card: card.card, 
+            front: cardUIServices.front(card: card.card),
+            back: cardUIServices.back
         )
             .frame(width: vm.cardSize.width, height: vm.cardSize.height)
             .position(card.moving ?? card.position)

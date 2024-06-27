@@ -42,7 +42,8 @@ struct MainView: View {
                 SettingsView(
                     vm: SettingsViewModel(
                         uiSettings: AppDI.shared.service(),
-                        feedbackService: AppDI.shared.service()
+                        feedbackService: AppDI.shared.service(), 
+                        cardUIServices: AppDI.shared.service()
                     ),
                     isPresenting: $vm.presentSettingsScreen
                 )

@@ -11,16 +11,31 @@ class SettingsViewModel: ObservableObject {
     
     @Published var isSoundOn: Bool
     @Published var isVibrationOn: Bool
+    @Published var selectedBackId: String
+    @Published var selectedFrontId: String
+    
+    private(set) var backs: [(String, Image)] = []
+    private(set) var fronts: [(String, [Image])] = []
     
     private let uiSettings: IGameUISettingsService
     private let feedbackService: IFeedbackService
+    private let cardUIServices: ICardUIServices
     
-    init(uiSettings: IGameUISettingsService, feedbackService: IFeedbackService) {
+    init(
+        uiSettings: IGameUISettingsService,
+        feedbackService: IFeedbackService,
+        cardUIServices: ICardUIServices
+    ) {
         self.uiSettings = uiSettings
         self.feedbackService = feedbackService
+        self.cardUIServices = cardUIServices
         
         self.isSoundOn = uiSettings.isSoundOn
         self.isVibrationOn = uiSettings.isVibrationOn
+        self.selectedBackId = cardUIServices.selectedBackId
+        self.backs = cardUIServices.allBacks
+        self.selectedFrontId = cardUIServices.selectedFrontId
+        self.fronts = cardUIServices.allFronts
     }
     
     func toggleSound() {
@@ -35,6 +50,13 @@ class SettingsViewModel: ObservableObject {
         feedbackService.success()
     }
 
-    // фон стола
-    // ui карт ??
+    func select(cardBackId: String) {
+        cardUIServices.select(back: cardBackId)
+        selectedBackId = cardBackId
+    }
+    
+    func select(cardFrontId: String) {
+        cardUIServices.select(front: cardFrontId)
+        selectedFrontId = cardFrontId
+    }
 }

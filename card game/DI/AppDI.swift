@@ -12,6 +12,7 @@ final class AppDI {
     static let shared = AppDI()
     
     private lazy var gamePersistentStore = GamePersistentStore()
+    private lazy var cardUIServices = CardUIServices()
     
     private init() {}
     
@@ -25,5 +26,9 @@ final class AppDI {
     
     func service() -> IGamePersistentStore {
         gamePersistentStore
+    }
+    
+    func service() -> ICardUIServices {
+        cardUIServices
     }
 }

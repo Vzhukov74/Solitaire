@@ -73,7 +73,6 @@ struct MainViewCardsLogo: View {
                                 cRotation = 0
                                 cScale = 1 - 0.2 * coefficient
                                 yOffset = 70 * coefficient
-                                print(coefficient)
                             }
                         }
                     }
@@ -105,7 +104,6 @@ struct MainViewCardsLogo: View {
             }
             .onAppear {
                 Task { @MainActor in
-                    //try await Task.sleep(nanoseconds: 5_00_000_000)
                     withAnimation {
                         cRotation = 12
                         stackRotation = -4

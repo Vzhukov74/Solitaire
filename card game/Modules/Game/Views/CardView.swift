@@ -10,30 +10,14 @@ import SwiftUI
 struct CardView: View {
     let card: Card
     
+    let front: Image
     let back: Image
     
     var body: some View {
         if card.isOpen {
-            VStack {
-                HStack {
-                    Text(card.suit.title + card.rank.title)
-                        .font(Font.system(size: 14))
-                        .padding(4)
-                        .foregroundColor(card.suit.color)
-                    Spacer(minLength: 0)
-                }
-                Spacer(minLength: 0)
-            }
-                .background(RoundedRectangle(cornerRadius: 4)
-                                .foregroundColor(Color.white))
-            .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
+            front.resizable()
         } else {
-            back
-                .resizable()
+            back.resizable()
         }
-
     }
 }
