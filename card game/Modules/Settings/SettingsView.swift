@@ -20,9 +20,11 @@ struct SettingsView: View {
         VStack(spacing: 8) {
             headerView
             ScrollView(showsIndicators: false) {
+                #if os(iOS)
                 soundAndVibrationView
                     .padding(.horizontal, 16)
                     .padding(.top, 24)
+                #endif
                 cardBacksView
                     .padding(.horizontal, 16)
                     .padding(.top, 24)
@@ -65,29 +67,30 @@ struct SettingsView: View {
     
     private var soundAndVibrationView: some View {
         HStack(spacing: 16) {
-            Button(
-                action: { vm.toggleSound() },
-                label: {
-                    VStack {
-                        Text("Звук \(vm.isSoundOn ? "вкл" : "выкл")")
-                            .font(.system(size: 16, weight: .regular))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        Image(systemName: vm.isSoundOn ? "speaker" : "speaker.slash")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 22)
-                            .foregroundColor(.black)
-                    }
-                    .padding(16)
-                    .background {
-                        RoundedRectangle(cornerRadius: 16)
-                            .foregroundColor(Color.white.opacity(0.2))
-                            .shadow(radius: 2, x: 0.5, y: 1)
-                    }
-                }
-            )
-                .frame(maxWidth: .infinity)
+            // TODO: add sounds
+//            Button(
+//                action: { vm.toggleSound() },
+//                label: {
+//                    VStack {
+//                        Text("Звук \(vm.isSoundOn ? "вкл" : "выкл")")
+//                            .font(.system(size: 16, weight: .regular))
+//                            .foregroundColor(.black)
+//                            .frame(maxWidth: .infinity, alignment: .center)
+//                        Image(systemName: vm.isSoundOn ? "speaker" : "speaker.slash")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 32, height: 22)
+//                            .foregroundColor(.black)
+//                    }
+//                    .padding(16)
+//                    .background {
+//                        RoundedRectangle(cornerRadius: 16)
+//                            .foregroundColor(Color.white.opacity(0.2))
+//                            .shadow(radius: 2, x: 0.5, y: 1)
+//                    }
+//                }
+//            )
+//                .frame(maxWidth: .infinity)
             #if os(iOS)
             Button(
                 action: { vm.toggleVibration() },
