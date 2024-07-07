@@ -40,9 +40,7 @@ struct GameView: View {
 
         }
         .background {
-            Image("game_bg")
-                .resizable()
-                .scaledToFill()
+            Color("gb_1")
                 .ignoresSafeArea()
         }
     }

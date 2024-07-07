@@ -32,7 +32,7 @@ struct SettingsView: View {
             }
         }
             .background {
-                Color("settings_bg").ignoresSafeArea()
+                Color.white.ignoresSafeArea()
             }
     }
     
@@ -41,6 +41,7 @@ struct SettingsView: View {
             HStack(spacing: 16) {
                 Text("Настройки")
                     .font(.title)
+                    .foregroundStyle(Color.black)
                 Spacer(minLength: 0)
                 Button(
                     action: { withAnimation { isPresenting = false } },
@@ -48,15 +49,11 @@ struct SettingsView: View {
                         Image(systemName: "xmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 18, height: 18)
-                            .foregroundColor(.black)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color("accent"))
                     }
                 )
                     .frame(width: 44, height: 44)
-                    .background {
-                        Color.white.opacity(0.2)
-                            .clipShape(Circle())
-                    }
             }
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity)
@@ -123,6 +120,7 @@ struct SettingsView: View {
         VStack(spacing: 16) {
             Text("Рубашка")
                 .font(.title3)
+                .foregroundStyle(Color.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
@@ -130,7 +128,11 @@ struct SettingsView: View {
                         vm.backs[index].1
                             .resizable()
                             .scaledToFit()
-                            .scaleEffect(vm.backs[index].0 == vm.selectedBackId ? 0.9 : 1)
+                            .scaleEffect(vm.backs[index].0 == vm.selectedBackId ? 0.78 : 1)
+                            .background {
+                                vm.backs[index].0 == vm.selectedBackId ?
+                                Color.black.opacity(0.3).clipShape(RoundedRectangle(cornerRadius: 8)) : Color.clear.clipShape(RoundedRectangle(cornerRadius: 8))
+                            }
                             .onTapGesture {
                                 withAnimation { vm.select(cardBackId: vm.backs[index].0) }
                             }
@@ -138,10 +140,6 @@ struct SettingsView: View {
                 }
             }
                 .padding(8)
-                .background {
-                    Color.white.opacity(0.2)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                }
         }
     }
     
@@ -149,52 +147,55 @@ struct SettingsView: View {
         VStack(spacing: 16) {
             Text("Обложка")
                 .font(.title3)
+                .foregroundStyle(Color.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
-                    ForEach(vm.fronts.indices, id: \.self) { index in
-                        cardFront(for: vm.fronts[index].1, id: vm.fronts[index].0)
-                    }
-                }
+            HStack {
+                cardFront(for: vm.fronts[0].1, id: vm.fronts[0].0)
+                cardFront(for: vm.fronts[1].1, id: vm.fronts[1].0)
             }
                 .padding(8)
-                .background {
-                    Color.white.opacity(0.2)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                }
         }
     }
     
     private func cardFront(for cards: [Image], id: String) -> some View {
-        ZStack(alignment: .center) {
-            cards[0]
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 75, height: 100)
-                .rotationEffect(.degrees(-1 * cRotation), anchor: .bottom)
-            
-            cards[1]
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 75, height: 100)
-            
-            cards[2]
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 75, height: 100)
-                .rotationEffect(.degrees(cRotation), anchor: .bottom)
-            
-            cards[3]
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 75, height: 100)
-                .rotationEffect(.degrees(2 * cRotation), anchor: .bottom)
-        }
-        .rotationEffect(.degrees(stackRotation), anchor: .bottom)
-        .frame(width: 130, height: 120)
-        .scaleEffect(vm.selectedFrontId == id ? 0.9 : 1)
-        .onTapGesture {
-            withAnimation { vm.select(cardFrontId: id) }
-        }
+        Color.clear
+            .background {
+                vm.selectedFrontId == id ?
+                Color.black.opacity(0.3).clipShape(RoundedRectangle(cornerRadius: 8)) : Color.clear.clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 130)
+            .overlay {
+                ZStack(alignment: .center) {
+                    cards[0]
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 75, height: 100)
+                        .rotationEffect(.degrees(-1 * cRotation), anchor: .bottom)
+                    
+                    cards[1]
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 75, height: 100)
+                    
+                    cards[2]
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 75, height: 100)
+                        .rotationEffect(.degrees(cRotation), anchor: .bottom)
+                    
+                    cards[3]
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 75, height: 100)
+                        .rotationEffect(.degrees(2 * cRotation), anchor: .bottom)
+                }
+                .rotationEffect(.degrees(stackRotation), anchor: .bottom)
+                .frame(width: 130, height: 120)
+                .scaleEffect(vm.selectedFrontId == id ? 0.78 : 1)
+            }
+            .onTapGesture {
+                withAnimation { vm.select(cardFrontId: id) }
+            }
     }
 }

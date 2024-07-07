@@ -12,7 +12,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            Color("mainViewBg")
+            Color.white
                 .ignoresSafeArea()
             VStack {
                 gearSettingsView
@@ -62,7 +62,7 @@ struct MainView: View {
                     Image(systemName: "gearshape")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 26, height: 26)
+                        .frame(width: 30, height: 30)
                         .foregroundColor(Color("accent"))
                         .rotationEffect(vm.presentSettingsScreen ? Angle(degrees: -90) : Angle(degrees: 0))
                         .animation(.easeInOut, value: vm.presentSettingsScreen)

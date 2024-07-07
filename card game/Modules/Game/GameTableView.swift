@@ -47,26 +47,23 @@ struct GameTableView: View {
                 .padding(8)
             HStack {
                 Spacer(minLength: 0)
-                Button(
-                    action: { withAnimation { vm.cancelMove() } },
-                    label: {
-                        VStack(alignment: .center, spacing: 4) {
-                            Circle().foregroundColor(.black.opacity(0.4))
-                                .frame(width: 32, height: 32)
-                                .overlay {
-                                    Image(systemName: "arrow.counterclockwise")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 22, height: 22)
-                                        .foregroundColor(.white)
-                                }
-                            Text("Отменить ход")
-                                .font(.system(size: 16, weight: .regular))
-                                .foregroundColor(.white)
+                VStack(alignment: .center, spacing: 4) {
+                    Circle().foregroundColor(.black.opacity(0.4))
+                        .frame(width: 32, height: 32)
+                        .overlay {
+                            Image(systemName: "arrow.counterclockwise")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 22, height: 22)
+                                .foregroundColor( vm.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
                         }
-                    }
-                )
-                    .disabled(!vm.hasCancelMove)
+                    Text("Отменить ход")
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundColor( vm.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
+                }
+                .onTapGesture {
+                    if vm.hasCancelMove { vm.cancelMove() }
+                }
                 Spacer(minLength: 0)
             }
                 .padding(.bottom, 24)
@@ -93,27 +90,24 @@ struct GameTableView: View {
             infoView(title: "время", value: vm.timeStr)
             infoView(title: "очки", subtitle: vm.pointsCoefficient, value: "\(vm.pointsNumber)")
             Spacer(minLength: 0)
-            Button(
-                action: { vm.save(); vm.newGame(); withAnimation { isPresenting = false } },
-                label: {
+            Color.clear
+                .frame(width: 44, height: 44)
+                .overlay {
                     Image(systemName: "xmark")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 18, height: 18)
-                        .foregroundColor(.black)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color("accent"))
                 }
-            )
-                .frame(width: 44, height: 44)
+                .onTapGesture {
+                    vm.save()
+                    vm.newGame()
+                    withAnimation { isPresenting = false }
+                }                
         }
-            .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .frame(height: 60)
-            .background {
-                Capsule()
-                    .foregroundColor(.cyan)
-                    .shadow(radius: 2, x: 0.5, y: 1)
-            }
-            .padding(.top, 16)
+            .padding(.top, 8)
             .padding(.horizontal, 8)
     }
     
@@ -141,12 +135,12 @@ struct GameTableView: View {
             HStack(alignment: .center, spacing: 0) {
                 Text(title)
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .center)
                 if let subtitle {
                     Text(subtitle)
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.black.opacity(0.8))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(2)
                         .background {
@@ -157,7 +151,7 @@ struct GameTableView: View {
             }
             Text(value)
                 .font(.system(size: 16, weight: .regular))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
     }

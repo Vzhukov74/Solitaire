@@ -22,15 +22,6 @@ struct card_gameApp: App {
                 )
             )
         }
-//            .onChange(of: scenePhase) {
-//                switch scenePhase {
-//                case .active, .background: break
-//                case .inactive:
-//                    gameStore.save()
-//                    //scoreStore.save(appState.score)
-//                @unknown default: break
-//                }
-//            }
             .defaultSize(width: 582.0, height: 582.0)
     }
 }

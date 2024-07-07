@@ -36,7 +36,8 @@ final class CardUIServices: ICardUIServices {
             ("1", Image("cb_1")),
             ("2", Image("cb_2")),
             ("3", Image("cb_3")),
-            ("4", Image("cb_4"))
+            ("4", Image("cb_4")),
+            ("5", Image("cb_5"))
         ]
     }
     
