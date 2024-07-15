@@ -30,7 +30,7 @@ struct MainView: View {
             
             if vm.presentGameScreen {
                 let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
-                GameView(
+                TableView(
                     isPresenting: $vm.presentGameScreen,
                     gameStore: vm.gameStore, 
                     feedbackService: AppDI.shared.service(),
@@ -76,7 +76,7 @@ struct MainView: View {
     }
     
     private var buttonsView: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .center, spacing: 16) {
             if vm.hasPausedGame {
                 Button(action: vm.resumeGame) {
                     Text("Продолжить")
@@ -87,6 +87,7 @@ struct MainView: View {
                     .frame(height: 46)
                     .padding(.horizontal, 32)
                     .background(Color("accent"))
+                    .frame(maxWidth: 320)
                     .clipShape(Capsule())
             }
     
@@ -99,6 +100,7 @@ struct MainView: View {
                 .padding(.horizontal, 32)
                 .frame(height: 46)
                 .background(Color.white)
+                .frame(maxWidth: 320)
                 .clipShape(Capsule())
         }
         .padding(.horizontal, 32)

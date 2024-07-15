@@ -14,6 +14,7 @@ struct GameOverView: View {
     let moveNumber: Int
     let timeNumber: String
     let pointsNumber: Int
+    let width: CGFloat
     
     var onNewGame: () -> Void
     var onMainScreen: () -> Void
@@ -30,12 +31,10 @@ struct GameOverView: View {
             .overlay {
                 VStack {
                     Spacer(minLength: 0)
-                    HStack {
-                        infoView
-                    }
+                    infoView
+                        .frame(width: width)
                     Spacer(minLength: 0)
                 }
-                    .padding(.vertical, 24)
             }
             .onAppear { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } }
             .onTapGesture { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } }

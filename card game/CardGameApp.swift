@@ -22,7 +22,7 @@ struct card_gameApp: App {
                 )
             )
         }
-            .defaultSize(width: 582.0, height: 582.0)
+            .defaultSize(width: 500.0, height: 800.0)
     }
 }
 

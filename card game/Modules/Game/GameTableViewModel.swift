@@ -55,8 +55,7 @@ final class GameTableViewModel: ObservableObject {
     private(set) var extraPile: CGPoint = .zero
     private(set) var offsetY: CGFloat = 0
     
-    private let size: CGSize
-    
+    let size: CGSize
     let cardSize: CGSize
 
     private let feedbackService: IFeedbackService
