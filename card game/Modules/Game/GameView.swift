@@ -56,30 +56,40 @@ struct GameView: View {
     
     private var headerView: some View {
         VStack {
-            Text(vm.timeStr)
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .frame(height: 44)
-                .overlay {
-                    HStack {
-                        Spacer(minLength: 0)
-                        Color.clear
-                            .frame(width: 44, height: 44)
-                            .overlay {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color("accent"))
-                            }
-                            .onTapGesture {
-                                vm.save()
-                                vm.newGame()
-                                withAnimation { isPresenting = false }
-                            }
+            HStack(spacing: 0) {
+                Color.clear
+                    .frame(width: 44, height: 44)
+                    .overlay {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color("accent"))
+                            Spacer(minLength: 0)
+                        }
                     }
-                }
+                    .onTapGesture {
+                        vm.save()
+                        vm.newGame()
+                        withAnimation { isPresenting = false }
+                    }
+                
+                CustomButtonBgShape(lineLength: 50)
+                    .stroke(lineWidth: 2)
+                    .foregroundStyle(Color("accent"))
+                    .frame(height: 44)
+                    .overlay {
+                        Text(vm.timeStr)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(height: 44)
+                    }
+                
+                Color.clear
+                    .frame(width: 44, height: 44)
+            }
             HStack(spacing: 10) {
                 infoView(title: "очки", subtitle: vm.pointsCoefficient, value: "\(vm.pointsNumber)")
                 Spacer(minLength: 0)
@@ -105,9 +115,9 @@ struct GameView: View {
                     .foregroundColor( vm.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
             }
             .frame(height: 46)
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 36)
             .background {
-                Capsule().foregroundColor(.black.opacity(0.4))
+                CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
             }
             .onTapGesture {
                 if vm.hasCancelMove { withAnimation { vm.cancelMove() } }

@@ -45,17 +45,16 @@ struct SettingsView: View {
                     .font(.title)
                     .foregroundStyle(Color.black)
                 Spacer(minLength: 0)
-                Button(
-                    action: { withAnimation { isPresenting = false } },
-                    label: {
+                Color.clear
+                    .frame(width: 44, height: 44)
+                    .overlay {
                         Image(systemName: "xmark")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
                             .foregroundColor(Color("accent"))
                     }
-                )
-                    .frame(width: 44, height: 44)
+                    .onTapGesture { withAnimation { isPresenting = false } }
             }
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity)

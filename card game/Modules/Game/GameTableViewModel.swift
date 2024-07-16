@@ -270,6 +270,7 @@ final class GameTableViewModel: ObservableObject {
         self.timerIsActive = false
         self.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         self.game = Game()
+        self.hasCancelMove = !game.sCardsHistory.isEmpty
     }
     
     private func columnAndRowFor(card index: Int) -> (Int, Int)? {

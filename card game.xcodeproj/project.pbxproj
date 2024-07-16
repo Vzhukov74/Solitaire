@@ -18,6 +18,7 @@
 		3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */; };
 		3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */; };
 		3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */; };
+		3A9F76D82C46F9AF00CD5461 /* CustomButtonBgShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F76D72C46F9AF00CD5461 /* CustomButtonBgShape.swift */; };
 		3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288E12BB8727F00744832 /* CardGameApp.swift */; };
 		3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E92BB8728100744832 /* Preview Assets.xcassets */; };
 		3AD288F32BB872F000744832 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288F22BB872F000744832 /* MainView.swift */; };
@@ -50,6 +51,7 @@
 		3A9B52BF2BE0EB8500D35F35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
+		3A9F76D72C46F9AF00CD5461 /* CustomButtonBgShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonBgShape.swift; sourceTree = "<group>"; };
 		3AD288DE2BB8727F00744832 /* card game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "card game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD288E12BB8727F00744832 /* CardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameApp.swift; sourceTree = "<group>"; };
 		3AD288E72BB8728100744832 /* card_game.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = card_game.entitlements; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */,
 				3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */,
 				3A69C4382C45AA5300F51586 /* Shake.swift */,
+				3A9F76D72C46F9AF00CD5461 /* CustomButtonBgShape.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				3AD289072BD5917200744832 /* Deck.swift in Sources */,
 				3AD289022BD590C300744832 /* GameStore.swift in Sources */,
 				3ADD8D922BE2CEF200B28D9B /* View+ConfettiCannon.swift in Sources */,
+				3A9F76D82C46F9AF00CD5461 /* CustomButtonBgShape.swift in Sources */,
 				3AD288F32BB872F000744832 /* MainView.swift in Sources */,
 				3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */,
 				3AD2890E2BD5920200744832 /* CardView.swift in Sources */,
@@ -465,7 +469,7 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
@@ -482,8 +486,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -507,7 +511,7 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
@@ -524,8 +528,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";

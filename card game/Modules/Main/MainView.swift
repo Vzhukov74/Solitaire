@@ -56,9 +56,9 @@ struct MainView: View {
     private var gearSettingsView: some View {
         HStack {
             Spacer()
-            Button(
-                action: { withAnimation { vm.presentSettingsScreen = true } },
-                label: {
+            Color.clear
+                .frame(width: 44, height: 44)
+                .overlay {
                     Image(systemName: "gearshape")
                         .resizable()
                         .scaledToFit()
@@ -68,8 +68,7 @@ struct MainView: View {
                         .animation(.easeInOut, value: vm.presentSettingsScreen)
                         .padding(9)
                 }
-            )
-                .frame(width: 44, height: 44)
+                .onTapGesture { withAnimation { vm.presentSettingsScreen = true } }
         }
             .frame(height: 44)
             .padding(.horizontal, 16)
@@ -78,30 +77,28 @@ struct MainView: View {
     private var buttonsView: some View {
         VStack(alignment: .center, spacing: 16) {
             if vm.hasPausedGame {
-                Button(action: vm.resumeGame) {
-                    Text("Продолжить")
-                        .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.white)
-                }
-                    .frame(height: 46)
-                    .padding(.horizontal, 32)
-                    .background(Color("accent"))
-                    .frame(maxWidth: 320)
-                    .clipShape(Capsule())
-            }
-    
-            Button(action: vm.newGame) {
-                Text("Новая игра")
+                Text("Продолжить")
                     .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(Color("accent"))
+                    .foregroundColor(Color.white)
+                    .frame(height: 46)
+                    .padding(.horizontal, 36)
+                    .background {
+                        CustomButtonBgShape().foregroundColor(Color("accent"))
+                    }
+                    .onTapGesture { vm.resumeGame() }
+                    .frame(maxWidth: 320)
+                    .padding(.horizontal, 32)
             }
+    
+            Text("Новая игра")
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color("accent"))
                 .padding(.horizontal, 32)
                 .frame(height: 46)
-                .background(Color.white)
                 .frame(maxWidth: 320)
-                .clipShape(Capsule())
+                .onTapGesture { vm.newGame() }
         }
         .padding(.horizontal, 32)
         .padding(.bottom, 24)
