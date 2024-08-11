@@ -6,10 +6,22 @@
 //
 
 import SwiftUI
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+  ) -> Bool {
+      FirebaseApp.configure()
+      return true
+  }
+}
 
 @main
 struct card_gameApp: App {
     @Environment(\.scenePhase) var scenePhase
+    // register app delegate for Firebase setup
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         
     private let scoreStore = ScoreStore()
     
@@ -23,19 +35,5 @@ struct card_gameApp: App {
             )
         }
             .defaultSize(width: 500.0, height: 800.0)
-    }
-}
-
-import Foundation
-
-final class ScoreStore {
-    private let key = "com.solitaire.score.store.key"
-        
-    func save(_ score: Int) {
-        UserDefaults.standard.set(score, forKey: key)
-    }
-    
-    func restore() -> Int {
-        UserDefaults.standard.integer(forKey: key)
     }
 }

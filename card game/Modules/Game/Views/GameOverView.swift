@@ -124,28 +124,28 @@ struct GameOverView: View {
     }
     
     private var btns: some View {
-        VStack {
-            Button(action: { withAnimation { isPresenting = false }; onMainScreen() }) {
-                Text("На главную")
-                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(Color.white)
-            }
+        VStack(alignment: .center, spacing: 16) {
+            Text("Новая игра")
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.white)
                 .frame(height: 46)
                 .padding(.horizontal, 16)
-                .background(Color("accent"))
-                .clipShape(Capsule())
+                .background {
+                    CustomButtonBgShape().foregroundColor(Color("accent"))
+                }
+                .onTapGesture { withAnimation { isPresenting = false }; onNewGame() }
+                .frame(maxWidth: 320)
+                .padding(.horizontal, 32)
             
-            Button(action: { withAnimation { isPresenting = false }; onNewGame() }) {
-                Text("Новая игра")
-                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(Color("accent"))
-            }
+            Text("На главную")
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.white)
                 .padding(.horizontal, 16)
                 .frame(height: 46)
-                .background(Color.white)
-                .clipShape(Capsule())
+                .frame(maxWidth: 320)
+                .onTapGesture { withAnimation { isPresenting = false }; onMainScreen() }
         }
     }
 }

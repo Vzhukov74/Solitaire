@@ -364,7 +364,7 @@ final class GameTableViewModel: ObservableObject {
         self.gCards = cards
     }
     
-    private func applay(_ newGCards: [CardViewModel], _ newSCards: [[ShadowCardModel]]) {
+    private func applay(_ newGCards: [CardViewModel], _ newSCards: [[ShadowCardModel]], ifNeedAddPoints: Bool = false) {
         gCardsHistory.append(gCards)
         sCardsHistory.append(sCards)
         if gCardsHistory.count == 4 {
@@ -382,7 +382,10 @@ final class GameTableViewModel: ObservableObject {
         game.gCardsHistory = gCardsHistory
         game.sCardsHistory = sCardsHistory
         
-        calculatePoints()
+        if ifNeedAddPoints {
+            calculatePoints()
+        }
+
         checkProgress()
     }
     
@@ -467,7 +470,10 @@ final class GameTableViewModel: ObservableObject {
             newGCards[gameCardIndex].zIndex = 52 + 1 + index
         }
         
-        applay(newGCards, newSCards)
+        // Если передвинули карту в конечную колоду или игровую
+        let ifNeedAddPoints = to <= 10
+        
+        applay(newGCards, newSCards, ifNeedAddPoints: ifNeedAddPoints)
     }
         
     private func targetColumn(column: Int, row: Int) -> Int? {

@@ -36,6 +36,10 @@
 		3ADD8D922BE2CEF200B28D9B /* View+ConfettiCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */; };
 		3ADD8D942BE2CF8C00B28D9B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */; };
 		3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */; };
+		3AF291B12C68C727008C2261 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF291B02C68C727008C2261 /* FirebaseAnalytics */; };
+		3AF291B32C68C727008C2261 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF291B22C68C727008C2261 /* FirebaseCrashlytics */; };
+		3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */; };
+		3AF291B82C68C998008C2261 /* ScoreStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF291B72C68C998008C2261 /* ScoreStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +75,8 @@
 		3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConfettiCannon.swift"; sourceTree = "<group>"; };
 		3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversingScale.swift; sourceTree = "<group>"; };
+		3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3AF291B72C68C998008C2261 /* ScoreStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AF291B12C68C727008C2261 /* FirebaseAnalytics in Frameworks */,
+				3AF291B32C68C727008C2261 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +156,7 @@
 				3AD288F02BB872D500744832 /* Modules */,
 				3AD288E12BB8727F00744832 /* CardGameApp.swift */,
 				3AD288E72BB8728100744832 /* card_game.entitlements */,
+				3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */,
 				3A69C4322C38585600F51586 /* Assets.xcassets */,
 				3AD288E82BB8728100744832 /* Preview Content */,
 			);
@@ -190,6 +199,7 @@
 				3A9B52B92BE0E95E00D35F35 /* GameUISettingsService.swift */,
 				3A8E0A7F2BE28C18004043B1 /* FeedbackService.swift */,
 				3A3C20602C1F428800CADFC1 /* CardUIServices.swift */,
+				3AF291B72C68C998008C2261 /* ScoreStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -252,12 +262,17 @@
 				3AD288DA2BB8727F00744832 /* Sources */,
 				3AD288DB2BB8727F00744832 /* Frameworks */,
 				3AD288DC2BB8727F00744832 /* Resources */,
+				3AF291B42C68C822008C2261 /* Upload dSYM */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "card game";
+			packageProductDependencies = (
+				3AF291B02C68C727008C2261 /* FirebaseAnalytics */,
+				3AF291B22C68C727008C2261 /* FirebaseCrashlytics */,
+			);
 			productName = "card game";
 			productReference = 3AD288DE2BB8727F00744832 /* card game.app */;
 			productType = "com.apple.product-type.application";
@@ -286,6 +301,9 @@
 				Base,
 			);
 			mainGroup = 3AD288D52BB8727F00744832;
+			packageReferences = (
+				3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 3AD288DF2BB8727F00744832 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -302,10 +320,32 @@
 			files = (
 				3A69C4332C38585600F51586 /* Assets.xcassets in Resources */,
 				3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */,
+				3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AF291B42C68C822008C2261 /* Upload dSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Upload dSYM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3AD288DA2BB8727F00744832 /* Sources */ = {
@@ -328,6 +368,7 @@
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
 				3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */,
 				3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */,
+				3AF291B82C68C998008C2261 /* ScoreStore.swift in Sources */,
 				3A69C4392C45AA5300F51586 /* Shake.swift in Sources */,
 				3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */,
 				3A8E0A802BE28C18004043B1 /* FeedbackService.swift in Sources */,
@@ -469,12 +510,13 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "card-game-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Косынка!";
@@ -492,7 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.vz.klondike;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -511,12 +553,13 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "card-game-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Косынка!";
@@ -534,7 +577,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.vz.klondike;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -567,6 +610,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3AF291B02C68C727008C2261 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		3AF291B22C68C727008C2261 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AD288D62BB8727F00744832 /* Project object */;
 }
