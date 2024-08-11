@@ -33,6 +33,10 @@ struct card_gameApp: App {
                     scoreStore: scoreStore
                 )
             )
+            .onAppear {
+                let feedbackService: IFeedbackService = AppDI.shared.service()
+                feedbackService.prepare()
+            }
         }
             .defaultSize(width: 500.0, height: 800.0)
     }

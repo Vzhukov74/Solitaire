@@ -30,7 +30,21 @@ struct ShadowCardModel: Codable {
     let index: Int
 }
 
+struct GameState {
+    var hasMoves: Bool = true
+    var hasCancelMove: Bool = false
+    var gameOver: Bool = false
+        
+    var gCards: [CardViewModel] = []
+    var movesNumber: Int = 0
+    var pointsNumber: Int = 0
+    var timeStr: String = "0:00"
+    var pointsCoefficient: String = "x 3.0"
+}
+
 final class GameTableViewModel: ObservableObject {
+    @Published var state = GameState()
+    
     @Published var hasMoves: Bool = true
     @Published var hasCancelMove: Bool = false
     @Published var gameOver: Bool = false
@@ -48,15 +62,7 @@ final class GameTableViewModel: ObservableObject {
     
     private var isPauseBetweenMoves = false
     
-    // MARK: piles coordinate
-    private(set) var piles: [CGPoint] = []
-    private(set) var columns: [CGPoint] = []
-    private(set) var extra: CGPoint = .zero
-    private(set) var extraPile: CGPoint = .zero
-    private(set) var offsetY: CGFloat = 0
-    
-    let size: CGSize
-    let cardSize: CGSize
+    let layout: ICardLayout
 
     let feedbackService: IFeedbackService
     private let gameStore: IGamePersistentStore
@@ -71,13 +77,11 @@ final class GameTableViewModel: ObservableObject {
         with game: Game?,
         gameStore: IGamePersistentStore,
         feedbackService: IFeedbackService,
-        size: CGSize,
-        cardSize: CGSize
+        layout: ICardLayout
     ) {
         self.gameStore = gameStore
         self.feedbackService = feedbackService
-        self.size = size
-        self.cardSize = cardSize
+        self.layout = layout
         
         if game != nil {
             self.game = game!
@@ -94,12 +98,8 @@ final class GameTableViewModel: ObservableObject {
 
             gCardsHistory = game!.gCardsHistory
             sCardsHistory = game!.sCardsHistory
-            
-            self.calculateFrames(with: size)
-            
         } else {
             self.game = Game()
-            self.calculateFrames(with: size)
             self.initCards(from: DeckShuffler())
         }
     }
@@ -178,7 +178,7 @@ final class GameTableViewModel: ObservableObject {
         for index in sCards[12].indices {
             sCards[12][index].card.isOpen = false
             gCards[sCards[12][index].index].card.isOpen = false
-            gCards[sCards[12][index].index].position = extra
+            gCards[sCards[12][index].index].position = layout.extra
             gCards[sCards[12][index].index].zIndex = index
         }
         onMove()
@@ -201,7 +201,7 @@ final class GameTableViewModel: ObservableObject {
             let gCardIndex = sCards[column][sCardIndex].index
             gCards[gCardIndex].moving = CGPoint(
                 x: position.x,
-                y: position.y - CGFloat(row - sCardIndex) * offsetY
+                y: position.y - CGFloat(row - sCardIndex) * layout.offsetY
             )
             gCards[gCardIndex].movingZIndex = 52 + 1 + sCardIndex
         }
@@ -286,40 +286,16 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func columnFor(position: CGPoint) -> Int? {
-        if position.y < cardSize.height {
-            let column = Int(position.x / (size.width / 7))
+        if position.y < layout.cardSize.height {
+            let column = Int(position.x / (layout.size.width / 7))
             if column < 4 {
                 return 7 + column
             } else {
                 return nil
             }
         } else {
-            return Int(position.x / (size.width / 7))
+            return Int(position.x / (layout.size.width / 7))
         }
-    }
-    
-    private func calculateFrames(with size: CGSize) {
-        let spacing: CGFloat = 6
-        let width = cardSize.width
-        let height = cardSize.height
-    
-        offsetY = height / 3.3
-                
-        func column(for index: CGFloat, heightDelta: CGFloat = 0) -> CGPoint {
-            CGPoint(
-                x: width / 2 + (width + spacing) * index,
-                y: height / 2 + heightDelta
-            )
-        }
-        
-        var indexes: [Int] = Array(0...3)
-        piles = indexes.map { CGFloat($0) }.compactMap { column(for: $0) }
-        
-        extra = CGPoint(x: size.width - width / 2 - 2 * spacing, y: height / 2)
-        extraPile = CGPoint(x: extra.x - width - spacing, y: extra.y)
-        
-        indexes = Array(0...6)
-        columns = indexes.map { CGFloat($0) }.compactMap { column(for: $0, heightDelta: height + 2 * spacing ) }
     }
 
     private func initCards(from deckShuffler: DeckShuffler) {
@@ -334,8 +310,8 @@ final class GameTableViewModel: ObservableObject {
                         CardViewModel(
                             card: deckShuffler.columns[index][row],
                             position: CGPoint(
-                                x: columns[index].x,
-                                y: columns[index].y + (offsetY / 2) * CGFloat(row)
+                                x: layout.columns[index].x,
+                                y: layout.columns[index].y + (layout.offsetY / 2) * CGFloat(row)
                             )
                         )
                     )
@@ -352,7 +328,7 @@ final class GameTableViewModel: ObservableObject {
                     cards.append(
                         CardViewModel(
                             card: deckShuffler.extraCards[row],
-                            position: extra
+                            position: layout.extra
                         )
                     )
                     shadowCardsColumn.append(ShadowCardModel(card: deckShuffler.extraCards[row], index: shadowIndex))
@@ -401,14 +377,14 @@ final class GameTableViewModel: ObservableObject {
         
         func position(to: Int, index: Int, start: CGPoint?) -> CGPoint {
             if to < 7 {
-                var point = start ?? columns[to]
+                var point = start ?? layout.columns[to]
 
-                if start != nil { point.y = point.y + offsetY }
-                point.y = point.y + offsetY * CGFloat(index)
+                if start != nil { point.y = point.y + layout.offsetY }
+                point.y = point.y + layout.offsetY * CGFloat(index)
 
                 return point
             } else if to >= 7, to < 11 {
-                return piles[to - 7]
+                return layout.piles[to - 7]
             } else {
                 return .zero
             }
@@ -450,8 +426,8 @@ final class GameTableViewModel: ObservableObject {
                     newGCards[newSCards[11][rIndex].index].zIndex = 5 - delta
                     if delta < 3 {
                         newGCards[newSCards[11][rIndex].index].position = CGPoint(
-                            x: extraPile.x - offsetY * CGFloat(delta),
-                            y: extraPile.y
+                            x: layout.extraPile.x - layout.offsetY * CGFloat(delta),
+                            y: layout.extraPile.y
                         )
                     }
                 }

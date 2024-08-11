@@ -19,7 +19,7 @@ struct GameView: View {
                 tableView
                 footerView
             }
-            .frame(width: vm.size.width, height: vm.size.height)
+            .frame(width: vm.layout.size.width, height: vm.layout.size.height)
             Spacer(minLength: 0)
         }
         .overlay {
@@ -30,7 +30,7 @@ struct GameView: View {
                     moveNumber: vm.movesNumber,
                     timeNumber: vm.timeStr,
                     pointsNumber: vm.pointsNumber, 
-                    width: vm.size.width - 24,
+                    width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
                     onMainScreen: { vm.onMainScreen(); withAnimation { isPresenting = false } }
                 )
@@ -42,10 +42,10 @@ struct GameView: View {
     
     private var tableView: some View {
         CardsTableView(
-            cardSize: vm.cardSize,
-            columns: vm.columns,
-            piles: vm.piles,
-            extra: vm.extra,
+            cardSize: vm.layout.cardSize,
+            columns: vm.layout.columns,
+            piles: vm.layout.piles,
+            extra: vm.layout.extra,
             cards: vm.gCards,
             cardUIServices: AppDI.shared.service(),
             refreshExtraCards: vm.refreshExtraCards,

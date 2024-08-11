@@ -84,7 +84,6 @@ struct GameOverView: View {
                 .padding(.bottom, 16)
             
             btns
-                .padding(.horizontal, 16)
                 .padding(.bottom, 16)
         }
         .overlay {

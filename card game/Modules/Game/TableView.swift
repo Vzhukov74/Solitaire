@@ -25,8 +25,7 @@ struct TableView: View {
                         with: game,
                         gameStore: gameStore,
                         feedbackService: feedbackService,
-                        size: size,
-                        cardSize: cardSize
+                        layout: CardLayout(size: size, cardSize: cardSize)
                     ),
                     isPresenting: $isPresenting
                 )

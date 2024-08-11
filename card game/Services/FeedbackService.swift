@@ -13,6 +13,8 @@ import UIKit
 
 
 protocol IFeedbackService {
+    func prepare()
+    
     func error()
     func success()
 
@@ -34,6 +36,17 @@ final class FeedbackService: IFeedbackService {
     
     init(uiSettings: IGameUISettingsService) {
         self.uiSettings = uiSettings
+    }
+    
+    func prepare() {
+        guard let url = Bundle.main.url(forResource: Sound.cardMove.rawValue, withExtension: "mp3") else { return }
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+        } catch {
+            print(error)
+        }
     }
     
     func error() {

@@ -12,16 +12,18 @@ final class AppDI {
     static let shared = AppDI()
     
     private lazy var gamePersistentStore = GamePersistentStore()
+    private lazy var gameUISettingsService = GameUISettingsService()
     private lazy var cardUIServices = CardUIServices()
+    private lazy var feedbackService = FeedbackService(uiSettings: service())
     
     private init() {}
     
     func service() -> IGameUISettingsService {
-        GameUISettingsService()
+        gameUISettingsService
     }
     
     func service() -> IFeedbackService {
-        FeedbackService(uiSettings: service())
+        feedbackService
     }
     
     func service() -> IGamePersistentStore {
