@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct GameView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject var vm: GameTableViewModel
-    @Binding var isPresenting: Bool
     
     var body: some View {
         HStack {
@@ -32,7 +32,7 @@ struct GameView: View {
                     pointsNumber: vm.state.pointsNumber,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
-                    onMainScreen: { vm.onMainScreen(); withAnimation { isPresenting = false } }
+                    onMainScreen: { vm.onMainScreen(); dismiss() }
                 )
                     .transition(.opacity)
             }
@@ -70,7 +70,7 @@ struct GameView: View {
                             Spacer(minLength: 0)
                         }
                     }
-                    .onTapGesture { withAnimation { isPresenting = false } }
+                    .onTapGesture { dismiss() }
                 
                 CustomButtonBgShape(lineLength: 50)
                     .stroke(lineWidth: 2)

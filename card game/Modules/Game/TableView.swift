@@ -9,9 +9,6 @@ import SwiftUI
 
 // Нужен только что бы верно посчитать размер для игровой карты
 struct TableView: View {
-    
-    @Binding var isPresenting: Bool
-    
     let gameStore: IGamePersistentStore
     let feedbackService: IFeedbackService
     let game: Game?
@@ -26,8 +23,7 @@ struct TableView: View {
                         gameStore: gameStore,
                         feedbackService: feedbackService,
                         layout: CardLayout(size: size, cardSize: cardSize)
-                    ),
-                    isPresenting: $isPresenting
+                    )
                 )
             } else {
                 EmptyView()

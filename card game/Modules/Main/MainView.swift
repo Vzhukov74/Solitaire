@@ -11,45 +11,38 @@ struct MainView: View {
     @StateObject var vm: MainViewModel
     
     var body: some View {
-        ZStack {
-            Color.white
-                .ignoresSafeArea()
-            VStack {
-                gearSettingsView
+        NavigationStack {
+            ZStack {
+                Color.white
+                    .ignoresSafeArea()
+                VStack {
+                    gearSettingsView
+                    
+                    MainViewCardsLogo()
+                        .padding()
+                        .padding(.vertical, 24)
+                                
+                    Spacer(minLength: 0)
+                    
+                    buttonsView
+                }
+                    .padding(.vertical, 16)
+                    .onAppear { vm.checkForSavedGame() }
                 
-                MainViewCardsLogo()
-                    .padding()
-                    .padding(.vertical, 24)
-                            
-                Spacer(minLength: 0)
-                
-                buttonsView
+                if vm.presentSettingsScreen {
+                    SettingsView(
+                        vm: SettingsViewModel(
+                            uiSettings: AppDI.shared.service(),
+                            feedbackService: AppDI.shared.service(),
+                            cardUIServices: AppDI.shared.service()
+                        ),
+                        isPresenting: $vm.presentSettingsScreen
+                    )
+                        .transition(.move(edge: .bottom))
+                        .zIndex(1)
+                }
             }
-                .padding(.vertical, 16)
-                .onAppear { vm.checkForSavedGame() }
-            
-            if vm.presentGameScreen {                
-                let game: Game? = vm.presentFromSaved ? vm.gameStore.game : nil
-                TableView(
-                    isPresenting: $vm.presentGameScreen,
-                    gameStore: vm.gameStore, 
-                    feedbackService: AppDI.shared.service(),
-                    game: game
-                )
-                    .transition(.move(edge: .trailing))
-                    .zIndex(1)
-            } else if vm.presentSettingsScreen {
-                SettingsView(
-                    vm: SettingsViewModel(
-                        uiSettings: AppDI.shared.service(),
-                        feedbackService: AppDI.shared.service(), 
-                        cardUIServices: AppDI.shared.service()
-                    ),
-                    isPresenting: $vm.presentSettingsScreen
-                )
-                    .transition(.move(edge: .bottom))
-                    .zIndex(1)
-            }
+            .onAppear { vm.checkForSavedGame() }
         }
     }
     
@@ -77,28 +70,51 @@ struct MainView: View {
     private var buttonsView: some View {
         VStack(alignment: .center, spacing: 16) {
             if vm.hasPausedGame {
-                Text("Продолжить")
-                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(Color.white)
-                    .frame(height: 46)
-                    .padding(.horizontal, 36)
-                    .background {
-                        CustomButtonBgShape().foregroundColor(Color("accent"))
+                NavigationLink(
+                    destination: {
+                        TableView(
+                            gameStore: vm.gameStore,
+                            feedbackService: AppDI.shared.service(),
+                            game: vm.gameStore.game
+                        )
+                            .toolbar(.hidden)
+                    },
+                    label: {
+                        Text("Продолжить")
+                            .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(Color.white)
+                            .frame(height: 46)
+                            .padding(.horizontal, 36)
+                            .background {
+                                CustomButtonBgShape().foregroundColor(Color("accent"))
+                            }
+                            .frame(maxWidth: 320)
+                            .padding(.horizontal, 32)
                     }
-                    .onTapGesture { vm.resumeGame() }
-                    .frame(maxWidth: 320)
-                    .padding(.horizontal, 32)
+                )
             }
     
-            Text("Новая игра")
-                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                .frame(maxWidth: .infinity)
-                .foregroundColor(Color("accent"))
-                .padding(.horizontal, 32)
-                .frame(height: 46)
-                .frame(maxWidth: 320)
-                .onTapGesture { vm.newGame() }
+            NavigationLink(
+                destination: {
+                    TableView(
+                        gameStore: vm.gameStore,
+                        feedbackService: AppDI.shared.service(),
+                        game: nil
+                    )
+                        .onAppear { vm.newGame() }
+                        .toolbar(.hidden)
+                },
+                label: {
+                    Text("Новая игра")
+                        .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(Color("accent"))
+                        .padding(.horizontal, 32)
+                        .frame(height: 46)
+                        .frame(maxWidth: 320)
+                }
+            )
         }
         .padding(.horizontal, 32)
         .padding(.bottom, 24)

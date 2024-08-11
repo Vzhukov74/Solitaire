@@ -47,7 +47,6 @@ final class GameTableViewModel: ObservableObject {
     
     func clear() {
         resetGame()
-        state = GameState()
     }
     
     func onMainScreen() {
@@ -182,8 +181,8 @@ final class GameTableViewModel: ObservableObject {
     // MARK: private
     
     private func resetGame() {
-        timerTask?.cancel()
         timerIsActive = false
+        timerTask?.cancel()
     }
     
     private func columnAndRowFor(card index: Int) -> (Int, Int)? {
