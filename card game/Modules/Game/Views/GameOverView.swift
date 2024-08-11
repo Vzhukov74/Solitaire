@@ -44,45 +44,16 @@ struct GameOverView: View {
     private var infoView: some View {
         VStack(spacing: 8) {
             Text("Результат")
-                .frame(maxWidth: .infinity, alignment: .center)
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
                 .font(.title)
                 .padding(16)
-                .foregroundColor(.black)
+                .foregroundColor(.white)
             
-            HStack {
-                Text("Ходы")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.body)
-                    .foregroundColor(.black)
-                Text("\(moveNumber)")
-                    .font(.caption)
-                    .foregroundColor(.black)
-            }
-                .padding(.horizontal, 16)
-            
-            HStack {
-                Text("Время")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.body)
-                    .foregroundColor(.black)
-                Text("\(timeNumber)")
-                    .font(.caption)
-                    .foregroundColor(.black)
-            }
-                .padding(.horizontal, 16)
-            
-            HStack {
-                Text("Очки")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.body)
-                    .foregroundColor(.black)
-                Text("\(pointsNumber)")
-                    .font(.caption)
-                    .foregroundColor(.black)
-            }
-                .padding(.horizontal, 16)
+            resultValueView(title: "Ходы", value: "\(moveNumber)")
+            resultValueView(title: "Время", value: "\(timeNumber)")
+            resultValueView(title: "Очки", value: "\(pointsNumber)")
                 .padding(.bottom, 16)
-            
+        
             btns
                 .padding(.bottom, 16)
         }
@@ -147,5 +118,19 @@ struct GameOverView: View {
                 .frame(maxWidth: 320)
                 .onTapGesture { withAnimation { isPresenting = false }; onMainScreen() }
         }
+    }
+    
+    @ViewBuilder
+    private func resultValueView(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(Font.system(size: 16, weight: .regular, design: .rounded))
+                .foregroundColor(.white)
+            Text(value)
+                .font(.caption)
+                .foregroundColor(.white)
+        }
+        .padding(.horizontal, 16)
     }
 }
