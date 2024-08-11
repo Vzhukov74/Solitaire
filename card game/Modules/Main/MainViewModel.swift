@@ -40,6 +40,7 @@ final class MainViewModel: ObservableObject {
     }
 
     func newGame() {
+        gameStore.reset()
         presentFromSaved = false
         withAnimation { presentGameScreen = true }
     }

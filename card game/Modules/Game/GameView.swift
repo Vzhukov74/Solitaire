@@ -23,13 +23,13 @@ struct GameView: View {
             Spacer(minLength: 0)
         }
         .overlay {
-            if vm.gameOver {
+            if vm.state.gameOver {
                 GameOverView(
-                    isPresenting: $vm.gameOver, 
+                    isPresenting: $vm.state.gameOver,
                     feedbackService: vm.feedbackService,
-                    moveNumber: vm.movesNumber,
-                    timeNumber: vm.timeStr,
-                    pointsNumber: vm.pointsNumber, 
+                    moveNumber: vm.state.movesNumber,
+                    timeNumber: vm.state.timeStr,
+                    pointsNumber: vm.state.pointsNumber,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
                     onMainScreen: { vm.onMainScreen(); withAnimation { isPresenting = false } }
@@ -46,7 +46,7 @@ struct GameView: View {
             columns: vm.layout.columns,
             piles: vm.layout.piles,
             extra: vm.layout.extra,
-            cards: vm.gCards,
+            cards: vm.state.gCards,
             cardUIServices: AppDI.shared.service(),
             refreshExtraCards: vm.refreshExtraCards,
             moveCardIfPossible: { vm.moveCardIfPossible(index: $0) },
@@ -77,7 +77,7 @@ struct GameView: View {
                     .foregroundStyle(Color("accent"))
                     .frame(height: 44)
                     .overlay {
-                        Text(vm.timeStr)
+                        Text(vm.state.timeStr)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -88,9 +88,9 @@ struct GameView: View {
                     .frame(width: 44, height: 44)
             }
             HStack(spacing: 10) {
-                infoView(title: "очки", subtitle: vm.pointsCoefficient, value: "\(vm.pointsNumber)")
+                infoView(title: "очки", subtitle: vm.state.pointsCoefficient, value: "\(vm.state.pointsNumber)")
                 Spacer(minLength: 0)
-                infoView(title: "ходы", value: "\(vm.movesNumber)")
+                infoView(title: "ходы", value: "\(vm.state.movesNumber)")
             }
         }
             .frame(maxWidth: .infinity)
@@ -106,10 +106,10 @@ struct GameView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 22, height: 22)
-                    .foregroundColor( vm.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
+                    .foregroundColor( vm.state.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
                 Text("Отменить ход")
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundColor( vm.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
+                    .foregroundColor( vm.state.hasCancelMove ? Color("accent") : Color("accent").opacity(0.3))
             }
             .frame(height: 46)
             .padding(.horizontal, 36)
@@ -117,7 +117,7 @@ struct GameView: View {
                 CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
             }
             .onTapGesture {
-                if vm.hasCancelMove { withAnimation { vm.cancelMove() } }
+                if vm.state.hasCancelMove { withAnimation { vm.cancelMove() } }
             }
             Spacer(minLength: 0)
         }

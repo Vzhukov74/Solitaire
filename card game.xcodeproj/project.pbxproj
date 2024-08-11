@@ -25,6 +25,7 @@
 		3AA3FA2D2C68D9CD00ADA216 /* won.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA282C68D9CD00ADA216 /* won.mp3 */; };
 		3AA3FA2E2C68D9CD00ADA216 /* card move.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA292C68D9CD00ADA216 /* card move.mp3 */; };
 		3AA3FA302C68E67700ADA216 /* CardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */; };
+		3AA3FA322C68EB1F00ADA216 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3FA312C68EB1F00ADA216 /* GameState.swift */; };
 		3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288E12BB8727F00744832 /* CardGameApp.swift */; };
 		3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E92BB8728100744832 /* Preview Assets.xcassets */; };
 		3AD288F32BB872F000744832 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288F22BB872F000744832 /* MainView.swift */; };
@@ -68,6 +69,7 @@
 		3AA3FA282C68D9CD00ADA216 /* won.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = won.mp3; sourceTree = "<group>"; };
 		3AA3FA292C68D9CD00ADA216 /* card move.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "card move.mp3"; sourceTree = "<group>"; };
 		3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLayout.swift; sourceTree = "<group>"; };
+		3AA3FA312C68EB1F00ADA216 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		3AD288DE2BB8727F00744832 /* card game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "card game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD288E12BB8727F00744832 /* CardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameApp.swift; sourceTree = "<group>"; };
 		3AD288E72BB8728100744832 /* card_game.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = card_game.entitlements; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			children = (
 				3AD2890A2BD591D100744832 /* Views */,
 				3AD288FA2BB8735F00744832 /* GameTableViewModel.swift */,
+				3AA3FA312C68EB1F00ADA216 /* GameState.swift */,
 				3AD288FF2BD58E7B00744832 /* GameView.swift */,
 				3A69C43A2C45BF8400F51586 /* TableView.swift */,
 				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
@@ -410,6 +413,7 @@
 				3A69C43B2C45BF8400F51586 /* TableView.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
+				3AA3FA322C68EB1F00ADA216 /* GameState.swift in Sources */,
 				3AD289002BD58E7B00744832 /* GameView.swift in Sources */,
 				3ADD8D902BE2CE7E00B28D9B /* ConfettiSwiftUI.swift in Sources */,
 			);

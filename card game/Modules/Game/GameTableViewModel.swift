@@ -7,71 +7,19 @@
 
 import SwiftUI
 
-struct CardViewModel: Hashable, Codable {
-    var card: Card
-
-    var position: CGPoint
-    var zIndex: Int = 0
-    
-    // for game
-    var moving: CGPoint?
-    var movingZIndex: Int = 0
-    var error: Int = 0
-        
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(card)
-        hasher.combine(position.x)
-        hasher.combine(position.y)
-    }
-}
-
-struct ShadowCardModel: Codable {
-    var card: Card
-    let index: Int
-}
-
-struct GameState {
-    var hasMoves: Bool = true
-    var hasCancelMove: Bool = false
-    var gameOver: Bool = false
-        
-    var gCards: [CardViewModel] = []
-    var movesNumber: Int = 0
-    var pointsNumber: Int = 0
-    var timeStr: String = "0:00"
-    var pointsCoefficient: String = "x 3.0"
-}
-
 final class GameTableViewModel: ObservableObject {
-    @Published var state = GameState()
-    
-    @Published var hasMoves: Bool = true
-    @Published var hasCancelMove: Bool = false
-    @Published var gameOver: Bool = false
-        
-    @Published var gCards: [CardViewModel] = []
-    @Published var movesNumber: Int = 0
-    @Published var pointsNumber: Int = 0
-    @Published var timeStr: String = "0:00"
-    @Published var pointsCoefficient: String = "x 3.0"
-    
-    private var sCards: [[ShadowCardModel]] = []
-    
-    private var gCardsHistory: [[CardViewModel]] = []
-    private var sCardsHistory: [[[ShadowCardModel]]] = []
-    
+    @Published var state: GameState
+            
     private var isPauseBetweenMoves = false
     
     let layout: ICardLayout
-
     let feedbackService: IFeedbackService
+    
     private let gameStore: IGamePersistentStore
-    private var game: Game
     
     // timer
     private var timerTask: Task<Void, Never>?
     private var timerIsActive = false
-    private var timeNumber: Int = 0
     
     init(
         with game: Game?,
@@ -84,33 +32,22 @@ final class GameTableViewModel: ObservableObject {
         self.layout = layout
         
         if game != nil {
-            self.game = game!
-            
-            hasCancelMove = !game!.sCardsHistory.isEmpty
-                
-            gCards = game!.gCards
-            sCards = game!.sCards
-            movesNumber = game!.movesNumber
-            pointsNumber = game!.points
-            timeNumber = game!.timeNumber
-            timeStr = timeNumber.toTime
-            pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-
-            gCardsHistory = game!.gCardsHistory
-            sCardsHistory = game!.sCardsHistory
+            self.state = GameState.state(from: game!)
+            state.timeStr = game!.timeNumber.toTime
+            state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         } else {
-            self.game = Game()
-            self.initCards(from: DeckShuffler())
+            self.state = GameState.new(with: layout)
         }
     }
         
     func newGame() {
         resetGame()
-        initCards(from: DeckShuffler())
+        state = GameState.new(with: layout)
     }
     
     func clear() {
         resetGame()
+        state = GameState()
     }
     
     func onMainScreen() {
@@ -119,21 +56,16 @@ final class GameTableViewModel: ObservableObject {
     
     // MARK: public
     func cancelMove() {
-        guard !gCardsHistory.isEmpty, !sCardsHistory.isEmpty  else { return }
+        guard !state.gCardsHistory.isEmpty, !state.sCardsHistory.isEmpty  else { return }
         
-        let previousGCards = gCardsHistory.popLast()!
-        let previousSCards = sCardsHistory.popLast()!
+        let previousGCards = state.gCardsHistory.popLast()!
+        let previousSCards = state.sCardsHistory.popLast()!
         
-        self.gCards = previousGCards
-        self.sCards = previousSCards
+        self.state.gCards = previousGCards
+        self.state.sCards = previousSCards
         
-        game.gCards = previousGCards
-        game.sCards = previousSCards
-        game.gCardsHistory = gCardsHistory
-        game.sCardsHistory = sCardsHistory
-                
-        self.hasCancelMove = !gCardsHistory.isEmpty
-        
+        self.state.hasCancelMove = !state.gCardsHistory.isEmpty
+    
         onMove()
     }
     
@@ -143,18 +75,18 @@ final class GameTableViewModel: ObservableObject {
         
         // для фикса бага с 3 картами, сами выбираем 1 последнию карту из колоды
         if column == 12 { // в открытые дополнительные карты можно двигать всегда
-            let realRow = sCards[12].count - 1
+            let realRow = state.sCards[12].count - 1
             moveCards(column: column, row: realRow, to: 11)
             feedbackService.swapCard()
             onMove()
             return
-        } else if gCards[index].card.isOpen {
+        } else if state.gCards[index].card.isOpen {
             if column == 11 {
-                guard row == sCards[column].count - 1 else { return }
+                guard row == state.sCards[column].count - 1 else { return }
             }
             // ищем можем ли мы передвинуть куда либо карту, если нет то показываем ошибку
             guard let targetColumn = targetColumn(column: column, row: row) else {
-                gCards[index].error += 1
+                state.gCards[index].error += 1
                 feedbackService.error()
                 onMove()
                 return
@@ -170,16 +102,16 @@ final class GameTableViewModel: ObservableObject {
     // возвращаем открытые карты из дополнительной стопки обратно в стопку
     func refreshExtraCards() {
         guard !onPause() else { return }
-        guard !sCards[11].isEmpty, sCards[12].isEmpty else { return }
+        guard !state.sCards[11].isEmpty, state.sCards[12].isEmpty else { return }
                 
-        sCards[12] = sCards[11].reversed()
-        sCards[11] = []
+        state.sCards[12] = state.sCards[11].reversed()
+        state.sCards[11] = []
         
-        for index in sCards[12].indices {
-            sCards[12][index].card.isOpen = false
-            gCards[sCards[12][index].index].card.isOpen = false
-            gCards[sCards[12][index].index].position = layout.extra
-            gCards[sCards[12][index].index].zIndex = index
+        for index in state.sCards[12].indices {
+            state.sCards[12][index].card.isOpen = false
+            state.gCards[state.sCards[12][index].index].card.isOpen = false
+            state.gCards[state.sCards[12][index].index].position = layout.extra
+            state.gCards[state.sCards[12][index].index].zIndex = index
         }
         onMove()
         feedbackService.swapCard()
@@ -187,29 +119,29 @@ final class GameTableViewModel: ObservableObject {
         
     func movingCards(_ index: Int, at position: CGPoint) {
         guard !isPauseBetweenMoves else { return }
-        guard gCards[index].card.isOpen else { return }
+        guard state.gCards[index].card.isOpen else { return }
         
         guard let (column, row) = columnAndRowFor(card: index) else { return }
 
         if column == 11 {
-            guard row == sCards[column].count - 1 else { return }
+            guard row == state.sCards[column].count - 1 else { return }
         }
         
         // если карт больше чем 1, то делаем поправку на offsetY и Z индекс
-        let count = sCards[column].count
+        let count = state.sCards[column].count
         (row..<count).forEach { sCardIndex in
-            let gCardIndex = sCards[column][sCardIndex].index
-            gCards[gCardIndex].moving = CGPoint(
+            let gCardIndex = state.sCards[column][sCardIndex].index
+            state.gCards[gCardIndex].moving = CGPoint(
                 x: position.x,
                 y: position.y - CGFloat(row - sCardIndex) * layout.offsetY
             )
-            gCards[gCardIndex].movingZIndex = 52 + 1 + sCardIndex
+            state.gCards[gCardIndex].movingZIndex = 52 + 1 + sCardIndex
         }
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
         guard !isPauseBetweenMoves else { return }
-        guard gCards[index].moving != nil else { return } // если не двигаем, то ничего не делаем
+        guard state.gCards[index].moving != nil else { return } // если не двигаем, то ничего не делаем
         
         onMove()
         
@@ -220,20 +152,20 @@ final class GameTableViewModel: ObservableObject {
             return
         }
         
-        let card = gCards[index].card
+        let card = state.gCards[index].card
         let isColumn = targetColumn < 7
         
         var onCard: Card? = nil
-        if !sCards[targetColumn].isEmpty {
-            let gCardsIndex = sCards[targetColumn][sCards[targetColumn].count - 1].index
-            onCard = gCards[gCardsIndex].card
+        if !state.sCards[targetColumn].isEmpty {
+            let gCardsIndex = state.sCards[targetColumn][state.sCards[targetColumn].count - 1].index
+            onCard = state.gCards[gCardsIndex].card
         }
         
         if canStack(card: card, onCard: onCard, isColumn: isColumn) {
-            let count = sCards[column].count
+            let count = state.sCards[column].count
             (row..<count).forEach { sCardIndex in
-                let gCardIndex = sCards[column][sCardIndex].index
-                gCards[gCardIndex].moving = nil
+                let gCardIndex = state.sCards[column][sCardIndex].index
+                state.gCards[gCardIndex].moving = nil
             }
             
             moveCards(column: column, row: row, to: targetColumn)
@@ -243,14 +175,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func save() {
-        game.gCards = gCards
-        game.sCards = sCards
-        game.gCardsHistory = gCardsHistory
-        game.sCardsHistory = sCardsHistory
-        game.movesNumber = movesNumber
-        game.points = pointsNumber
-        game.timeNumber = timeNumber
-        
+        let game = state.game()
         gameStore.save(game)
     }
     
@@ -258,26 +183,13 @@ final class GameTableViewModel: ObservableObject {
     
     private func resetGame() {
         timerTask?.cancel()
-        
-        gCards = []
-        sCards = []
-        gCardsHistory = []
-        sCardsHistory = []
-        
-        self.movesNumber = 0
-        self.timeStr = "0:00"
-        self.timeNumber = 0
-        self.pointsNumber = 0
-        self.timerIsActive = false
-        self.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        self.game = Game()
-        self.hasCancelMove = !game.sCardsHistory.isEmpty
+        timerIsActive = false
     }
     
     private func columnAndRowFor(card index: Int) -> (Int, Int)? {
-        for column in sCards.indices {
-            for row in sCards[column].indices {
-                if sCards[column][row].card == gCards[index].card {
+        for column in state.sCards.indices {
+            for row in state.sCards[column].indices {
+                if state.sCards[column][row].card == state.gCards[index].card {
                     return (column, row)
                 }
             }
@@ -318,10 +230,10 @@ final class GameTableViewModel: ObservableObject {
                     shadowCardsColumn.append(ShadowCardModel(card: deckShuffler.columns[index][row], index: shadowIndex))
                     shadowIndex += 1
                 }
-                sCards.append(shadowCardsColumn)
+                state.sCards.append(shadowCardsColumn)
             } else if index >= 7, index < 12 {
                 cards.append(contentsOf: [])
-                sCards.append([])
+                state.sCards.append([])
             } else if index == 12 {
                 var shadowCardsColumn: [ShadowCardModel] = []
                 for row in deckShuffler.extraCards.indices {
@@ -334,30 +246,25 @@ final class GameTableViewModel: ObservableObject {
                     shadowCardsColumn.append(ShadowCardModel(card: deckShuffler.extraCards[row], index: shadowIndex))
                     shadowIndex += 1
                 }
-                sCards.append(shadowCardsColumn)
+                state.sCards.append(shadowCardsColumn)
             }
         }
 
-        self.gCards = cards
+        self.state.gCards = cards
     }
     
     private func applay(_ newGCards: [CardViewModel], _ newSCards: [[ShadowCardModel]], ifNeedAddPoints: Bool = false) {
-        gCardsHistory.append(gCards)
-        sCardsHistory.append(sCards)
-        if gCardsHistory.count == 4 {
-            gCardsHistory.remove(at: 0)
-            sCardsHistory.remove(at: 0)
+        state.gCardsHistory.append(state.gCards)
+        state.sCardsHistory.append(state.sCards)
+        if state.gCardsHistory.count == 4 {
+            state.gCardsHistory.remove(at: 0)
+            state.sCardsHistory.remove(at: 0)
         }
         
-        hasCancelMove = !gCardsHistory.isEmpty
+        state.hasCancelMove = !state.gCardsHistory.isEmpty
         
-        self.gCards = newGCards
-        self.sCards = newSCards
-        
-        game.gCards = newGCards
-        game.sCards = newSCards
-        game.gCardsHistory = gCardsHistory
-        game.sCardsHistory = sCardsHistory
+        self.state.gCards = newGCards
+        self.state.sCards = newSCards
         
         if ifNeedAddPoints {
             calculatePoints()
@@ -367,8 +274,8 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func moveCards(column: Int, row: Int, to: Int) {
-        var newGCards = gCards
-        var newSCards = sCards
+        var newGCards = state.gCards
+        var newSCards = state.sCards
         
         let movingCards: [ShadowCardModel] = Array(newSCards[column][row..<newSCards[column].count])
         
@@ -456,23 +363,23 @@ final class GameTableViewModel: ObservableObject {
     private func targetColumn(column: Int, row: Int) -> Int? {
         if column == 12 { return 11 }
         
-        let numberOfCards = sCards[column].count - row
+        let numberOfCards = state.sCards[column].count - row
         
         // для прохода по столбцам в правильном порядке, сберва бита
         // потом столбцы с картами
         let indexes = [7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6]
         
         for index in indexes where index != column {
-            let onCard = sCards[index].last?.card
+            let onCard = state.sCards[index].last?.card
             let isColumn = index < 7 // если индекс больше 6, значит это бита
             
             if isColumn {
-                if canStack(card: sCards[column][row].card, onCard: onCard, isColumn: isColumn) {
+                if canStack(card: state.sCards[column][row].card, onCard: onCard, isColumn: isColumn) {
                     return index
                 }
             } else {
                 if numberOfCards == 1 { // в биту можно положить 1 карту за раз
-                    if canStack(card: sCards[column][row].card, onCard: onCard, isColumn: isColumn) {
+                    if canStack(card: state.sCards[column][row].card, onCard: onCard, isColumn: isColumn) {
                         return index
                     }
                 }
@@ -492,8 +399,8 @@ final class GameTableViewModel: ObservableObject {
     
     private func checkProgress() {
         for column in (0...6) {
-            for row in sCards[column].indices {
-                if !sCards[column][row].card.isOpen {
+            for row in state.sCards[column].indices {
+                if !state.sCards[column][row].card.isOpen {
                     return
                 }
             }
@@ -502,16 +409,16 @@ final class GameTableViewModel: ObservableObject {
         timerIsActive = false
         timerTask?.cancel()
         
-        withAnimation { gameOver = true }
+        withAnimation { state.gameOver = true }
     }
     
     private func backCardsToStartStack(_ index: Int) {
         guard let (column, row) = columnAndRowFor(card: index) else { return }
 
-        let count = sCards[column].count
+        let count = state.sCards[column].count
         (row..<count).forEach { sCardIndex in
-            let gCardIndex = sCards[column][sCardIndex].index
-            gCards[gCardIndex].moving = nil
+            let gCardIndex = state.sCards[column][sCardIndex].index
+            state.gCards[gCardIndex].moving = nil
         }
     }
 
@@ -530,28 +437,24 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func onMove() {
-        movesNumber += 1
-        pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        
-        game.movesNumber = movesNumber
-        
+        state.movesNumber += 1
+        state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
+                
         startTimerIfNeeded()
 
         save()
     }
     
     private func onTime() {
-        timeNumber += 1
-        pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        timeStr = timeNumber.toTime
-        
-        game.timeNumber = timeNumber
-        
+        state.timeNumber += 1
+        state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
+        state.timeStr = state.timeNumber.toTime
+                
         if timerIsActive { startTimer() }
     }
     
     private func startTimerIfNeeded() {
-        guard !timerIsActive, !gameOver else { return }
+        guard !timerIsActive, !state.gameOver else { return }
         timerIsActive = true
 
         startTimer()
@@ -566,21 +469,21 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func timeAndMovesCoefficient() -> Float {
-        if movesNumber < 40 && timeNumber < 120 {
+        if state.movesNumber < 40 && state.timeNumber < 120 {
             return 3
-        } else if movesNumber < 50 && timeNumber < 160 {
+        } else if state.movesNumber < 50 && state.timeNumber < 160 {
             return 2.8
-        } else if movesNumber < 60 && timeNumber < 180 {
+        } else if state.movesNumber < 60 && state.timeNumber < 180 {
             return 2.6
-        } else if movesNumber < 70 && timeNumber < 200 {
+        } else if state.movesNumber < 70 && state.timeNumber < 200 {
             return 2.4
-        } else if movesNumber < 80 && timeNumber < 220 {
+        } else if state.movesNumber < 80 && state.timeNumber < 220 {
             return 2.2
-        } else if movesNumber < 90 && timeNumber < 260 {
+        } else if state.movesNumber < 90 && state.timeNumber < 260 {
             return 2
-        } else if movesNumber < 100 && timeNumber < 280 {
+        } else if state.movesNumber < 100 && state.timeNumber < 280 {
             return 1.6
-        } else if movesNumber < 110 && timeNumber < 300 {
+        } else if state.movesNumber < 110 && state.timeNumber < 300 {
             return 1.4
         }
 
@@ -589,10 +492,7 @@ final class GameTableViewModel: ObservableObject {
     
     private func calculatePoints() {
         let coefficient = timeAndMovesCoefficient()
-        
-        pointsNumber += Int(10 * coefficient)
-        
-        game.points = pointsNumber
+        state.pointsNumber += Int(10 * coefficient)
     }
 }
 
