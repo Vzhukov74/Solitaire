@@ -28,8 +28,8 @@ struct MainView: View {
                 .padding(.vertical, 16)
                 .onAppear { vm.checkForSavedGame() }
             
-            if vm.presentGameScreen {
-                let game: Game? = vm.presentFromSaved && vm.gameStore.game != nil ? vm.gameStore.game! : nil
+            if vm.presentGameScreen {                
+                let game: Game? = vm.presentFromSaved ? vm.gameStore.game : nil
                 TableView(
                     isPresenting: $vm.presentGameScreen,
                     gameStore: vm.gameStore, 

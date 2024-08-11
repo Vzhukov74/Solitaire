@@ -58,7 +58,7 @@ final class GameTableViewModel: ObservableObject {
     let size: CGSize
     let cardSize: CGSize
 
-    private let feedbackService: IFeedbackService
+    let feedbackService: IFeedbackService
     private let gameStore: IGamePersistentStore
     private var game: Game
     
@@ -109,6 +109,10 @@ final class GameTableViewModel: ObservableObject {
         initCards(from: DeckShuffler())
     }
     
+    func clear() {
+        resetGame()
+    }
+    
     func onMainScreen() {
         gameStore.reset()
     }
@@ -141,7 +145,7 @@ final class GameTableViewModel: ObservableObject {
         if column == 12 { // в открытые дополнительные карты можно двигать всегда
             let realRow = sCards[12].count - 1
             moveCards(column: column, row: realRow, to: 11)
-            feedbackService.success()
+            feedbackService.swapCard()
             onMove()
             return
         } else if gCards[index].card.isOpen {
@@ -158,7 +162,7 @@ final class GameTableViewModel: ObservableObject {
             
             // нашли куда передвинуть, передвигаем
             moveCards(column: column, row: row, to: targetColumn)
-            feedbackService.success()
+            feedbackService.moveCard()
             onMove()
         }
     }
@@ -178,7 +182,7 @@ final class GameTableViewModel: ObservableObject {
             gCards[sCards[12][index].index].zIndex = index
         }
         onMove()
-        feedbackService.success()
+        feedbackService.swapCard()
     }
         
     func movingCards(_ index: Int, at position: CGPoint) {
@@ -239,9 +243,6 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func save() {
-        timerTask?.cancel()
-        timerIsActive = false
-        
         game.gCards = gCards
         game.sCards = sCards
         game.gCardsHistory = gCardsHistory
@@ -559,6 +560,8 @@ final class GameTableViewModel: ObservableObject {
         game.movesNumber = movesNumber
         
         startTimerIfNeeded()
+
+        save()
     }
     
     private func onTime() {

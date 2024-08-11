@@ -19,6 +19,11 @@
 		3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */; };
 		3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */; };
 		3A9F76D82C46F9AF00CD5461 /* CustomButtonBgShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F76D72C46F9AF00CD5461 /* CustomButtonBgShape.swift */; };
+		3AA3FA2A2C68D9CD00ADA216 /* cards shuffle start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA252C68D9CD00ADA216 /* cards shuffle start.mp3 */; };
+		3AA3FA2B2C68D9CD00ADA216 /* card swap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA262C68D9CD00ADA216 /* card swap.mp3 */; };
+		3AA3FA2C2C68D9CD00ADA216 /* cards shuffle end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA272C68D9CD00ADA216 /* cards shuffle end.mp3 */; };
+		3AA3FA2D2C68D9CD00ADA216 /* won.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA282C68D9CD00ADA216 /* won.mp3 */; };
+		3AA3FA2E2C68D9CD00ADA216 /* card move.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA292C68D9CD00ADA216 /* card move.mp3 */; };
 		3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288E12BB8727F00744832 /* CardGameApp.swift */; };
 		3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E92BB8728100744832 /* Preview Assets.xcassets */; };
 		3AD288F32BB872F000744832 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288F22BB872F000744832 /* MainView.swift */; };
@@ -56,6 +61,11 @@
 		3A9B52C12BE0EB8F00D35F35 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		3A9B52C42BE0EDB400D35F35 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		3A9F76D72C46F9AF00CD5461 /* CustomButtonBgShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonBgShape.swift; sourceTree = "<group>"; };
+		3AA3FA252C68D9CD00ADA216 /* cards shuffle start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "cards shuffle start.mp3"; sourceTree = "<group>"; };
+		3AA3FA262C68D9CD00ADA216 /* card swap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "card swap.mp3"; sourceTree = "<group>"; };
+		3AA3FA272C68D9CD00ADA216 /* cards shuffle end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "cards shuffle end.mp3"; sourceTree = "<group>"; };
+		3AA3FA282C68D9CD00ADA216 /* won.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = won.mp3; sourceTree = "<group>"; };
+		3AA3FA292C68D9CD00ADA216 /* card move.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "card move.mp3"; sourceTree = "<group>"; };
 		3AD288DE2BB8727F00744832 /* card game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "card game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD288E12BB8727F00744832 /* CardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameApp.swift; sourceTree = "<group>"; };
 		3AD288E72BB8728100744832 /* card_game.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = card_game.entitlements; sourceTree = "<group>"; };
@@ -128,6 +138,18 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		3AA3FA242C68D9BB00ADA216 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				3AA3FA292C68D9CD00ADA216 /* card move.mp3 */,
+				3AA3FA262C68D9CD00ADA216 /* card swap.mp3 */,
+				3AA3FA272C68D9CD00ADA216 /* cards shuffle end.mp3 */,
+				3AA3FA252C68D9CD00ADA216 /* cards shuffle start.mp3 */,
+				3AA3FA282C68D9CD00ADA216 /* won.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		3AD288D52BB8727F00744832 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +169,7 @@
 		3AD288E02BB8727F00744832 /* card game */ = {
 			isa = PBXGroup;
 			children = (
+				3AA3FA242C68D9BB00ADA216 /* Sounds */,
 				3A69C4342C3870B000F51586 /* card-game-Info.plist */,
 				3ADD8D8E2BE2CE6400B28D9B /* Confetti */,
 				3A9B52C32BE0EDA200D35F35 /* Extension */,
@@ -318,8 +341,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AA3FA2D2C68D9CD00ADA216 /* won.mp3 in Resources */,
+				3AA3FA2C2C68D9CD00ADA216 /* cards shuffle end.mp3 in Resources */,
 				3A69C4332C38585600F51586 /* Assets.xcassets in Resources */,
+				3AA3FA2A2C68D9CD00ADA216 /* cards shuffle start.mp3 in Resources */,
+				3AA3FA2E2C68D9CD00ADA216 /* card move.mp3 in Resources */,
 				3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */,
+				3AA3FA2B2C68D9CD00ADA216 /* card swap.mp3 in Resources */,
 				3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

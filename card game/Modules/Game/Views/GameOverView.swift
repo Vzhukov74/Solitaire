@@ -10,6 +10,7 @@ import SwiftUI
 struct GameOverView: View {
     
     @Binding var isPresenting: Bool
+    let feedbackService: IFeedbackService
     
     let moveNumber: Int
     let timeNumber: String
@@ -36,7 +37,7 @@ struct GameOverView: View {
                     Spacer(minLength: 0)
                 }
             }
-            .onAppear { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } }
+            .onAppear { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } ; feedbackService.won() }
             .onTapGesture { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } }
     }
     

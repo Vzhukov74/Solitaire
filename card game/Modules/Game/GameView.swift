@@ -25,7 +25,8 @@ struct GameView: View {
         .overlay {
             if vm.gameOver {
                 GameOverView(
-                    isPresenting: $vm.gameOver,
+                    isPresenting: $vm.gameOver, 
+                    feedbackService: vm.feedbackService,
                     moveNumber: vm.movesNumber,
                     timeNumber: vm.timeStr,
                     pointsNumber: vm.pointsNumber, 
@@ -36,7 +37,7 @@ struct GameView: View {
                     .transition(.opacity)
             }
         }
-        .onDisappear { vm.save() }
+        .onDisappear { vm.clear() }
     }
     
     private var tableView: some View {
@@ -69,11 +70,7 @@ struct GameView: View {
                             Spacer(minLength: 0)
                         }
                     }
-                    .onTapGesture {
-                        vm.save()
-                        vm.newGame()
-                        withAnimation { isPresenting = false }
-                    }
+                    .onTapGesture { withAnimation { isPresenting = false } }
                 
                 CustomButtonBgShape(lineLength: 50)
                     .stroke(lineWidth: 2)
