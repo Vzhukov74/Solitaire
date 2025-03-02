@@ -108,6 +108,7 @@ final class SolitaireGameEngine {
         }
     }
     
+    // MARK: helpers
     func opendAllCards(for state: SolitaireState) -> Bool {
         let map = getMap(for: state)
         for tStacksInd in (0...Int.tStacksMaxInd) {
@@ -143,6 +144,11 @@ final class SolitaireGameEngine {
             }
         }
         return state
+    }
+    
+    //MARK:
+    func update(for state: SolitaireState) {
+        _ = getMap(for: state, force: true)
     }
     
     // MARK: private
@@ -249,8 +255,8 @@ final class SolitaireGameEngine {
         return newState
     }
     
-    private func getMap(for state: SolitaireState) -> [Int: [Int]] {
-        if let tempMap {
+    private func getMap(for state: SolitaireState, force: Bool = false) -> [Int: [Int]] {
+        if let tempMap, !force {
             return tempMap
         }
         

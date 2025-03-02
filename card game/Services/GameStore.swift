@@ -8,20 +8,20 @@
 import Foundation
 
 protocol IGamePersistentStore: AnyObject {
-    var game: Game? { get }
+    var game: SolitaireGame? { get }
     var hasSavedGame: Bool { get }
     
-    func save(_ game: Game)
+    func save(_ game: SolitaireGame)
     func reset()
 }
 
 final class GamePersistentStore: IGamePersistentStore {
-    private let key = "com.solitaire.game.store.key"
+    private let key = "com.solitaire.game.store.v2.key"
     
-    var game: Game? { restore() }
+    var game: SolitaireGame? { restore() }
     var hasSavedGame: Bool { game != nil }
     
-    func save(_ game: Game) {
+    func save(_ game: SolitaireGame) {
         guard let data = try? JSONEncoder().encode(game) else { return }
         
         UserDefaults.standard.set(data, forKey: key)
@@ -31,9 +31,9 @@ final class GamePersistentStore: IGamePersistentStore {
         UserDefaults.standard.removeObject(forKey: key)
     }
     
-    private func restore() -> Game? {
+    private func restore() -> SolitaireGame? {
         guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
-        guard let game = try? JSONDecoder().decode(Game.self, from: data) else { return nil }
+        guard let game = try? JSONDecoder().decode(SolitaireGame.self, from: data) else { return nil }
         
         return game
     }

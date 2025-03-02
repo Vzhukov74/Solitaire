@@ -7,26 +7,14 @@
 
 import SwiftUI
 
-class Game: Codable {
-    var gCards: [CardViewModel] = []
-    var sCards: [[Card]] = []
-    
-    var gCardsHistory: [[CardViewModel]] = []
-    var sCardsHistory: [[[Card]]] = []
-    
-    var movesNumber: Int = 0
-    var timeNumber: Int = 0
-    var points: Int = 0
-}
-
 struct DeckShuffler {
     let stacks: [[Card]]
 
-    init(with deck: [Card] = Deck.initial()) {
+    init(with deck: [Card] = Card.all()) {
         var deck = deck.shuffled()
 
         var temp: [[Card]] = (1...7).compactMap {
-            var cards = Array(deck[0..<$0])
+            let cards = Array(deck[0..<$0])
             deck.removeSubrange(0..<$0)
             return cards
         }

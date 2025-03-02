@@ -10,12 +10,6 @@ import SwiftUI
 struct CardsTableView: View {
     
     let layout: ICardLayout
-
-//    // Cards positions
-//    let tStacks: [CGPoint] // tableau stacks
-//    let fStacks: [CGPoint] // fondation stacks
-//    let stock: CGPoint // stock // talon
-    
     let cards: [CardViewModel]
     let cardUIServices: ICardUIServices
     

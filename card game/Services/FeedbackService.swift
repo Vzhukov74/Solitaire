@@ -11,7 +11,6 @@ import Foundation
 import UIKit
 #endif
 
-
 protocol IFeedbackService {
     func prepare()
     
@@ -103,7 +102,7 @@ final class FeedbackService: IFeedbackService {
     }
 }
 
-fileprivate enum Sound: String {
+private enum Sound: String {
     case cardMove = "card move"
     case cardSwap = "card swap"
     case cardsShuffleEnd = "cards shuffle end"

@@ -60,7 +60,7 @@ struct GameOverView: View {
         .overlay {
             VStack {
                 HStack {
-                    Image("firecracker_left")
+                    Image(.firecrackerLeft)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 60, height: 60)
@@ -76,7 +76,7 @@ struct GameOverView: View {
                         .foregroundColor(.clear)
                         .frame(width: 60, height: 60)
                         .confettiCannon(counter: $confettiCannonCounter, num: 40)
-                    Image("firecracker_right")
+                    Image(.firecrackerRight)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 60, height: 60)
@@ -89,7 +89,7 @@ struct GameOverView: View {
         }
             .background {
                 RoundedRectangle(cornerRadius: 16)
-                    .foregroundColor(Color("mainViewBg"))
+                    .foregroundColor(Color(.mainViewBg))
             }
             .padding(.horizontal, 32)
     }
@@ -103,7 +103,7 @@ struct GameOverView: View {
                 .frame(height: 46)
                 .padding(.horizontal, 16)
                 .background {
-                    CustomButtonBgShape().foregroundColor(Color("accent"))
+                    CustomButtonBgShape().foregroundColor(Color(.accent))
                 }
                 .onTapGesture { withAnimation { isPresenting = false }; onNewGame() }
                 .frame(maxWidth: 320)

@@ -53,7 +53,7 @@ struct GameView: View {
                     pointsNumber: vm.state.pointsNumber,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
-                    onMainScreen: { vm.onMainScreen(); dismiss() }
+                    onMainScreen: { dismiss() }
                 )
                     .transition(.opacity)
             }
@@ -84,7 +84,7 @@ struct GameView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
-                                .foregroundColor(Color("accent"))
+                                .foregroundColor(Color(.accent))
                             Spacer(minLength: 0)
                         }
                     }
@@ -92,7 +92,7 @@ struct GameView: View {
                 
                 CustomButtonBgShape(lineLength: 50)
                     .stroke(lineWidth: 2)
-                    .foregroundStyle(Color("accent"))
+                    .foregroundStyle(Color(.accent))
                     .frame(height: 44)
                     .overlay {
                         Text(vm.state.timeStr)

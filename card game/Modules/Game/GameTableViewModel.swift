@@ -24,7 +24,7 @@ final class GameTableViewModel: ObservableObject {
     private var history: [SolitaireState] = []
     
     init(
-        with game: Game?,
+        with game: SolitaireGame?,
         gameStore: IGamePersistentStore,
         feedbackService: IFeedbackService,
         layout: ICardLayout
@@ -35,19 +35,8 @@ final class GameTableViewModel: ObservableObject {
         self.gameEngine = SolitaireGameEngine(layout: layout)
         self.state = SolitaireState()
 
-        self.state = gameEngine.vm()
-
-//        let data = Data(base64Encoded: gStateStr)
-//        let gState = try! JSONDecoder().decode(GameState.self, from: data!)
-//        self.state = gState
-                
-//        if game != nil {
-//            self.state = GameState.state(from: game!)
-//            state.timeStr = game!.timeNumber.toTime
-//            state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-//        } else {
-//            self.state = GameState.new(with: layout)
-//        }
+        self.state = game?.state ?? gameEngine.vm()
+        self.history = game?.history ?? []
     }
         
     func newGame() {
@@ -58,19 +47,17 @@ final class GameTableViewModel: ObservableObject {
     func clear() {
         resetGame()
     }
-    
-    func onMainScreen() {
-//        gameStore.reset()
-    }
-    
+
     // MARK: public
     func cancelMove() {
-        // reset map in game engine
-        guard let oldState = history.popLast() else { return }
+        guard var oldState = history.popLast() else { return }
+        gameEngine.update(for: oldState)
+        oldState.movesNumber += 1
         state = oldState
+        save()
     }
     
-    func onAuto() {
+    func onAuto() { // add move
         applay(gameEngine.auto(for: state))
         
         if(!state.gameOver) {
@@ -88,7 +75,9 @@ final class GameTableViewModel: ObservableObject {
         if let newState = gameEngine.moveCardIfPossible(index: index, for: state) {
             applay(newState)
         } else { // on error
+            state.movesNumber += 1
             state.cards[index].error += 1
+            save()
         }
     }
     
@@ -140,9 +129,27 @@ final class GameTableViewModel: ObservableObject {
         let coefficient = timeAndMovesCoefficient()
         newState.pointsNumber += Int(10 * coefficient)
 
-        //save progress
-        
+        if newState.gameOver {
+            gameStore.reset()
+        } else {
+            save()
+        }
+
+        newState.movesNumber += 1
+
         state = newState
+        
+        save()
+        startTimerIfNeeded()
+    }
+    
+    private func save() {
+        gameStore.save(
+            SolitaireGame(
+                state: state,
+                history: history
+            )
+        )
     }
 
     private func onPause() -> Bool {
@@ -162,15 +169,14 @@ final class GameTableViewModel: ObservableObject {
     private func onMove() {
         state.movesNumber += 1
         state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-                
-        startTimerIfNeeded()
     }
     
     private func onTime() {
         state.timeNumber += 1
         state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         state.timeStr = state.timeNumber.toTime
-                
+        save()
+        
         if timerIsActive { startTimer() }
     }
     
@@ -226,3 +232,6 @@ extension Float {
         String(format: "%.1f", self)
     }
 }
+//        let data = Data(base64Encoded: gStateStr)
+//        let gState = try! JSONDecoder().decode(GameState.self, from: data!)
+//        self.state = gState

@@ -11,7 +11,7 @@ import SwiftUI
 struct TableView: View {
     let gameStore: IGamePersistentStore
     let feedbackService: IFeedbackService
-    let game: Game?
+    let game: SolitaireGame?
     
     var body: some View {
         GeometryReader { geo in
