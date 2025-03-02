@@ -70,7 +70,7 @@ struct SettingsView: View {
                 action: { vm.toggleSound() },
                 label: {
                     VStack {
-                        Text("Звук \(vm.isSoundOn ? "вкл" : "выкл")")
+                        Text(String(localized: "Звук") + " " + String(localized: vm.isSoundOn ? "вкл" : "выкл"))
                             .font(.system(size: 16, weight: .regular))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -94,7 +94,7 @@ struct SettingsView: View {
                 action: { vm.toggleVibration() },
                 label: {
                     VStack {
-                        Text("Вибрация \(vm.isVibrationOn ? "вкл" : "выкл")")
+                        Text(String(localized: "Вибрация") + " " + String(localized: vm.isVibrationOn ? "вкл" : "выкл"))
                             .font(.system(size: 16, weight: .regular))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity, alignment: .center)

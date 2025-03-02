@@ -12,17 +12,89 @@ struct Card: Codable, Hashable, Identifiable {
         case clubs, diamonds, hearts, spades
         
         var isRed: Bool { self == .hearts || self == .diamonds }
+        
+        init?(name: String) {
+            switch name {
+            case "C":
+                self = .clubs
+            case "D":
+                self = .diamonds
+            case "H":
+                self = .hearts
+            case "S":
+                self = .spades
+            default: return nil
+            }
+        }
     }
 
     enum Rank: Int, Codable, CaseIterable {
         case ace, two, three, four, five, six, seven, eight, nine, ten, jack, queen, king
+        
+        init?(name: String) {
+            switch name {
+            case "A":
+                self = .ace
+            case "2":
+                self = .two
+            case "3":
+                self = .three
+            case "4":
+                self = .four
+            case "5":
+                self = .five
+            case "6":
+                self = .six
+            case "7":
+                self = .seven
+            case "8":
+                self = .eight
+            case "9":
+                self = .nine
+            case "1":
+                self = .ten
+            case "J":
+                self = .jack
+            case "Q":
+                self = .queen
+            case "K":
+                self = .king
+            default: return nil
+            }
+        }
     }
     
     var id: String { suit.title + rank.title }
+    var name: String { suit.title + rank.title }
     let suit: Suit
     let rank: Rank
-    var isOpen: Bool = false
-    var isHide: Bool = false
+    
+    init(suit: Suit, rank: Rank) {
+        self.rank = rank
+        self.suit = suit
+    }
+    
+    init?(name: String) {
+        var name = name
+        guard let cRankChar = name.popLast(),
+              let cSuitChar = name.popLast() else { return nil }
+        
+        let cRank = String(cRankChar)
+        let cSuit = String(cSuitChar)
+ 
+        guard let rank = Card.Rank(name: cRank),
+              let suit = Card.Suit(name: cSuit) else { return nil }
+        
+        self.rank = rank
+        self.suit = suit
+    }
+    
+    var next: Card? {
+        guard self.rank != .king else { return nil }
+        guard let nextRank = Rank(rawValue: self.rank.rawValue + 1) else { return nil }
+        
+        return Card(suit: self.suit, rank: nextRank)
+    }
 }
 
 extension Card.Rank {
@@ -49,6 +121,15 @@ extension Card.Suit {
         switch self {
         case .clubs, .spades: return Color.black
         case .hearts, .diamonds: return Color.red
+        }
+    }
+    
+    var colorId: String {
+        switch self {
+        case .clubs: return "C"
+        case .diamonds: return "D"
+        case .hearts: return "H"
+        case .spades: return "S"
         }
     }
 }

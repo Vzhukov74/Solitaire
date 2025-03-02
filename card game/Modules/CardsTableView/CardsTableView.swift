@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct CardsTableView: View {
-    let cardSize: CGSize
-    let columns: [CGPoint]
-    let piles: [CGPoint]
-    let extra: CGPoint
+    
+    let layout: ICardLayout
+
+//    // Cards positions
+//    let tStacks: [CGPoint] // tableau stacks
+//    let fStacks: [CGPoint] // fondation stacks
+//    let stock: CGPoint // stock // talon
+    
     let cards: [CardViewModel]
     let cardUIServices: ICardUIServices
     
@@ -25,17 +29,17 @@ struct CardsTableView: View {
             ZStack {
                 pilesBgView
 
-                PileView(title: "", icon: Image(systemName: "arrow.clockwise"), size: cardSize)
-                    .position(extra)
+                PileView(title: "", icon: Image(systemName: "arrow.clockwise"), size: layout.cardSize)
+                    .position(layout.extra)
                     .onTapGesture { withAnimation { refreshExtraCards() } }
 
-                ForEach(columns.indices, id: \.self) {
-                    PileView(title: "", icon: nil, size: cardSize)
-                        .position(columns[$0])
+                ForEach(layout.columns.indices, id: \.self) {
+                    PileView(title: "", icon: nil, size: layout.cardSize)
+                        .position(layout.columns[$0])
                 }
 
                 ForEach(cards.indices, id: \.self) { index in
-                    card(card: cards[index])
+                    card(vm: cards[index])
                         .onTapGesture { withAnimation { moveCardIfPossible(index) } }
                         .gesture(
                             DragGesture()
@@ -53,21 +57,21 @@ struct CardsTableView: View {
     }
     
     private var pilesBgView: some View {
-        ForEach(piles.indices, id: \.self) {
-            PileView(title: "A", icon: nil, size: cardSize)
-                .position(piles[$0])
+        ForEach(layout.piles.indices, id: \.self) {
+            PileView(title: "A", icon: nil, size: layout.cardSize)
+                .position(layout.piles[$0])
         }
     }
 
-    func card(card: CardViewModel) -> some View {
+    func card(vm: CardViewModel) -> some View {
         return CardView(
-            card: card.card,
-            front: cardUIServices.front(card: card.card),
+            card: vm.card, isOpen: vm.isOpen,
+            front: cardUIServices.front(card: vm.card),
             back: cardUIServices.back
         )
-            .frame(width: cardSize.width, height: cardSize.height)
-            .position(card.moving ?? card.position)
-            .zIndex(card.moving != nil ? Double(card.movingZIndex) : Double(card.zIndex))
-            .modifier(Shake(animatableData: CGFloat(card.error)))
+            .frame(width: layout.cardSize.width, height: layout.cardSize.height)
+            .position(vm.position)
+            .zIndex(Double(vm.zIndex))
+            .modifier(Shake(animatableData: CGFloat(vm.error)))
     }
 }

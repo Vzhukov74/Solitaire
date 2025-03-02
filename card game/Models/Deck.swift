@@ -10,7 +10,7 @@ import Foundation
 typealias Deck = [Card]
 
 extension Deck {
-    static func initial() -> Self {
+    static func initial() -> [Card] {
         Card.Suit.allCases.compactMap { suit in
             Card.Rank.allCases.compactMap { Card(suit: suit, rank: $0) }
         }.flatMap { $0 }

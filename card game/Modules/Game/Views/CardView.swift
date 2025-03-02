@@ -9,12 +9,13 @@ import SwiftUI
 
 struct CardView: View {
     let card: Card
+    let isOpen: Bool
     
     let front: Image
     let back: Image
     
     var body: some View {
-        if card.isOpen {
+        if isOpen {
             front.resizable()
         } else {
             back.resizable()

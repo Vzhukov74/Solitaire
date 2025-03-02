@@ -25,7 +25,6 @@
 		3AA3FA2D2C68D9CD00ADA216 /* won.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA282C68D9CD00ADA216 /* won.mp3 */; };
 		3AA3FA2E2C68D9CD00ADA216 /* card move.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3AA3FA292C68D9CD00ADA216 /* card move.mp3 */; };
 		3AA3FA302C68E67700ADA216 /* CardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */; };
-		3AA3FA322C68EB1F00ADA216 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA3FA312C68EB1F00ADA216 /* GameState.swift */; };
 		3AD288E22BB8727F00744832 /* CardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288E12BB8727F00744832 /* CardGameApp.swift */; };
 		3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD288E92BB8728100744832 /* Preview Assets.xcassets */; };
 		3AD288F32BB872F000744832 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD288F22BB872F000744832 /* MainView.swift */; };
@@ -43,10 +42,12 @@
 		3ADD8D922BE2CEF200B28D9B /* View+ConfettiCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D912BE2CEF200B28D9B /* View+ConfettiCannon.swift */; };
 		3ADD8D942BE2CF8C00B28D9B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D932BE2CF8C00B28D9B /* GameOverView.swift */; };
 		3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */; };
-		3AF291B12C68C727008C2261 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF291B02C68C727008C2261 /* FirebaseAnalytics */; };
-		3AF291B32C68C727008C2261 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF291B22C68C727008C2261 /* FirebaseCrashlytics */; };
 		3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */; };
 		3AF291B82C68C998008C2261 /* ScoreStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF291B72C68C998008C2261 /* ScoreStore.swift */; };
+		4A008EBF2D7218C500C94C14 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4A008EBE2D7218C500C94C14 /* Localizable.xcstrings */; };
+		4A008EC22D73536A00C94C14 /* SolitaireGameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC12D73536A00C94C14 /* SolitaireGameEngine.swift */; };
+		4A008EC42D73539200C94C14 /* SolitaireState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC32D73539200C94C14 /* SolitaireState.swift */; };
+		4A008EC62D7353A800C94C14 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC52D7353A800C94C14 /* CardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,7 +70,6 @@
 		3AA3FA282C68D9CD00ADA216 /* won.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = won.mp3; sourceTree = "<group>"; };
 		3AA3FA292C68D9CD00ADA216 /* card move.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "card move.mp3"; sourceTree = "<group>"; };
 		3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLayout.swift; sourceTree = "<group>"; };
-		3AA3FA312C68EB1F00ADA216 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		3AD288DE2BB8727F00744832 /* card game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "card game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD288E12BB8727F00744832 /* CardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameApp.swift; sourceTree = "<group>"; };
 		3AD288E72BB8728100744832 /* card_game.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = card_game.entitlements; sourceTree = "<group>"; };
@@ -91,6 +91,10 @@
 		3ADD8D952BE2DC6B00B28D9B /* ReversingScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversingScale.swift; sourceTree = "<group>"; };
 		3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3AF291B72C68C998008C2261 /* ScoreStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreStore.swift; sourceTree = "<group>"; };
+		4A008EBE2D7218C500C94C14 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = Modules/Game/Localizable.xcstrings; sourceTree = "<group>"; };
+		4A008EC12D73536A00C94C14 /* SolitaireGameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGameEngine.swift; sourceTree = "<group>"; };
+		4A008EC32D73539200C94C14 /* SolitaireState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireState.swift; sourceTree = "<group>"; };
+		4A008EC52D7353A800C94C14 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AF291B12C68C727008C2261 /* FirebaseAnalytics in Frameworks */,
-				3AF291B32C68C727008C2261 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +175,7 @@
 		3AD288E02BB8727F00744832 /* card game */ = {
 			isa = PBXGroup;
 			children = (
+				4A008EBE2D7218C500C94C14 /* Localizable.xcstrings */,
 				3AA3FA242C68D9BB00ADA216 /* Sounds */,
 				3A69C4342C3870B000F51586 /* card-game-Info.plist */,
 				3ADD8D8E2BE2CE6400B28D9B /* Confetti */,
@@ -234,12 +237,11 @@
 		3AD288F72BB8733800744832 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				4A008EC02D73534900C94C14 /* Models */,
 				3AD2890A2BD591D100744832 /* Views */,
 				3AD288FA2BB8735F00744832 /* GameTableViewModel.swift */,
-				3AA3FA312C68EB1F00ADA216 /* GameState.swift */,
 				3AD288FF2BD58E7B00744832 /* GameView.swift */,
 				3A69C43A2C45BF8400F51586 /* TableView.swift */,
-				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -281,6 +283,17 @@
 			path = Confetti;
 			sourceTree = "<group>";
 		};
+		4A008EC02D73534900C94C14 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4A008EC32D73539200C94C14 /* SolitaireState.swift */,
+				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
+				4A008EC12D73536A00C94C14 /* SolitaireGameEngine.swift */,
+				4A008EC52D7353A800C94C14 /* CardViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -291,7 +304,6 @@
 				3AD288DA2BB8727F00744832 /* Sources */,
 				3AD288DB2BB8727F00744832 /* Frameworks */,
 				3AD288DC2BB8727F00744832 /* Resources */,
-				3AF291B42C68C822008C2261 /* Upload dSYM */,
 			);
 			buildRules = (
 			);
@@ -299,8 +311,6 @@
 			);
 			name = "card game";
 			packageProductDependencies = (
-				3AF291B02C68C727008C2261 /* FirebaseAnalytics */,
-				3AF291B22C68C727008C2261 /* FirebaseCrashlytics */,
 			);
 			productName = "card game";
 			productReference = 3AD288DE2BB8727F00744832 /* card game.app */;
@@ -328,10 +338,10 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 3AD288D52BB8727F00744832;
 			packageReferences = (
-				3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 3AD288DF2BB8727F00744832 /* Products */;
 			projectDirPath = "";
@@ -355,31 +365,11 @@
 				3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */,
 				3AA3FA2B2C68D9CD00ADA216 /* card swap.mp3 in Resources */,
 				3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */,
+				4A008EBF2D7218C500C94C14 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3AF291B42C68C822008C2261 /* Upload dSYM */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Upload dSYM";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3AD288DA2BB8727F00744832 /* Sources */ = {
@@ -397,6 +387,7 @@
 				3AD288F32BB872F000744832 /* MainView.swift in Sources */,
 				3A9B52C22BE0EB8F00D35F35 /* SettingsViewModel.swift in Sources */,
 				3AD2890E2BD5920200744832 /* CardView.swift in Sources */,
+				4A008EC62D7353A800C94C14 /* CardViewModel.swift in Sources */,
 				3A9B52C02BE0EB8500D35F35 /* SettingsView.swift in Sources */,
 				3ADD8D942BE2CF8C00B28D9B /* GameOverView.swift in Sources */,
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
@@ -409,11 +400,12 @@
 				3A69C4372C45A9AB00F51586 /* CardsTableView.swift in Sources */,
 				3AD288F52BB8730C00744832 /* MainViewModel.swift in Sources */,
 				3A3C20612C1F428800CADFC1 /* CardUIServices.swift in Sources */,
+				4A008EC22D73536A00C94C14 /* SolitaireGameEngine.swift in Sources */,
 				3AA3FA302C68E67700ADA216 /* CardLayout.swift in Sources */,
 				3A69C43B2C45BF8400F51586 /* TableView.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
-				3AA3FA322C68EB1F00ADA216 /* GameState.swift in Sources */,
+				4A008EC42D73539200C94C14 /* SolitaireState.swift in Sources */,
 				3AD289002BD58E7B00744832 /* GameView.swift in Sources */,
 				3ADD8D902BE2CE7E00B28D9B /* ConfettiSwiftUI.swift in Sources */,
 			);
@@ -480,6 +472,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -535,6 +528,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
@@ -646,30 +640,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3AF291B02C68C727008C2261 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		3AF291B22C68C727008C2261 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AF291AF2C68C727008C2261 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AD288D62BB8727F00744832 /* Project object */;
 }
