@@ -118,11 +118,11 @@ final class GameTableViewModel: ObservableObject {
         
         newState.hasCancelMove = !history.isEmpty
 
-        if !state.hasAllCardOpened, gameEngine.opendAllCards(for: state) {
+        if !state.hasAllCardOpened, gameEngine.opendAllCards(for: newState) {
             newState.hasAllCardOpened = true
         }
                 
-        if !state.gameOver, gameEngine.allCardsInFStacks(for: state) {
+        if !state.gameOver, gameEngine.allCardsInFStacks(for: newState) {
             newState.gameOver = true
         }
         

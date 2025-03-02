@@ -12,37 +12,17 @@ struct GameView: View {
     @StateObject var vm: GameTableViewModel
     
     var body: some View {
-        HStack {
-            Spacer(minLength: 0)
-            VStack {
+        HStack(alignment: .center) { // make content on center for ipad and macOS
+            VStack(alignment: .center) {
                 headerView
                 tableView
+                Spacer(minLength: 0)
                 footerView
-                    .padding(.bottom, 24)
             }
-            .frame(width: vm.layout.size.width, height: vm.layout.size.height)
-            Spacer(minLength: 0)
+            .frame(width: vm.layout.size.width)
         }
-        .overlay {
-            if vm.state.hasAllCardOpened {
-                VStack {
-                    Spacer(minLength: 0)
-                    Text("Автосбор")
-                        .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.white)
-                        .frame(height: 46)
-                        .padding(.horizontal, 16)
-                        .background {
-                            CustomButtonBgShape().foregroundColor(Color(.accent))
-                        }
-                        .onTapGesture(perform: vm.onAuto)
-                        .frame(maxWidth: 320)
-                        .padding(.horizontal, 32)
-                        .padding(.bottom, 64)
-                }
-            }
-        }
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 24)
         .overlay {
             if vm.state.gameOver {
                 GameOverView(
@@ -118,31 +98,37 @@ struct GameView: View {
     
     @ViewBuilder
     private var footerView: some View {
-        if !vm.state.hasAllCardOpened {
-            HStack {
-                Spacer(minLength: 0)
-                HStack(alignment: .center, spacing: 16) {
-                    Image(systemName: "arrow.counterclockwise")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 22, height: 22)
-                        .foregroundColor( vm.state.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
-                    Text("Отменить ход")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor( vm.state.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
-                }
+        if vm.state.hasAllCardOpened {
+            Text("Автосбор")
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(Color.white)
                 .frame(height: 46)
-                .padding(.horizontal, 36)
+                .padding(.horizontal, 16)
                 .background {
-                    CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
+                    CustomButtonBgShape().foregroundColor(Color(.accent))
                 }
-                .onTapGesture {
-                    if vm.state.hasCancelMove { withAnimation { vm.cancelMove() } }
-                }
-                Spacer(minLength: 0)
-            }
+                .onTapGesture(perform: vm.onAuto)
+                .frame(maxWidth: 320)
+                .padding(.horizontal, 32)
         } else {
-            EmptyView()
+            HStack(alignment: .center, spacing: 16) {
+                Image(systemName: "arrow.counterclockwise")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 22, height: 22)
+                Text("Отменить ход")
+                    .font(.system(size: 16, weight: .regular))
+            }
+            .foregroundColor(vm.state.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
+            .frame(height: 46)
+            .padding(.horizontal, 36)
+            .background {
+                CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
+            }
+            .onTapGesture {
+                if vm.state.hasCancelMove { withAnimation { vm.cancelMove() } }
+            }
         }
     }
     
