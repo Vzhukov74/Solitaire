@@ -12,6 +12,7 @@ final class SolitaireGameEngine {
     let layout: ICardLayout
     
     private var tempMap: [Int: [Int]]?
+    private var needsRefreshZIndexes: [Int] = []
     
     init(layout: ICardLayout) {
         self.layout = layout
@@ -27,7 +28,7 @@ final class SolitaireGameEngine {
                     isOpen: stacks[column].count - 1 == row && column != .stockInd ? true : false,
                     column: column,
                     row: row,
-                    position: layout.point(for: column, row: row),
+                    position: layout.pointForInitState(for: column, row: row),
                     zIndex: row,
                     error: 0
                 )
@@ -63,7 +64,7 @@ final class SolitaireGameEngine {
     }
     
     // MARK: move cards by hand
-    func move(index: Int, to position: CGPoint,for state: SolitaireState) -> SolitaireState {
+    func move(index: Int, to position: CGPoint, for state: SolitaireState) -> SolitaireState {
         let (_, card) = realCardAndIndex(index: index, for: state)
         let map = getMap(for: state)
                 
@@ -71,13 +72,12 @@ final class SolitaireGameEngine {
         
         let indexes = Array(map[card.column]![card.row..<map[card.column]!.count])
         
-        indexes.indices.forEach { iIndex in
-            let mIndex = indexes[iIndex]
-            newState.cards[mIndex].zIndex = .totalCards + indexes.count - iIndex
-            let offsetY = layout.offsetY * CGFloat(iIndex)
+        indexes.indices.forEach { tIndex in
+            let mIndex = indexes[tIndex]
+            newState.cards[mIndex].zIndex = .totalCards + tIndex
             newState.cards[mIndex].position = CGPoint(
                 x: position.x,
-                y: position.y - offsetY
+                y: position.y + layout.offsetY * CGFloat(tIndex)
             )
         }
 
@@ -95,13 +95,15 @@ final class SolitaireGameEngine {
             var newState = state
             
             let indexes = Array(map[card.column]![card.row..<map[card.column]!.count])
-            
-            indexes.indices.forEach { mIndex in
+                        
+            indexes.indices.forEach { tIndex in
+                let mIndex = indexes[tIndex]
+                needsRefreshZIndexes.append(mIndex)
                 let row = newState.cards[mIndex].row
                 let column = newState.cards[mIndex].column
-
-                newState.cards[mIndex].position = layout.point(for: column, row: row)
-                newState.cards[mIndex].zIndex = row
+                
+                newState.cards[mIndex].zIndex = zIndex(to: column, state: newState, offset: tIndex)
+                newState.cards[mIndex].position = self.position(index: mIndex, column: column, row: row, state: newState)
             }
             
             return newState
@@ -130,7 +132,6 @@ final class SolitaireGameEngine {
     }
     
     func auto(for state: SolitaireState) -> SolitaireState {
-        var newState = state
         let map = getMap(for: state)
         
         for fStacksInd in (Int.fStacksMinInd...Int.fStacksMaxInd) {
@@ -208,6 +209,11 @@ final class SolitaireGameEngine {
         var newState = state
         var map = getMap(for: state)
         
+        needsRefreshZIndexes.forEach {
+            newState.cards[$0].zIndex = newState.cards[$0].row
+        }
+        needsRefreshZIndexes.removeAll()
+        
         let card = newState.cards[index]
         let column = card.column
         
@@ -222,15 +228,22 @@ final class SolitaireGameEngine {
         } else {
             let indexes = Array(map[column]![card.row..<map[column]!.count])
             
-            indexes.forEach { mIndex in
+            indexes.indices.forEach { tIndex in
+                let mIndex = indexes[tIndex]
+                needsRefreshZIndexes.append(mIndex)
                 let row = map[to]!.count
                 newState.cards[mIndex].column = to
                 newState.cards[mIndex].row = row
-                newState.cards[mIndex].position = layout.point(for: to, row: row)
-                newState.cards[mIndex].zIndex = row
+                newState.cards[mIndex].position = position(index: mIndex, column: to, row: row, state: newState)
+                newState.cards[mIndex].zIndex = zIndex(
+                    to: to,
+                    state: newState,
+                    offset: tIndex
+                )
                 
                 map[column]!.removeAll(where: { $0 == mIndex })
                 map[to]!.append(mIndex)
+                tempMap = map
             }
         }
         
@@ -276,22 +289,27 @@ final class SolitaireGameEngine {
     
     private func canStack(index: Int, to: Int, for state: SolitaireState) -> Bool {
         let column = state.cards[index].column
-        let card = state.cards[index].card
+        let card = state.cards[index]
         let map = getMap(for: state)
         let numberOfCards = map[column]!.count - state.cards[index].row
-        let toStack = map[to]!
-        let tStacks = to <= .tStacksMaxInd
         
-        if toStack.isEmpty {
-            if tStacks {
-                return card.rank == .king
-            } else {
-                return card.rank == .ace && numberOfCards == 1
-            }
+        if to <= .tStacksMaxInd {
+            return canStackOnTStack(
+                card: card,
+                to: to,
+                map: map,
+                for: state
+            )
+        } else if to >= .fStacksMinInd && to <= .fStacksMaxInd && numberOfCards == .oneCard {
+            return canStackOnFStack(
+                card: card,
+                to: to,
+                map: map,
+                for: state
+            )
         } else {
-            return card.canStackOn(card: state.cards[toStack.last!].card, onPile: tStacks)
+            return false
         }
-        
     }
     
     private func canStackOnTStack(card: CardViewModel, to: Int, map: [Int: [Int]], for state: SolitaireState) -> Bool {
@@ -326,6 +344,32 @@ final class SolitaireGameEngine {
             return Int(position.x / (layout.size.width / 7))
         }
     }
+    
+    private func zIndex(to: Int, state: SolitaireState, offset: Int) -> Int {
+        let map = getMap(for: state)
+        
+        let tStacksMaxZIndex = (0...Int.tStacksMaxInd).compactMap { map[$0]!.count }.max() ?? 0
+        
+        if to <= .tStacksMaxInd {
+            return tStacksMaxZIndex + offset
+        } else {
+            return max(map[to]!.count + 1, tStacksMaxZIndex)
+        }
+    }
+    
+    private func position(index: Int, column: Int, row: Int, state: SolitaireState) -> CGPoint {
+        if row == 0 || column > .tStacksMaxInd {
+            return layout.point(for: column, row: row)
+        } else {
+            let map = getMap(for: state)
+            let pIndex = map[column]![row - 1]
+            let offsetY = state.cards[pIndex].isOpen ? layout.offsetY : layout.offsetY / 2
+            return CGPoint(
+                x: state.cards[pIndex].position.x,
+                y: state.cards[pIndex].position.y + offsetY
+            )
+        }
+    }
 }
 
 extension Int {
@@ -341,3 +385,13 @@ extension Int {
     static let fStacksMinInd: Int = 9
     static let fStacksMaxInd: Int = 12
 }
+
+// автосбор, херня
+// рестарт, проверить
+// игра недели
+
+// получить
+// юзер создать и сохранить
+// получить таблицу
+// закинуть результат на сервер
+// сервер

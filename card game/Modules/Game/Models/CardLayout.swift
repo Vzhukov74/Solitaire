@@ -25,6 +25,7 @@ protocol ICardLayout {
     var cardSize: CGSize { get }
     
     func point(for column: Int, row: Int) -> CGPoint
+    func pointForInitState(for column: Int, row: Int) -> CGPoint
     func talonPoint(row: Int) -> CGPoint
 }
 
@@ -68,17 +69,9 @@ final class CardLayout: ICardLayout {
     
     func point(for column: Int, row: Int) -> CGPoint {
         if column < 7 {
-//            var offset: CGFloat = 0
-//            if row > 0 {
-//                let rState = Array(state[0...row - 1])
-//                for index in rState.indices.reversed() {
-//                    offset += rState[index] ? offsetY : offsetY / 2
-//                }
-//            }
-            
             return CGPoint(
                 x: columns[column].x,
-                y: columns[column].y + offsetY * CGFloat(row)
+                y: columns[column].y + CGFloat(row) * offsetY
             )
         } else if column == 7 {
             return extra
@@ -88,6 +81,17 @@ final class CardLayout: ICardLayout {
             return piles[column - 9] // отнимаем от 9, что бы привести к индексам от 0...3
         } else {
             fatalError("wrong column number: \(column)")
+        }
+    }
+    
+    func pointForInitState(for column: Int, row: Int) -> CGPoint {
+        if column <= Int.tStacksMaxInd {
+            return CGPoint(
+                x: columns[column].x,
+                y: columns[column].y + offsetY / 2 * CGFloat(row)
+            )
+        } else {
+            return point(for: column, row: row)
         }
     }
     

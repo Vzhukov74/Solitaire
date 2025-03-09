@@ -91,7 +91,7 @@ final class GameTableViewModel: ObservableObject {
         guard state.cards[index].isOpen else { return }
         guard !isPauseBetweenMoves else { return }
         
-        applay(gameEngine.move(index: index, to: position, for: state))
+        state = gameEngine.move(index: index, to: position, for: state)
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
