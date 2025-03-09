@@ -53,6 +53,7 @@ final class GameTableViewModel: ObservableObject {
         guard var oldState = history.popLast() else { return }
         gameEngine.update(for: oldState)
         oldState.movesNumber += 1
+        oldState.hasCancelMove = !history.isEmpty
         state = oldState
         save()
     }

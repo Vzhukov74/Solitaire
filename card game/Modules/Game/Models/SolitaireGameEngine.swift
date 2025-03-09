@@ -12,7 +12,7 @@ final class SolitaireGameEngine {
     let layout: ICardLayout
     
     private var tempMap: [Int: [Int]]?
-    private var needsRefreshZIndexes: [Int] = []
+    private var needsRefreshZIndexesColumn: Int?
     
     init(layout: ICardLayout) {
         self.layout = layout
@@ -94,15 +94,18 @@ final class SolitaireGameEngine {
             
             var newState = state
             
+            handleNeedsRefreshZIndexesColumn(map: map, state: &newState)
+            
             let indexes = Array(map[card.column]![card.row..<map[card.column]!.count])
-                        
+            let column = newState.cards[indexes.first!].column
+            let zIndex = self.zIndex(to: column, state: newState)
+            needsRefreshZIndexesColumn = column
+            
             indexes.indices.forEach { tIndex in
                 let mIndex = indexes[tIndex]
-                needsRefreshZIndexes.append(mIndex)
                 let row = newState.cards[mIndex].row
-                let column = newState.cards[mIndex].column
-                
-                newState.cards[mIndex].zIndex = zIndex(to: column, state: newState, offset: tIndex)
+
+                newState.cards[mIndex].zIndex = zIndex + tIndex
                 newState.cards[mIndex].position = self.position(index: mIndex, column: column, row: row, state: newState)
             }
             
@@ -209,10 +212,7 @@ final class SolitaireGameEngine {
         var newState = state
         var map = getMap(for: state)
         
-        needsRefreshZIndexes.forEach {
-            newState.cards[$0].zIndex = newState.cards[$0].row
-        }
-        needsRefreshZIndexes.removeAll()
+        handleNeedsRefreshZIndexesColumn(map: map, state: &newState)
         
         let card = newState.cards[index]
         let column = card.column
@@ -227,19 +227,17 @@ final class SolitaireGameEngine {
             
         } else {
             let indexes = Array(map[column]![card.row..<map[column]!.count])
+
+            let zIndex = self.zIndex(to: to, state: newState)
             
+            needsRefreshZIndexesColumn = to
             indexes.indices.forEach { tIndex in
                 let mIndex = indexes[tIndex]
-                needsRefreshZIndexes.append(mIndex)
                 let row = map[to]!.count
                 newState.cards[mIndex].column = to
                 newState.cards[mIndex].row = row
                 newState.cards[mIndex].position = position(index: mIndex, column: to, row: row, state: newState)
-                newState.cards[mIndex].zIndex = zIndex(
-                    to: to,
-                    state: newState,
-                    offset: tIndex
-                )
+                newState.cards[mIndex].zIndex = zIndex + tIndex
                 
                 map[column]!.removeAll(where: { $0 == mIndex })
                 map[to]!.append(mIndex)
@@ -345,13 +343,13 @@ final class SolitaireGameEngine {
         }
     }
     
-    private func zIndex(to: Int, state: SolitaireState, offset: Int) -> Int {
+    private func zIndex(to: Int, state: SolitaireState) -> Int {
         let map = getMap(for: state)
         
         let tStacksMaxZIndex = (0...Int.tStacksMaxInd).compactMap { map[$0]!.count }.max() ?? 0
         
         if to <= .tStacksMaxInd {
-            return tStacksMaxZIndex + offset
+            return tStacksMaxZIndex
         } else {
             return max(map[to]!.count + 1, tStacksMaxZIndex)
         }
@@ -368,6 +366,17 @@ final class SolitaireGameEngine {
                 x: state.cards[pIndex].position.x,
                 y: state.cards[pIndex].position.y + offsetY
             )
+        }
+    }
+    
+    private func handleNeedsRefreshZIndexesColumn(map: [Int:[Int]], state: inout SolitaireState) {
+        if let needsRefreshZIndexesColumn {
+            map[needsRefreshZIndexesColumn]!.indices.forEach { tIndex in
+                let mIndex = map[needsRefreshZIndexesColumn]![tIndex]
+                state.cards[mIndex].zIndex = tIndex
+            }
+            
+            self.needsRefreshZIndexesColumn = nil
         }
     }
 }
