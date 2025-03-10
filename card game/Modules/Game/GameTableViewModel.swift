@@ -42,6 +42,7 @@ final class GameTableViewModel: ObservableObject {
     func newGame() {
         resetGame()
         state = gameEngine.vm()
+        gameEngine.update(for: state)
     }
     
     func clear() {

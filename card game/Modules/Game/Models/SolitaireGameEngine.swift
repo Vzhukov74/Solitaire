@@ -36,6 +36,8 @@ final class SolitaireGameEngine {
         }.flatMap { $0 })
     }
     
+    // MARK: Actions
+    
     func moveCardIfPossible(index: Int, for state: SolitaireState) -> SolitaireState? {
         let (realIndex, card) = realCardAndIndex(index: index, for: state)
         
@@ -150,7 +152,6 @@ final class SolitaireGameEngine {
         return state
     }
     
-    //MARK:
     func update(for state: SolitaireState) {
         _ = getMap(for: state, force: true)
     }
@@ -396,7 +397,6 @@ extension Int {
 }
 
 // автосбор, херня
-// рестарт, проверить
 // игра недели
 
 // получить
