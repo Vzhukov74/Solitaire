@@ -56,7 +56,7 @@ final class GameTableViewModel: ObservableObject {
         oldState.movesNumber += 1
         oldState.hasCancelMove = !history.isEmpty
         state = oldState
-        save()
+        //save()
     }
     
     func onAuto() { // add move
@@ -79,7 +79,7 @@ final class GameTableViewModel: ObservableObject {
         } else { // on error
             state.movesNumber += 1
             state.cards[index].error += 1
-            save()
+            //save()
         }
     }
     
@@ -132,26 +132,26 @@ final class GameTableViewModel: ObservableObject {
         newState.pointsNumber += Int(10 * coefficient)
 
         if newState.gameOver {
-            gameStore.reset()
+            //gameStore.reset()
         } else {
-            save()
+            //save()
         }
 
         newState.movesNumber += 1
 
         state = newState
         
-        save()
+        //save()
         startTimerIfNeeded()
     }
     
     private func save() {
-        gameStore.save(
-            SolitaireGame(
-                state: state,
-                history: history
-            )
-        )
+//        gameStore.save(
+//            SolitaireGame(
+//                state: state,
+//                history: history
+//            )
+//        )
     }
 
     private func onPause() -> Bool {
@@ -177,7 +177,7 @@ final class GameTableViewModel: ObservableObject {
         state.timeNumber += 1
         state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         state.timeStr = state.timeNumber.toTime
-        save()
+        //save()
         
         if timerIsActive { startTimer() }
     }

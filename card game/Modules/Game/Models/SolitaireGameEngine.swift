@@ -137,14 +137,13 @@ final class SolitaireGameEngine {
     }
     
     func auto(for state: SolitaireState) -> SolitaireState {
-        let map = getMap(for: state)
-        
         for fStacksInd in (Int.fStacksMinInd...Int.fStacksMaxInd) {
+            let map = getMap(for: state)
             if let cardInd = map[fStacksInd]?.last, let next = state.cards[cardInd].card.next {
-                for fStacksInd in (0..<Int.fStacksMinInd) where !map[fStacksInd]!.isEmpty {
-                    let topCardInd = map[fStacksInd]!.last!
-                    if state.cards[topCardInd].card == next {
-                        return move(index: cardInd, to: fStacksInd, for: state)
+                for stackInd in (0..<Int.fStacksMinInd) where !map[stackInd]!.isEmpty {
+                    let stackCardInd = map[stackInd]!.last!
+                    if state.cards[stackCardInd].card == next {
+                        return move(index: stackCardInd, to: fStacksInd, for: state)
                     }
                 }
             }
@@ -227,7 +226,12 @@ final class SolitaireGameEngine {
             map[.talonInd]!.append(topCardIndex)
             
         } else {
-            let indexes = Array(map[column]![card.row..<map[column]!.count])
+            let indexes: [Int]
+            if card.column > .tStacksMaxInd { // fix for auto
+                indexes = [index]
+            } else {
+                indexes = Array(map[column]![card.row..<map[column]!.count])
+            }
 
             let zIndex = self.zIndex(to: to, state: newState)
             
@@ -239,6 +243,7 @@ final class SolitaireGameEngine {
                 newState.cards[mIndex].row = row
                 newState.cards[mIndex].position = position(index: mIndex, column: to, row: row, state: newState)
                 newState.cards[mIndex].zIndex = zIndex + tIndex
+                newState.cards[mIndex].isOpen = true // fix for auto
                 
                 map[column]!.removeAll(where: { $0 == mIndex })
                 map[to]!.append(mIndex)
