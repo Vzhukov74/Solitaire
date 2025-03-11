@@ -43,7 +43,9 @@ final class SolitaireGameEngine {
         
         guard let to = findColumtTo(for: card, for: state) else { return nil }
 
-        return move(index: realIndex, to: to, for: state)
+        var newState = state
+        move(index: realIndex, to: to, for: &newState)
+        return newState
     }
     
     func returnTalonCardsBack(for state: SolitaireState) -> SolitaireState {
@@ -90,7 +92,9 @@ final class SolitaireGameEngine {
         let (realIndex, card) = realCardAndIndex(index: index, for: state)
         
         if let to = column(by: position), canStack(index: realIndex, to: to, for: state)  {
-            return move(index: realIndex, to: to, for: state)
+            var newState = state
+            move(index: realIndex, to: to, for: &newState)
+            return newState
         } else {
             let map = getMap(for: state)
             
@@ -137,18 +141,20 @@ final class SolitaireGameEngine {
     }
     
     func auto(for state: SolitaireState) -> SolitaireState {
+        var newState = state
+
         for fStacksInd in (Int.fStacksMinInd...Int.fStacksMaxInd) {
             let map = getMap(for: state)
             if let cardInd = map[fStacksInd]?.last, let next = state.cards[cardInd].card.next {
                 for stackInd in (0..<Int.fStacksMinInd) where !map[stackInd]!.isEmpty {
                     let stackCardInd = map[stackInd]!.last!
                     if state.cards[stackCardInd].card == next {
-                        return move(index: stackCardInd, to: fStacksInd, for: state)
+                        move(index: stackCardInd, to: fStacksInd, for: &newState)
                     }
                 }
             }
         }
-        return state
+        return newState
     }
     
     func update(for state: SolitaireState) {
@@ -208,19 +214,18 @@ final class SolitaireGameEngine {
         return nil
     }
         
-    private func move(index: Int, to: Int, for state: SolitaireState) -> SolitaireState {
-        var newState = state
+    private func move(index: Int, to: Int, for state: inout SolitaireState) {
         var map = getMap(for: state)
         
-        handleNeedsRefreshZIndexesColumn(map: map, state: &newState)
+        handleNeedsRefreshZIndexesColumn(map: map, state: &state)
         
-        let card = newState.cards[index]
+        let card = state.cards[index]
         let column = card.column
         
         if to == .talonInd, let topCardIndex = map[.stockInd]!.first {
-            newState.cards[topCardIndex].column = .talonInd
-            newState.cards[topCardIndex].row = map[.talonInd]!.count
-            newState.cards[topCardIndex].isOpen = true
+            state.cards[topCardIndex].column = .talonInd
+            state.cards[topCardIndex].row = map[.talonInd]!.count
+            state.cards[topCardIndex].isOpen = true
 
             map[.stockInd]!.removeFirst()
             map[.talonInd]!.append(topCardIndex)
@@ -233,17 +238,17 @@ final class SolitaireGameEngine {
                 indexes = Array(map[column]![card.row..<map[column]!.count])
             }
 
-            let zIndex = self.zIndex(to: to, state: newState)
+            let zIndex = self.zIndex(to: to, state: state)
             
             needsRefreshZIndexesColumn = to
             indexes.indices.forEach { tIndex in
                 let mIndex = indexes[tIndex]
                 let row = map[to]!.count
-                newState.cards[mIndex].column = to
-                newState.cards[mIndex].row = row
-                newState.cards[mIndex].position = position(index: mIndex, column: to, row: row, state: newState)
-                newState.cards[mIndex].zIndex = zIndex + tIndex
-                newState.cards[mIndex].isOpen = true // fix for auto
+                state.cards[mIndex].column = to
+                state.cards[mIndex].row = row
+                state.cards[mIndex].position = position(index: mIndex, column: to, row: row, state: state)
+                state.cards[mIndex].zIndex = zIndex + tIndex
+                state.cards[mIndex].isOpen = true // fix for auto
                 
                 map[column]!.removeAll(where: { $0 == mIndex })
                 map[to]!.append(mIndex)
@@ -261,15 +266,14 @@ final class SolitaireGameEngine {
             for boundIndex in (loverBound...upperBound)  {
                 let talonIndex = map[.talonInd]![boundIndex]
                 let row = map[.talonInd]!.count - boundIndex - 1
-                newState.cards[talonIndex].position = layout.talonPoint(row: row)
-                newState.cards[talonIndex].zIndex = newState.cards[talonIndex].row
+                state.cards[talonIndex].position = layout.talonPoint(row: row)
+                state.cards[talonIndex].zIndex = state.cards[talonIndex].row
             }
         } else if column <= .tStacksMaxInd, let lastRowIndex = map[column]!.last { // open card
-            newState.cards[lastRowIndex].isOpen = true
+            state.cards[lastRowIndex].isOpen = true
         }
 
         tempMap = map
-        return newState
     }
     
     private func getMap(for state: SolitaireState, force: Bool = false) -> [Int: [Int]] {
@@ -402,8 +406,8 @@ extension Int {
 }
 
 // автосбор, херня
-// игра недели
 
+// игра недели
 // получить
 // юзер создать и сохранить
 // получить таблицу

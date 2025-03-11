@@ -40,13 +40,13 @@ final class GameTableViewModel: ObservableObject {
     }
         
     func newGame() {
-        resetGame()
+        stopTimer()
         state = gameEngine.vm()
         gameEngine.update(for: state)
     }
     
     func clear() {
-        resetGame()
+        stopTimer()
     }
 
     // MARK: public
@@ -56,17 +56,16 @@ final class GameTableViewModel: ObservableObject {
         oldState.movesNumber += 1
         oldState.hasCancelMove = !history.isEmpty
         state = oldState
-        //save()
+        save()
     }
     
     func onAuto() { // add move
-        applay(gameEngine.auto(for: state))
+        guard !state.gameOver else { return }
         
-        if(!state.gameOver) {
-            Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 50_000_000)
-                onAuto()
-            }
+        withAnimation { applay(gameEngine.auto(for: state)) }
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 125_000_000)
+            onAuto()
         }
     }
     
@@ -79,7 +78,7 @@ final class GameTableViewModel: ObservableObject {
         } else { // on error
             state.movesNumber += 1
             state.cards[index].error += 1
-            //save()
+            save()
         }
     }
     
@@ -104,7 +103,7 @@ final class GameTableViewModel: ObservableObject {
     
     // MARK: private
     
-    private func resetGame() {
+    private func stopTimer() {
         timerIsActive = false
         timerTask?.cancel()
     }
@@ -132,16 +131,17 @@ final class GameTableViewModel: ObservableObject {
         newState.pointsNumber += Int(10 * coefficient)
 
         if newState.gameOver {
+            stopTimer()
             //gameStore.reset()
         } else {
-            //save()
+            save()
         }
 
         newState.movesNumber += 1
 
         state = newState
         
-        //save()
+        save()
         startTimerIfNeeded()
     }
     
@@ -177,7 +177,7 @@ final class GameTableViewModel: ObservableObject {
         state.timeNumber += 1
         state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
         state.timeStr = state.timeNumber.toTime
-        //save()
+        save()
         
         if timerIsActive { startTimer() }
     }

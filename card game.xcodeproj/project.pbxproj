@@ -228,6 +228,7 @@
 		3AD288F72BB8733800744832 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				4AB926A02D80B50C00D10320 /* Engine */,
 				4A008EC02D73534900C94C14 /* Models */,
 				3AD2890A2BD591D100744832 /* Views */,
 				3AD288FA2BB8735F00744832 /* GameTableViewModel.swift */,
@@ -280,10 +281,17 @@
 				4A008EC72D74D07100C94C14 /* SolitaireGame.swift */,
 				4A008EC32D73539200C94C14 /* SolitaireState.swift */,
 				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
-				4A008EC12D73536A00C94C14 /* SolitaireGameEngine.swift */,
 				4A008EC52D7353A800C94C14 /* CardViewModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4AB926A02D80B50C00D10320 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				4A008EC12D73536A00C94C14 /* SolitaireGameEngine.swift */,
+			);
+			path = Engine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

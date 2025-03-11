@@ -100,7 +100,7 @@ struct GameView: View {
     private var footerView: some View {
         if vm.state.hasAllCardOpened {
             Text("Автосбор")
-                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .font(.system(size: 22, weight: .semibold, design: .rounded))
                 .frame(maxWidth: .infinity)
                 .foregroundColor(Color.white)
                 .frame(height: 46)
@@ -108,7 +108,9 @@ struct GameView: View {
                 .background {
                     CustomButtonBgShape().foregroundColor(Color(.accent))
                 }
-                .onTapGesture(perform: vm.onAuto)
+                .onTapGesture {
+                    vm.onAuto()
+                }
                 .frame(maxWidth: 320)
                 .padding(.horizontal, 32)
         } else {
