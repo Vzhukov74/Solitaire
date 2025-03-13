@@ -24,12 +24,12 @@ struct GameView: View {
         .frame(maxWidth: .infinity)
         .padding(.bottom, 24)
         .overlay {
-            if vm.state.gameOver {
+            if vm.ui.gameOver {
                 GameOverView(
-                    isPresenting: $vm.state.gameOver,
+                    isPresenting: $vm.ui.gameOver,
                     feedbackService: vm.feedbackService,
                     moveNumber: vm.state.movesNumber,
-                    timeNumber: vm.state.timeStr,
+                    timeNumber: vm.ui.timeStr,
                     pointsNumber: vm.state.pointsNumber,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
@@ -75,7 +75,7 @@ struct GameView: View {
                     .foregroundStyle(Color(.accent))
                     .frame(height: 44)
                     .overlay {
-                        Text(vm.state.timeStr)
+                        Text(vm.ui.timeStr)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -86,7 +86,7 @@ struct GameView: View {
                     .frame(width: 44, height: 44)
             }
             HStack(spacing: 10) {
-                infoView(title: "очки", subtitle: vm.state.pointsCoefficient, value: "\(vm.state.pointsNumber)")
+                infoView(title: "очки", subtitle: vm.ui.pointsCoefficient, value: "\(vm.state.pointsNumber)")
                 Spacer(minLength: 0)
                 infoView(title: "ходы", value: "\(vm.state.movesNumber)")
             }
@@ -98,7 +98,7 @@ struct GameView: View {
     
     @ViewBuilder
     private var footerView: some View {
-        if vm.state.hasAllCardOpened {
+        if vm.ui.hasAllCardOpened {
             Text("Автосбор")
                 .font(.system(size: 22, weight: .semibold, design: .rounded))
                 .frame(maxWidth: .infinity)
@@ -122,14 +122,14 @@ struct GameView: View {
                 Text("Отменить ход")
                     .font(.system(size: 16, weight: .regular))
             }
-            .foregroundColor(vm.state.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
+            .foregroundColor(vm.ui.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
             .frame(height: 46)
             .padding(.horizontal, 36)
             .background {
                 CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
             }
             .onTapGesture {
-                if vm.state.hasCancelMove { withAnimation { vm.cancelMove() } }
+                if vm.ui.hasCancelMove { withAnimation { vm.cancelMove() } }
             }
         }
     }

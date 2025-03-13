@@ -49,6 +49,7 @@
 		4A008EC62D7353A800C94C14 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC52D7353A800C94C14 /* CardViewModel.swift */; };
 		4A008EC82D74D07600C94C14 /* SolitaireGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC72D74D07100C94C14 /* SolitaireGame.swift */; };
 		4AB926A22D80B59400D10320 /* SolitaireMoveCardEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */; };
+		4AB926A42D83410D00D10320 /* SolitaireGameUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		4A008EC52D7353A800C94C14 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		4A008EC72D74D07100C94C14 /* SolitaireGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGame.swift; sourceTree = "<group>"; };
 		4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireMoveCardEngine.swift; sourceTree = "<group>"; };
+		4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGameUIModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +286,7 @@
 				4A008EC32D73539200C94C14 /* SolitaireState.swift */,
 				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
 				4A008EC52D7353A800C94C14 /* CardViewModel.swift */,
+				4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				3A69C43B2C45BF8400F51586 /* TableView.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
+				4AB926A42D83410D00D10320 /* SolitaireGameUIModel.swift in Sources */,
 				4A008EC42D73539200C94C14 /* SolitaireState.swift in Sources */,
 				3AD289002BD58E7B00744832 /* GameView.swift in Sources */,
 				3ADD8D902BE2CE7E00B28D9B /* ConfettiSwiftUI.swift in Sources */,

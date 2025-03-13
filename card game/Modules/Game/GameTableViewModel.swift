@@ -10,6 +10,7 @@ import SwiftUI
 final class GameTableViewModel: ObservableObject {
 
     @Published var state: SolitaireState
+    @Published var ui: SolitaireGameUIModel
     
     let layout: ICardLayout
     let feedbackService: IFeedbackService
@@ -36,9 +37,12 @@ final class GameTableViewModel: ObservableObject {
         self.gameEngine = SolitaireGameEngine(layout: layout)
         self.moveEngine = SolitaireMoveCardEngine(layout: layout)
         self.state = SolitaireState()
+        self.ui = SolitaireGameUIModel()
 
         self.state = game?.state ?? gameEngine.vm()
         self.history = game?.history ?? []
+        
+        updateUIModel(for: state)
     }
         
     func newGame() {
@@ -56,13 +60,13 @@ final class GameTableViewModel: ObservableObject {
         guard var oldState = history.popLast() else { return }
         gameEngine.update(for: oldState)
         oldState.movesNumber += 1
-        oldState.hasCancelMove = !history.isEmpty
         state = oldState
+        updateUIModel(for: state)
         save()
     }
     
     func onAuto() { // add move
-        guard !state.gameOver else { return }
+        guard !ui.gameOver else { return }
         
         withAnimation { applay(gameEngine.auto(for: state)) }
         Task { @MainActor in
@@ -129,27 +133,18 @@ final class GameTableViewModel: ObservableObject {
             history.remove(at: 0)
         }
         
-        newState.hasCancelMove = !history.isEmpty
-
-        if !state.hasAllCardOpened, gameEngine.opendAllCards(for: newState) {
-            newState.hasAllCardOpened = true
-        }
-                
-        if !state.gameOver, gameEngine.allCardsInFStacks(for: newState) {
-            newState.gameOver = true
-        }
+        updateUIModel(for: newState)
         
-        if newState.gameOver {
-            stopTimer()
-            //gameStore.reset()
-        } else {
-            let coefficient = timeAndMovesCoefficient()
-            
-            newState.pointsNumber += Int(10 * coefficient)
-            newState.movesNumber += 1
+        let coefficient = timeAndMovesCoefficient()
+        newState.pointsNumber += Int(10 * coefficient)
+        newState.movesNumber += 1
 
-            state = newState
-            
+        state = newState
+        
+        if ui.gameOver {
+            stopTimer()
+            gameStore.reset()
+        } else {
             save()
             startTimerIfNeeded()
         }
@@ -178,22 +173,16 @@ final class GameTableViewModel: ObservableObject {
         }
     }
     
-    private func onMove() {
-        state.movesNumber += 1
-        state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-    }
-    
     private func onTime() {
         state.timeNumber += 1
-        state.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        state.timeStr = state.timeNumber.toTime
+        updateUIModel(for: state)
         save()
         
         if timerIsActive { startTimer() }
     }
     
     private func startTimerIfNeeded() {
-        guard !timerIsActive, !state.gameOver else { return }
+        guard !timerIsActive, !ui.gameOver else { return }
         timerIsActive = true
 
         startTimer()
@@ -227,6 +216,20 @@ final class GameTableViewModel: ObservableObject {
         }
 
         return 1
+    }
+    
+    private func updateUIModel(for state: SolitaireState) {
+        ui.hasCancelMove = !history.isEmpty
+        ui.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
+        ui.timeStr = state.timeNumber.toTime
+        
+        if !ui.hasAllCardOpened, gameEngine.opendAllCards(for: state) {
+            ui.hasAllCardOpened = true
+        }
+
+        if !ui.gameOver, gameEngine.allCardsInFStacks(for: state) {
+            ui.gameOver = true
+        }
     }
 }
 

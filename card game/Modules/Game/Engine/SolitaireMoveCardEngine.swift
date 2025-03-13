@@ -50,7 +50,6 @@ final class SolitaireMoveCardEngine {
             )
         }
 
-        newState.isHistorical = false
         return newState
     }
     
