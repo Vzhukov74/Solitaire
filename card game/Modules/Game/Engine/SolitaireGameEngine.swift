@@ -47,7 +47,17 @@ final class SolitaireGameEngine {
         move(index: realIndex, to: to, for: &newState)
         return newState
     }
-    
+
+    func move(index: Int, to: Int, for state: SolitaireState) -> SolitaireState? {
+        guard  canStack(index: index, to: to, for: state) else { return nil }
+        
+        let (realIndex, _) = realCardAndIndex(index: index, for: state)
+        
+        var newState = state
+        move(index: realIndex, to: to, for: &newState)
+        return newState
+    }
+
     func returnTalonCardsBack(for state: SolitaireState) -> SolitaireState {
         var newState = state
         var map = getMap(for: state)
@@ -65,58 +75,6 @@ final class SolitaireGameEngine {
 
         tempMap = map
         return newState
-    }
-    
-    // MARK: move cards by hand
-    func move(index: Int, to position: CGPoint, for state: SolitaireState) -> SolitaireState {
-        let (_, card) = realCardAndIndex(index: index, for: state)
-        let map = getMap(for: state)
-                
-        var newState = state
-        
-        let indexes = Array(map[card.column]![card.row..<map[card.column]!.count])
-        
-        indexes.indices.forEach { tIndex in
-            let mIndex = indexes[tIndex]
-            newState.cards[mIndex].zIndex = .totalCards + tIndex
-            newState.cards[mIndex].position = CGPoint(
-                x: position.x,
-                y: position.y + layout.offsetY * CGFloat(tIndex)
-            )
-        }
-
-        return newState
-    }
-    
-    func endMove(index: Int, to position: CGPoint, for state: SolitaireState) -> SolitaireState {
-        let (realIndex, card) = realCardAndIndex(index: index, for: state)
-        
-        if let to = column(by: position), canStack(index: realIndex, to: to, for: state)  {
-            var newState = state
-            move(index: realIndex, to: to, for: &newState)
-            return newState
-        } else {
-            let map = getMap(for: state)
-            
-            var newState = state
-            
-            handleNeedsRefreshZIndexesColumn(map: map, state: &newState)
-            
-            let indexes = Array(map[card.column]![card.row..<map[card.column]!.count])
-            let column = newState.cards[indexes.first!].column
-            let zIndex = self.zIndex(to: column, state: newState)
-            needsRefreshZIndexesColumn = column
-            
-            indexes.indices.forEach { tIndex in
-                let mIndex = indexes[tIndex]
-                let row = newState.cards[mIndex].row
-
-                newState.cards[mIndex].zIndex = zIndex + tIndex
-                newState.cards[mIndex].position = self.position(index: mIndex, column: column, row: row, state: newState)
-            }
-            
-            return newState
-        }
     }
     
     // MARK: helpers
@@ -157,6 +115,10 @@ final class SolitaireGameEngine {
         return newState
     }
     
+    func updateColumnZIndexAfter(column: Int) {
+        needsRefreshZIndexesColumn = column
+    }
+    
     func update(for state: SolitaireState) {
         _ = getMap(for: state, force: true)
     }
@@ -171,7 +133,6 @@ final class SolitaireGameEngine {
             if let rIndex = map[.talonInd]!.last {
                 realIndex = rIndex
                 card = state.cards[realIndex]
-                
             }
         }
         
@@ -339,20 +300,7 @@ final class SolitaireGameEngine {
             return card.card.canStackOn(card: state.cards[toStack.last!].card, onPile: true)
         }
     }
-    
-    private func column(by position: CGPoint) -> Int? {
-        if position.y < layout.cardSize.height {
-            let column = Int(position.x / (layout.size.width / 7))
-            if column < 4 {
-                return .fStacksMinInd + column
-            } else {
-                return nil
-            }
-        } else {
-            return Int(position.x / (layout.size.width / 7))
-        }
-    }
-    
+        
     private func zIndex(to: Int, state: SolitaireState) -> Int {
         let map = getMap(for: state)
         

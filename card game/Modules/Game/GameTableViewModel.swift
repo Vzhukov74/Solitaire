@@ -15,6 +15,7 @@ final class GameTableViewModel: ObservableObject {
     let feedbackService: IFeedbackService
     
     private let gameEngine: SolitaireGameEngine
+    private let moveEngine: SolitaireMoveCardEngine
     private let gameStore: IGamePersistentStore
     
     // timer
@@ -33,6 +34,7 @@ final class GameTableViewModel: ObservableObject {
         self.feedbackService = feedbackService
         self.layout = layout
         self.gameEngine = SolitaireGameEngine(layout: layout)
+        self.moveEngine = SolitaireMoveCardEngine(layout: layout)
         self.state = SolitaireState()
 
         self.state = game?.state ?? gameEngine.vm()
@@ -92,13 +94,23 @@ final class GameTableViewModel: ObservableObject {
         guard state.cards[index].isOpen else { return }
         guard !isPauseBetweenMoves else { return }
         
-        state = gameEngine.move(index: index, to: position, for: state)
+        state = moveEngine.move(index: index, to: position, for: state)
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
         guard !isPauseBetweenMoves else { return }
 
-        applay(gameEngine.endMove(index: index, to: position, for: state))
+        if let to = moveEngine.endMove(index: index, to: position, for: state),
+           var newState = gameEngine.move(index: index, to: to, for: state)
+        {
+            applay(newState)
+        } else {
+            var newState = moveEngine.backMovingCard(for: state)
+            gameEngine.updateColumnZIndexAfter(column: newState.cards[index].column)
+            newState.movesNumber += 1
+            state = newState
+            save()
+        }
     }
     
     // MARK: private
@@ -127,31 +139,29 @@ final class GameTableViewModel: ObservableObject {
             newState.gameOver = true
         }
         
-        let coefficient = timeAndMovesCoefficient()
-        newState.pointsNumber += Int(10 * coefficient)
-
         if newState.gameOver {
             stopTimer()
             //gameStore.reset()
         } else {
+            let coefficient = timeAndMovesCoefficient()
+            
+            newState.pointsNumber += Int(10 * coefficient)
+            newState.movesNumber += 1
+
+            state = newState
+            
             save()
+            startTimerIfNeeded()
         }
-
-        newState.movesNumber += 1
-
-        state = newState
-        
-        save()
-        startTimerIfNeeded()
     }
     
     private func save() {
-//        gameStore.save(
-//            SolitaireGame(
-//                state: state,
-//                history: history
-//            )
-//        )
+        gameStore.save(
+            SolitaireGame(
+                state: state,
+                history: history
+            )
+        )
     }
 
     private func onPause() -> Bool {
