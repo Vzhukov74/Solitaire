@@ -66,9 +66,9 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func onAuto() { // add move
-        guard !ui.gameOver else { return }
-        
         withAnimation { applay(gameEngine.auto(for: state)) }
+
+        guard !ui.gameOver else { return }
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 125_000_000)
             onAuto()

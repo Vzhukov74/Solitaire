@@ -104,10 +104,17 @@ final class SolitaireGameEngine {
         for fStacksInd in (Int.fStacksMinInd...Int.fStacksMaxInd) {
             let map = getMap(for: state)
             if let cardInd = map[fStacksInd]?.last, let next = state.cards[cardInd].card.next {
-                for stackInd in (0..<Int.fStacksMinInd) where !map[stackInd]!.isEmpty {
+                for stackInd in (0...Int.tStacksMaxInd) where !map[stackInd]!.isEmpty {
                     let stackCardInd = map[stackInd]!.last!
                     if state.cards[stackCardInd].card == next {
                         move(index: stackCardInd, to: fStacksInd, for: &newState)
+                    }
+                }
+                for stackInd in (Int.stockInd...Int.talonInd) where !map[stackInd]!.isEmpty {
+                    for stackCardInd in map[stackInd]! {
+                        if state.cards[stackCardInd].card == next {
+                            move(index: stackCardInd, to: fStacksInd, for: &newState)
+                        }
                     }
                 }
             }
