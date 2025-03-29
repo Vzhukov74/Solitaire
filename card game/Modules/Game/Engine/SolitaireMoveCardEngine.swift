@@ -63,9 +63,12 @@ final class SolitaireMoveCardEngine {
         movingState.keys.forEach { mIndex in
             newState.cards[mIndex].position = movingState[mIndex]!
         }
-        movingState.removeAll()
         
         return newState
+    }
+    
+    func clear() {
+        movingState.removeAll()
     }
     
     // MARK: private

@@ -44,7 +44,7 @@ struct GameView: View {
     private var tableView: some View {
         CardsTableView(
             layout: vm.layout,
-            cards: vm.state.cards,
+            cards: vm.moving?.cards ?? vm.state.cards,
             cardUIServices: AppDI.shared.service(),
             refreshExtraCards: vm.refreshExtraCards,
             moveCardIfPossible: { vm.moveCardIfPossible(index: $0) },

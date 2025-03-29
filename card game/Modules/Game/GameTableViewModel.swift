@@ -12,6 +12,9 @@ final class GameTableViewModel: ObservableObject {
     @Published var state: SolitaireState
     @Published var ui: SolitaireGameUIModel
     
+    // use as temp for moving card by hand
+    @Published var moving: SolitaireState?
+    
     let layout: ICardLayout
     let feedbackService: IFeedbackService
     
@@ -49,6 +52,7 @@ final class GameTableViewModel: ObservableObject {
         stopTimer()
         state = gameEngine.vm()
         gameEngine.update(for: state)
+        ui = SolitaireGameUIModel()
     }
     
     func clear() {
@@ -59,7 +63,7 @@ final class GameTableViewModel: ObservableObject {
     func cancelMove() {
         guard var oldState = history.popLast() else { return }
         gameEngine.update(for: oldState)
-        oldState.movesNumber += 1
+        oldState.movesNumber += 2
         state = oldState
         updateUIModel(for: state)
         save()
@@ -97,24 +101,28 @@ final class GameTableViewModel: ObservableObject {
     func movingCards(_ index: Int, at position: CGPoint) {
         guard state.cards[index].isOpen else { return }
         guard !isPauseBetweenMoves else { return }
-        
-        state = moveEngine.move(index: index, to: position, for: state)
+
+        moving = moveEngine.move(index: index, to: position, for: state)
     }
     
     func endMovingCards(_ index: Int, at position: CGPoint) {
         guard !isPauseBetweenMoves else { return }
+        guard let moving else { return }
 
-        if let to = moveEngine.endMove(index: index, to: position, for: state),
-           var newState = gameEngine.move(index: index, to: to, for: state)
+        if let to = moveEngine.endMove(index: index, to: position, for: moving),
+           let newState = gameEngine.move(index: index, to: to, for: moving)
         {
             applay(newState)
         } else {
-            var newState = moveEngine.backMovingCard(for: state)
+            var newState = moveEngine.backMovingCard(for: moving)
             gameEngine.updateColumnZIndexAfter(column: newState.cards[index].column)
             newState.movesNumber += 1
             state = newState
             save()
         }
+
+        self.moving = nil
+        moveEngine.clear()
     }
     
     // MARK: private
