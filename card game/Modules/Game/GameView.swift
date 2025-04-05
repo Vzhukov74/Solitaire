@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameView: View {
+    let cardUIServices: ICardUIServices
     @Environment(\.dismiss) private var dismiss
     @StateObject var vm: GameTableViewModel
     
@@ -45,7 +46,7 @@ struct GameView: View {
         CardsTableView(
             layout: vm.layout,
             cards: vm.moving?.cards ?? vm.state.cards,
-            cardUIServices: AppDI.shared.service(),
+            cardUIServices: cardUIServices,
             refreshExtraCards: vm.refreshExtraCards,
             moveCardIfPossible: { vm.moveCardIfPossible(index: $0) },
             movingCards: { vm.movingCards($0, at: $1) },
@@ -86,9 +87,9 @@ struct GameView: View {
                     .frame(width: 44, height: 44)
             }
             HStack(spacing: 10) {
-                infoView(title: "очки", subtitle: vm.ui.pointsCoefficient, value: "\(vm.state.pointsNumber)")
+                infoView(title: String(localized: "очки"), subtitle: vm.ui.pointsCoefficient, value: "\(vm.state.pointsNumber)")
                 Spacer(minLength: 0)
-                infoView(title: "ходы", value: "\(vm.state.movesNumber)")
+                infoView(title: String(localized: "ходы"), value: "\(vm.state.movesNumber)")
             }
         }
             .frame(maxWidth: .infinity)

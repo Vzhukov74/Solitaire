@@ -11,6 +11,7 @@ import SwiftUI
 struct TableView: View {
     let gameStore: IGamePersistentStore
     let feedbackService: IFeedbackService
+    let cardUIServices: ICardUIServices
     let game: SolitaireGame?
     
     var body: some View {
@@ -18,6 +19,7 @@ struct TableView: View {
             if geo.size.width > 0, geo.size.height > 0 {
                 let (size, cardSize) = sizes(from: geo.size)
                 GameView(
+                    cardUIServices: cardUIServices,
                     vm: GameTableViewModel(
                         with: game,
                         gameStore: gameStore,
@@ -30,7 +32,7 @@ struct TableView: View {
             }
         }
         .background {
-            Color("gb_1").ignoresSafeArea()
+            Color(cardUIServices.selectedTableId).ignoresSafeArea()
         }
     }
     

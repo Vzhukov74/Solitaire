@@ -13,9 +13,11 @@ class SettingsViewModel: ObservableObject {
     @Published var isVibrationOn: Bool
     @Published var selectedBackId: String
     @Published var selectedFrontId: String
+    @Published var selectedTableColorsId: String
     
     private(set) var backs: [(String, Image)] = []
     private(set) var fronts: [(String, [Image])] = []
+    private(set) var tableColors: [String] = []
     
     private let uiSettings: IGameUISettingsService
     private let feedbackService: IFeedbackService
@@ -36,6 +38,8 @@ class SettingsViewModel: ObservableObject {
         self.backs = cardUIServices.allBacks
         self.selectedFrontId = cardUIServices.selectedFrontId
         self.fronts = cardUIServices.allFronts
+        self.selectedTableColorsId = cardUIServices.selectedTableId
+        self.tableColors = cardUIServices.allTableBackgrounds
     }
     
     func toggleSound() {
@@ -58,5 +62,10 @@ class SettingsViewModel: ObservableObject {
     func select(cardFrontId: String) {
         cardUIServices.select(front: cardFrontId)
         selectedFrontId = cardFrontId
+    }
+    
+    func select(tableColorsId: String) {
+        cardUIServices.select(table: tableColorsId)
+        selectedTableColorsId = tableColorsId
     }
 }

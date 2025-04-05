@@ -12,11 +12,14 @@ protocol ICardUIServices {
     var back: Image { get }
     var selectedBackId: String { get }
     var selectedFrontId: String { get }
+    var selectedTableId: String { get }
     var allBacks: [(String, Image)] { get }
     var allFronts: [(String, [Image])] { get }
+    var allTableBackgrounds: [String] { get }
     
     func select(back id: String)
     func select(front id: String)
+    func select(table id: String)
     func front(card: Card) -> Image
 }
 
@@ -30,6 +33,8 @@ final class CardUIServices: ICardUIServices {
     private(set) var selectedBackId: String
     @UserDefault(wrappedValue: "2", "com.solitaire.game.card.front.key")
     private(set) var selectedFrontId: String
+    @UserDefault(wrappedValue: "bg_2", "com.solitaire.game.table.background.key")
+    private(set) var selectedTableId: String
         
     var allBacks: [(String, Image)] {
         [
@@ -48,6 +53,10 @@ final class CardUIServices: ICardUIServices {
         ]
     }
     
+    var allTableBackgrounds: [String] {
+        ["bg_1", "bg_2", "bg_3", "bg_4"]
+    }
+    
     func select(back id: String) {
         selectedBackId = id
     }
@@ -56,11 +65,13 @@ final class CardUIServices: ICardUIServices {
         selectedFrontId = id
     }
     
+    func select(table id: String) {
+        selectedTableId = id
+    }
+    
     func front(card: Card) -> Image {
         Image("\(card.imageSuit)\(card.imageRank)_\(selectedFrontId)")
     }
-    
-    
 }
 
 private extension Card {

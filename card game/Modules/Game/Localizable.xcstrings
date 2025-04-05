@@ -159,6 +159,17 @@
         }
       }
     },
+    "очки" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "points"
+          }
+        }
+      }
+    },
     "Продолжить" : {
       "localizations" : {
         "en" : {
@@ -203,6 +214,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Рубашка"
+          }
+        }
+      }
+    },
+    "ходы" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "moves"
+          }
+        }
+      }
+    },
+    "Цвет стола" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Table color"
           }
         }
       }

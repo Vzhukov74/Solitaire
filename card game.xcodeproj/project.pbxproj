@@ -48,6 +48,8 @@
 		4A008EC42D73539200C94C14 /* SolitaireState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC32D73539200C94C14 /* SolitaireState.swift */; };
 		4A008EC62D7353A800C94C14 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC52D7353A800C94C14 /* CardViewModel.swift */; };
 		4A008EC82D74D07600C94C14 /* SolitaireGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC72D74D07100C94C14 /* SolitaireGame.swift */; };
+		4A7228062DA1689500B1EF1C /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7228052DA1689400B1EF1C /* MeshGradientView.swift */; };
+		4A7228082DA175EE00B1EF1C /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4A7228072DA175EE00B1EF1C /* InfoPlist.xcstrings */; };
 		4AB926A22D80B59400D10320 /* SolitaireMoveCardEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */; };
 		4AB926A42D83410D00D10320 /* SolitaireGameUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */; };
 /* End PBXBuildFile section */
@@ -97,6 +99,8 @@
 		4A008EC32D73539200C94C14 /* SolitaireState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireState.swift; sourceTree = "<group>"; };
 		4A008EC52D7353A800C94C14 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		4A008EC72D74D07100C94C14 /* SolitaireGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGame.swift; sourceTree = "<group>"; };
+		4A7228052DA1689400B1EF1C /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
+		4A7228072DA175EE00B1EF1C /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireMoveCardEngine.swift; sourceTree = "<group>"; };
 		4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGameUIModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +175,7 @@
 		3AD288E02BB8727F00744832 /* card game */ = {
 			isa = PBXGroup;
 			children = (
+				4A7228042DA1688900B1EF1C /* UI */,
 				4A008EBE2D7218C500C94C14 /* Localizable.xcstrings */,
 				3AA3FA242C68D9BB00ADA216 /* Sounds */,
 				3A69C4342C3870B000F51586 /* card-game-Info.plist */,
@@ -185,6 +190,7 @@
 				3AF291B52C68C88A008C2261 /* GoogleService-Info.plist */,
 				3A69C4322C38585600F51586 /* Assets.xcassets */,
 				3AD288E82BB8728100744832 /* Preview Content */,
+				4A7228072DA175EE00B1EF1C /* InfoPlist.xcstrings */,
 			);
 			path = "card game";
 			sourceTree = "<group>";
@@ -291,6 +297,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		4A7228042DA1688900B1EF1C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4A7228052DA1689400B1EF1C /* MeshGradientView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		4AB926A02D80B50C00D10320 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +383,7 @@
 				3AA3FA2A2C68D9CD00ADA216 /* cards shuffle start.mp3 in Resources */,
 				3AA3FA2E2C68D9CD00ADA216 /* card move.mp3 in Resources */,
 				3AD288EA2BB8728100744832 /* Preview Assets.xcassets in Resources */,
+				4A7228082DA175EE00B1EF1C /* InfoPlist.xcstrings in Resources */,
 				3AA3FA2B2C68D9CD00ADA216 /* card swap.mp3 in Resources */,
 				3AF291B62C68C88A008C2261 /* GoogleService-Info.plist in Resources */,
 				4A008EBF2D7218C500C94C14 /* Localizable.xcstrings in Resources */,
@@ -398,6 +413,7 @@
 				3AD289092BD591A800744832 /* Game.swift in Sources */,
 				3A9B52C52BE0EDB400D35F35 /* UserDefaultWrapper.swift in Sources */,
 				3ADD8D962BE2DC6B00B28D9B /* ReversingScale.swift in Sources */,
+				4A7228062DA1689500B1EF1C /* MeshGradientView.swift in Sources */,
 				3AF291B82C68C998008C2261 /* ScoreStore.swift in Sources */,
 				3A69C4392C45AA5300F51586 /* Shake.swift in Sources */,
 				4AB926A22D80B59400D10320 /* SolitaireMoveCardEngine.swift in Sources */,

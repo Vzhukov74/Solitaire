@@ -75,6 +75,7 @@ struct MainView: View {
                         TableView(
                             gameStore: vm.gameStore,
                             feedbackService: AppDI.shared.service(),
+                            cardUIServices: AppDI.shared.service(),
                             game: vm.gameStore.game
                         )
                             .toolbar(.hidden)
@@ -100,6 +101,7 @@ struct MainView: View {
                     TableView(
                         gameStore: vm.gameStore,
                         feedbackService: AppDI.shared.service(),
+                        cardUIServices: AppDI.shared.service(),
                         game: nil
                     )
                         .onAppear { vm.newGame() }

@@ -360,8 +360,6 @@ extension Int {
     static let fStacksMaxInd: Int = 12
 }
 
-// автосбор, херня
-
 // игра недели
 // получить
 // юзер создать и сохранить

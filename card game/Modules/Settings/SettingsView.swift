@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    
     @StateObject var vm: SettingsViewModel
     @Binding var isPresenting: Bool
     
@@ -16,7 +15,6 @@ struct SettingsView: View {
     private let stackRotation: Double = -4
     
     var body: some View {
-        
         VStack(spacing: 8) {
             headerView
             ScrollView(showsIndicators: false) {
@@ -29,6 +27,9 @@ struct SettingsView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 24)
                 cardFrontsView
+                    .padding(.horizontal, 16)
+                    .padding(.top, 24)
+                tableBackgroundView
                     .padding(.horizontal, 16)
                     .padding(.top, 24)
             }
@@ -60,7 +61,6 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 46)
                 .padding(.top, 16)
-                .padding(.horizontal, 8)
         }
     }
     
@@ -197,6 +197,44 @@ struct SettingsView: View {
             }
             .onTapGesture {
                 withAnimation { vm.select(cardFrontId: id) }
+            }
+    }
+    
+    private var tableBackgroundView: some View {
+        VStack(spacing: 16) {
+            Text("Цвет стола")
+                .font(.title3)
+                .foregroundStyle(Color.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(spacing: 8) {
+                HStack(spacing: 8) {
+                    tableBackgroundColorView(id: vm.tableColors[0])
+                    tableBackgroundColorView(id: vm.tableColors[1])
+                }
+                HStack(spacing: 8) {
+                    tableBackgroundColorView(id: vm.tableColors[2])
+                    tableBackgroundColorView(id: vm.tableColors[3])
+                }
+            }
+        }
+    }
+    
+    private func tableBackgroundColorView(id: String) -> some View {
+        Color.clear
+            .background {
+                vm.selectedTableColorsId == id ?
+                Color.black.opacity(0.3).clipShape(RoundedRectangle(cornerRadius: 8)) : Color.clear.clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 100)
+            .overlay {
+                Color(id)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .frame(height: 100)
+                    .scaleEffect(vm.selectedTableColorsId == id ? 0.78 : 1)
+            }
+            .onTapGesture {
+                withAnimation { vm.select(tableColorsId: id) }
             }
     }
 }
