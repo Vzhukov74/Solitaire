@@ -115,6 +115,7 @@ final class GameTableViewModel: ObservableObject {
             applay(newState)
         } else {
             var newState = moveEngine.backMovingCard(for: moving)
+            gameEngine.updateColumnZIndex(for: &newState)
             gameEngine.updateColumnZIndexAfter(column: newState.cards[index].column)
             newState.movesNumber += 1
             state = newState

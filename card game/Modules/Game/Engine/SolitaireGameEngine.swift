@@ -49,7 +49,7 @@ final class SolitaireGameEngine {
     }
 
     func move(index: Int, to: Int, for state: SolitaireState) -> SolitaireState? {
-        guard  canStack(index: index, to: to, for: state) else { return nil }
+        guard canStack(index: index, to: to, for: state) else { return nil }
         
         let (realIndex, _) = realCardAndIndex(index: index, for: state)
         
@@ -124,6 +124,10 @@ final class SolitaireGameEngine {
     
     func updateColumnZIndexAfter(column: Int) {
         needsRefreshZIndexesColumn = column
+    }
+    
+    func updateColumnZIndex(for state: inout SolitaireState) {
+        handleNeedsRefreshZIndexesColumn(map: getMap(for: state), state: &state)
     }
     
     func update(for state: SolitaireState) {
