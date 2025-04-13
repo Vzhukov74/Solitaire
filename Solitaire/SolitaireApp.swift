@@ -1,5 +1,5 @@
 //
-//  card_gameApp.swift
+//  SolitaireApp.swift
 //  card game
 //
 //  Created by Владислав Жуков on 30.03.2024.
@@ -18,7 +18,7 @@ import SwiftUI
 //}
 
 @main
-struct card_gameApp: App {
+struct SolitaireApp: App {
     @Environment(\.scenePhase) var scenePhase
     // register app delegate for Firebase setup
     //@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
