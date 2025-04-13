@@ -38,6 +38,17 @@ final class SolitaireGameEngine {
     
     // MARK: Actions
     
+    func isPossibleMoveCard(by index: Int, for state: SolitaireState) -> Bool {
+        guard state.cards[index].isOpen || state.cards[index].column == .stockInd else { return false }
+        
+        if state.cards[index].column == .talonInd {
+            let map = getMap(for: state)
+            
+            return map[.talonInd]?.last == index
+        }
+        return true
+    }
+    
     func moveCardIfPossible(index: Int, for state: SolitaireState) -> SolitaireState? {
         let (realIndex, card) = realCardAndIndex(index: index, for: state)
         
@@ -122,14 +133,14 @@ final class SolitaireGameEngine {
         return newState
     }
     
-    func updateColumnZIndexAfter(column: Int) {
-        needsRefreshZIndexesColumn = column
-    }
-    
     func updateColumnZIndex(for state: inout SolitaireState) {
         handleNeedsRefreshZIndexesColumn(map: getMap(for: state), state: &state)
     }
     
+    func updateColumnZIndexAfter(column: Int) {
+        needsRefreshZIndexesColumn = column
+    }
+
     func update(for state: SolitaireState) {
         _ = getMap(for: state, force: true)
     }

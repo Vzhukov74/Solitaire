@@ -29,9 +29,9 @@ struct GameView: View {
                 GameOverView(
                     isPresenting: $vm.ui.gameOver,
                     feedbackService: vm.feedbackService,
-                    moveNumber: vm.state.movesNumber,
+                    moveNumber: vm.score.movesNumber,
                     timeNumber: vm.ui.timeStr,
-                    pointsNumber: vm.state.pointsNumber,
+                    pointsNumber: vm.score.pointsNumber,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
                     onMainScreen: { dismiss() }
@@ -87,9 +87,9 @@ struct GameView: View {
                     .frame(width: 44, height: 44)
             }
             HStack(spacing: 10) {
-                infoView(title: String(localized: "очки"), subtitle: vm.ui.pointsCoefficient, value: "\(vm.state.pointsNumber)")
+                infoView(title: String(localized: "очки"), subtitle: vm.ui.pointsCoefficient, value: "\(vm.score.pointsNumber)")
                 Spacer(minLength: 0)
-                infoView(title: String(localized: "ходы"), value: "\(vm.state.movesNumber)")
+                infoView(title: String(localized: "ходы"), value: "\(vm.score.movesNumber)")
             }
         }
             .frame(maxWidth: .infinity)

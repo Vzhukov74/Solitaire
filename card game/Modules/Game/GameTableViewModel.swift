@@ -10,6 +10,7 @@ import SwiftUI
 final class GameTableViewModel: ObservableObject {
 
     @Published var state: SolitaireState
+    @Published var score: SolitaireScore
     @Published var ui: SolitaireGameUIModel
     
     // use as temp for moving card by hand
@@ -39,12 +40,13 @@ final class GameTableViewModel: ObservableObject {
         self.layout = layout
         self.gameEngine = SolitaireGameEngine(layout: layout)
         self.moveEngine = SolitaireMoveCardEngine(layout: layout)
-        self.state = SolitaireState()
+        
         self.ui = SolitaireGameUIModel()
 
         self.state = game?.state ?? gameEngine.vm()
         self.history = game?.history ?? []
-        
+        self.score = game?.score ?? SolitaireScore()
+
         updateUIModel(for: state)
     }
         
@@ -61,12 +63,11 @@ final class GameTableViewModel: ObservableObject {
 
     // MARK: public
     func cancelMove() {
-        guard var oldState = history.popLast() else { return }
+        guard let oldState = history.popLast() else { return }
         gameEngine.update(for: oldState)
-        oldState.movesNumber += 2
+        score.movesNumber += 1
         state = oldState
         updateUIModel(for: state)
-        save()
     }
     
     func onAuto() { // add move
@@ -80,15 +81,14 @@ final class GameTableViewModel: ObservableObject {
     }
     
     func moveCardIfPossible(index: Int) {
-        guard state.cards[index].isOpen || state.cards[index].column == .stockInd else { return }
+        guard gameEngine.isPossibleMoveCard(by: index, for: state) else { return }
         guard !onPause() else { return }
 
         if let newState = gameEngine.moveCardIfPossible(index: index, for: state) {
             applay(newState)
         } else { // on error
-            state.movesNumber += 1
+            score.movesNumber += 1
             state.cards[index].error += 1
-            save()
         }
     }
     
@@ -99,9 +99,10 @@ final class GameTableViewModel: ObservableObject {
     }
         
     func movingCards(_ index: Int, at position: CGPoint) {
-        guard state.cards[index].isOpen else { return }
+        guard gameEngine.isPossibleMoveCard(by: index, for: state) else { return }
         guard !isPauseBetweenMoves else { return }
 
+        gameEngine.updateColumnZIndex(for: &state)
         moving = moveEngine.move(index: index, to: position, for: state)
     }
     
@@ -114,12 +115,10 @@ final class GameTableViewModel: ObservableObject {
         {
             applay(newState)
         } else {
-            var newState = moveEngine.backMovingCard(for: moving)
-            gameEngine.updateColumnZIndex(for: &newState)
+            let newState = moveEngine.backMovingCard(for: moving)
             gameEngine.updateColumnZIndexAfter(column: newState.cards[index].column)
-            newState.movesNumber += 1
+            score.movesNumber += 1
             state = newState
-            save()
         }
 
         self.moving = nil
@@ -135,8 +134,7 @@ final class GameTableViewModel: ObservableObject {
     
     private func applay(_ newState: SolitaireState) {
         guard newState != state else { return }
-        var newState = newState
-        
+
         history.append(state)
         if history.count > .historySize {
             history.remove(at: 0)
@@ -145,8 +143,8 @@ final class GameTableViewModel: ObservableObject {
         updateUIModel(for: newState)
         
         let coefficient = timeAndMovesCoefficient()
-        newState.pointsNumber += Int(10 * coefficient)
-        newState.movesNumber += 1
+        score.pointsNumber += Int(10 * coefficient)
+        score.movesNumber += 1
 
         state = newState
         
@@ -154,7 +152,6 @@ final class GameTableViewModel: ObservableObject {
             stopTimer()
             gameStore.reset()
         } else {
-            save()
             startTimerIfNeeded()
         }
     }
@@ -163,6 +160,7 @@ final class GameTableViewModel: ObservableObject {
         gameStore.save(
             SolitaireGame(
                 state: state,
+                score: score,
                 history: history
             )
         )
@@ -183,7 +181,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func onTime() {
-        state.timeNumber += 1
+        score.timeNumber += 1
         updateUIModel(for: state)
         save()
         
@@ -206,21 +204,21 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func timeAndMovesCoefficient() -> Float {
-        if state.movesNumber < 40 && state.timeNumber < 120 {
+        if score.movesNumber < 40 && score.timeNumber < 120 {
             return 3
-        } else if state.movesNumber < 50 && state.timeNumber < 160 {
+        } else if score.movesNumber < 50 && score.timeNumber < 160 {
             return 2.8
-        } else if state.movesNumber < 60 && state.timeNumber < 180 {
+        } else if score.movesNumber < 60 && score.timeNumber < 180 {
             return 2.6
-        } else if state.movesNumber < 70 && state.timeNumber < 200 {
+        } else if score.movesNumber < 70 && score.timeNumber < 200 {
             return 2.4
-        } else if state.movesNumber < 80 && state.timeNumber < 220 {
+        } else if score.movesNumber < 80 && score.timeNumber < 220 {
             return 2.2
-        } else if state.movesNumber < 90 && state.timeNumber < 260 {
+        } else if score.movesNumber < 90 && score.timeNumber < 260 {
             return 2
-        } else if state.movesNumber < 100 && state.timeNumber < 280 {
+        } else if score.movesNumber < 100 && score.timeNumber < 280 {
             return 1.6
-        } else if state.movesNumber < 110 && state.timeNumber < 300 {
+        } else if score.movesNumber < 110 && score.timeNumber < 300 {
             return 1.4
         }
 
@@ -230,7 +228,7 @@ final class GameTableViewModel: ObservableObject {
     private func updateUIModel(for state: SolitaireState) {
         ui.hasCancelMove = !history.isEmpty
         ui.pointsCoefficient = "x " + timeAndMovesCoefficient().toStr
-        ui.timeStr = state.timeNumber.toTime
+        ui.timeStr = score.timeNumber.toTime
         
         if !ui.hasAllCardOpened, gameEngine.opendAllCards(for: state) {
             ui.hasAllCardOpened = true

@@ -7,8 +7,4 @@
 
 struct SolitaireState: Codable, Equatable {
     var cards: [CardViewModel] = []
-
-    var movesNumber: Int = 0
-    var pointsNumber: Int = 0
-    var timeNumber: Int = 0
 }

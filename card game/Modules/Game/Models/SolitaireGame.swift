@@ -7,5 +7,6 @@
 
 struct SolitaireGame: Codable {
     let state: SolitaireState
+    let score: SolitaireScore
     let history: [SolitaireState]
 }

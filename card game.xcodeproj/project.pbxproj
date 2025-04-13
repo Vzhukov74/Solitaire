@@ -50,6 +50,7 @@
 		4A008EC82D74D07600C94C14 /* SolitaireGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A008EC72D74D07100C94C14 /* SolitaireGame.swift */; };
 		4A7228062DA1689500B1EF1C /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7228052DA1689400B1EF1C /* MeshGradientView.swift */; };
 		4A7228082DA175EE00B1EF1C /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4A7228072DA175EE00B1EF1C /* InfoPlist.xcstrings */; };
+		4A72280A2DABDF4300B1EF1C /* SolitaireScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7228092DABDF4000B1EF1C /* SolitaireScore.swift */; };
 		4AB926A22D80B59400D10320 /* SolitaireMoveCardEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */; };
 		4AB926A42D83410D00D10320 /* SolitaireGameUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */; };
 /* End PBXBuildFile section */
@@ -101,6 +102,7 @@
 		4A008EC72D74D07100C94C14 /* SolitaireGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGame.swift; sourceTree = "<group>"; };
 		4A7228052DA1689400B1EF1C /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
 		4A7228072DA175EE00B1EF1C /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		4A7228092DABDF4000B1EF1C /* SolitaireScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireScore.swift; sourceTree = "<group>"; };
 		4AB926A12D80B59300D10320 /* SolitaireMoveCardEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireMoveCardEngine.swift; sourceTree = "<group>"; };
 		4AB926A32D83410D00D10320 /* SolitaireGameUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolitaireGameUIModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -288,6 +290,7 @@
 		4A008EC02D73534900C94C14 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4A7228092DABDF4000B1EF1C /* SolitaireScore.swift */,
 				4A008EC72D74D07100C94C14 /* SolitaireGame.swift */,
 				4A008EC32D73539200C94C14 /* SolitaireState.swift */,
 				3AA3FA2F2C68E67700ADA216 /* CardLayout.swift */,
@@ -427,6 +430,7 @@
 				3AA3FA302C68E67700ADA216 /* CardLayout.swift in Sources */,
 				3A69C43B2C45BF8400F51586 /* TableView.swift in Sources */,
 				3A9B52BD2BE0EA3E00D35F35 /* AppDI.swift in Sources */,
+				4A72280A2DABDF4300B1EF1C /* SolitaireScore.swift in Sources */,
 				3AD288FB2BB8735F00744832 /* GameTableViewModel.swift in Sources */,
 				4AB926A42D83410D00D10320 /* SolitaireGameUIModel.swift in Sources */,
 				4A008EC42D73539200C94C14 /* SolitaireState.swift in Sources */,
@@ -564,7 +568,7 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
@@ -607,7 +611,7 @@
 				CODE_SIGN_ENTITLEMENTS = "card game/card_game.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"card game/Preview Content\"";
 				DEVELOPMENT_TEAM = M92533N4PA;
