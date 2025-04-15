@@ -47,14 +47,20 @@ final class GameTableViewModel: ObservableObject {
         self.history = game?.history ?? []
         self.score = game?.score ?? SolitaireScore()
 
+        gameEngine.addPoints = { [weak self] _ in
+            guard let self else { return }
+            let coefficient = self.timeAndMovesCoefficient()
+            self.score.pointsNumber += Int(10 * coefficient)
+        }
+        
         updateUIModel(for: state)
     }
         
     func newGame() {
         stopTimer()
         state = gameEngine.vm()
-        gameEngine.update(for: state)
         ui = SolitaireGameUIModel()
+        score = SolitaireScore()
     }
     
     func clear() {
@@ -142,8 +148,6 @@ final class GameTableViewModel: ObservableObject {
         
         updateUIModel(for: newState)
         
-        let coefficient = timeAndMovesCoefficient()
-        score.pointsNumber += Int(10 * coefficient)
         score.movesNumber += 1
 
         state = newState

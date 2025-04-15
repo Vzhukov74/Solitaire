@@ -13,6 +13,9 @@ final class SolitaireGameEngine {
     
     private var tempMap: [Int: [Int]]?
     private var needsRefreshZIndexesColumn: Int?
+    private var cardsOnStacks: [Card] = []
+    
+    var addPoints: ((_ column: Int) -> Void)?
     
     init(layout: ICardLayout) {
         self.layout = layout
@@ -21,7 +24,7 @@ final class SolitaireGameEngine {
     func vm(for deckShuffler: DeckShuffler = DeckShuffler()) -> SolitaireState {
         let stacks = deckShuffler.stacks
 
-        return SolitaireState(cards: stacks.indices.compactMap { column in
+        let state = SolitaireState(cards: stacks.indices.compactMap { column in
             stacks[column].indices.compactMap { row in
                 CardViewModel(
                     card: stacks[column][row],
@@ -34,6 +37,12 @@ final class SolitaireGameEngine {
                 )
             }
         }.flatMap { $0 })
+        
+        _ = getMap(for: state, force: true)
+        needsRefreshZIndexesColumn = nil
+        cardsOnStacks = []
+        
+        return state
     }
     
     // MARK: Actions
@@ -220,6 +229,10 @@ final class SolitaireGameEngine {
             } else {
                 indexes = Array(map[column]![card.row..<map[column]!.count])
             }
+            
+            if to >= .fStacksMinInd {
+                didTransfer(card: card.card, on: to)
+            }
 
             let zIndex = self.zIndex(to: to, state: state)
             
@@ -357,6 +370,15 @@ final class SolitaireGameEngine {
             }
             
             self.needsRefreshZIndexesColumn = nil
+        }
+    }
+    
+    private func didTransfer(card: Card, on column: Int) {
+        guard column >= .fStacksMinInd else { return }
+        
+        if !cardsOnStacks.contains(card) {
+            cardsOnStacks.append(card)
+            addPoints?(column)
         }
     }
 }
