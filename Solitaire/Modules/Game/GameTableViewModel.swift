@@ -161,6 +161,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func save() {
+        guard !ui.gameOver else { return }
         gameStore.save(
             SolitaireGame(
                 state: state,

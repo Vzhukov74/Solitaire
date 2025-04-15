@@ -179,7 +179,7 @@ final class SolitaireGameEngine {
         
         // look in fStacks if is is only one card
         let numberOfCards = map[card.column]!.count - card.row
-        if numberOfCards == .oneCard, column <= .fStacksMinInd {
+        if numberOfCards == .oneCard , column < .fStacksMinInd {
             for to in (Int.fStacksMinInd...Int.fStacksMaxInd) where to != column {
                 if canStackOnFStack(
                     card: card,
@@ -234,8 +234,7 @@ final class SolitaireGameEngine {
                 didTransfer(card: card.card, on: to)
             }
 
-            let zIndex = self.zIndex(to: to, state: state)
-            
+            let zIndex = Int.totalCards
             needsRefreshZIndexesColumn = to
             indexes.indices.forEach { tIndex in
                 let mIndex = indexes[tIndex]
@@ -335,19 +334,7 @@ final class SolitaireGameEngine {
             return card.card.canStackOn(card: state.cards[toStack.last!].card, onPile: true)
         }
     }
-        
-    private func zIndex(to: Int, state: SolitaireState) -> Int {
-        let map = getMap(for: state)
-        
-        let tStacksMaxZIndex = (0...Int.tStacksMaxInd).compactMap { map[$0]!.count }.max() ?? 0
-        
-        if to <= .tStacksMaxInd {
-            return tStacksMaxZIndex
-        } else {
-            return max(map[to]!.count + 1, tStacksMaxZIndex)
-        }
-    }
-    
+            
     private func position(index: Int, column: Int, row: Int, state: SolitaireState) -> CGPoint {
         if row == 0 || column > .tStacksMaxInd {
             return layout.point(for: column, row: row)
@@ -396,10 +383,3 @@ extension Int {
     static let fStacksMinInd: Int = 9
     static let fStacksMaxInd: Int = 12
 }
-
-// игра недели
-// получить
-// юзер создать и сохранить
-// получить таблицу
-// закинуть результат на сервер
-// сервер
