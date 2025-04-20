@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum DeckShufflerErrors: Error {
+    case BadSeckStr
+}
+
 struct DeckShuffler {
     let stacks: [[Card]]
 
@@ -21,54 +25,50 @@ struct DeckShuffler {
         
         temp.append(deck)
         stacks = temp
+        
+        print(deckStr)
     }
     
-//    init?(deckStr: String) {
-//        let parts = deckStr.split(separator: "|")
-//        
-//        guard parts.count == 8 else { return nil }
-//        
-//        func toCards(part: String) -> [Card]? {
-//            guard part.count % 2 == 0 else { return nil }
-//            
-//            let names = part.inserting(every: 2)
-//            
-//            return names.compactMap { Card(name: $0) }
-//        }
-//        
-//        columns = (0..<7).compactMap { index in
-//            toCards(part: String(parts[index]))
-//        }
-//        
-//        guard let extra = toCards(part: String(parts[7])) else { return nil }
-//        
-//        extraCards = extra
-//    }
+    init(from: String) throws {
+        let parts = from.split(separator: "|")
+        
+        guard parts.count == 8 else { throw  DeckShufflerErrors.BadSeckStr }
+        
+        func toCards(part: String) -> [Card]? {
+            guard part.count % 2 == 0 else { return nil }
+            
+            let cards = part.inserting(every: 2).compactMap { Card(name: $0) }
+            
+            return cards
+        }
+        
+        let temp = (0..<8).compactMap { index in
+            toCards(part: String(parts[index]))
+        }
+        
+        stacks = temp
+    }
+    
+    var deckStr: String {
+        var str = ""
+        
+        for stack in stacks {
+            str += stack.reduce("", { $0 + $1.name })
+            str += "|"
+        }
+        
+        return str
+    }
 }
 
-//extension DeckShuffler {
-//    var deckStr: String {
-//        
-//        var str = ""
-//        
-//        for column in columns {
-//            str += column.reduce("", { $0 + $1.name })
-//            str += "|"
-//        }
-//        str += extraCards.reduce("", { $0 + $1.name })
-//        
-//        return str
-//    }
-//}
-//
-//extension String {
-//    func inserting(every n: Int) -> [String] {
-//        var results: [String] = []
-//        let characters = Array(self)
-//        stride(from: 0, to: characters.count, by: n).forEach {
-//            results.append(String(characters[$0..<min($0+n, characters.count)]))
-//
-//        }
-//        return results
-//    }
-//}
+extension String {
+    func inserting(every n: Int) -> [String] {
+        var results: [String] = []
+        let characters = Array(self)
+        stride(from: 0, to: characters.count, by: n).forEach {
+            results.append(String(characters[$0..<min($0+n, characters.count)]))
+
+        }
+        return results
+    }
+}

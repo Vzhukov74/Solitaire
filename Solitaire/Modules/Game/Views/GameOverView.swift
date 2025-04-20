@@ -12,9 +12,10 @@ struct GameOverView: View {
     @Binding var isPresenting: Bool
     let feedbackService: IFeedbackService
     
-    let moveNumber: Int
-    let timeNumber: String
-    let pointsNumber: Int
+    let isItChallengeOfWeek: Bool
+    let leadersSheet: LeadersSheet?
+    let score: SolitaireScore
+    
     let width: CGFloat
     
     var onNewGame: () -> Void
@@ -49,11 +50,16 @@ struct GameOverView: View {
                 .padding(16)
                 .foregroundColor(.white)
             
-            resultValueView(title: "Ходы", value: "\(moveNumber)")
-            resultValueView(title: "Время", value: "\(timeNumber)")
-            resultValueView(title: "Очки", value: "\(pointsNumber)")
+            resultValueView(title: "Ходы", value: "\(score.movesNumber)")
+            resultValueView(title: "Время", value: "\(score.timeNumber)")
+            resultValueView(title: "Очки", value: "\(score.pointsNumber)")
                 .padding(.bottom, 16)
-        
+
+            if isItChallengeOfWeek {
+                leadersSheetView
+                    .padding(.bottom, 16)
+            }
+
             btns
                 .padding(.bottom, 16)
         }
@@ -132,5 +138,22 @@ struct GameOverView: View {
                 .foregroundColor(.white)
         }
         .padding(.horizontal, 16)
+    }
+    
+    @ViewBuilder
+    private var leadersSheetView: some View {
+        if let leadersSheet {
+            VStack(spacing: 8) {
+                ForEach(leadersSheet.leaders, id: \.self) { leader in
+                    HStack {
+                        Text("\(leader.place)")
+                        Text(leader.name)
+                        Text("\(leader.points)")
+                    }
+                }
+            }
+        } else {
+            ProgressView()
+        }
     }
 }

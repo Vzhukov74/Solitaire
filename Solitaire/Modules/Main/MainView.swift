@@ -21,7 +21,13 @@ struct MainView: View {
                     MainViewCardsLogo()
                         .padding()
                         .padding(.vertical, 24)
-                                
+                        .padding(.bottom, 24)
+
+                    if vm.challengeOfWeek != nil {
+                        ChallengeOfWeekView(challenge: vm.challengeOfWeek!)
+                            .padding(.horizontal, 24)
+                    }
+
                     Spacer(minLength: 0)
                     
                     buttonsView
@@ -121,5 +127,48 @@ struct MainView: View {
         .padding(.horizontal, 32)
         .padding(.bottom, 24)
         .frame(maxWidth: .infinity)
+    }
+}
+
+struct ChallengeOfWeekView: View {
+    
+    let challenge: DeckShuffler
+    
+    var body: some View {
+        NavigationLink(
+            destination: {
+                TableView(
+                    gameStore: AppDI.shared.service(),
+                    feedbackService: AppDI.shared.service(),
+                    cardUIServices: AppDI.shared.service(),
+                    game: nil,
+                    deck: challenge
+                )
+                    .toolbar(.hidden)
+            },
+            label: {
+                challengeView
+            }
+        )
+    }
+    
+    private var challengeView: some View {
+        HStack(spacing: 16) {
+            Image(.ca1)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 30)
+            VStack {
+                Text("Раскладка недели")
+                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(Color.white)
+            }
+        }
+        .padding(12)
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .foregroundStyle(Color.accentColor)
+        }
     }
 }

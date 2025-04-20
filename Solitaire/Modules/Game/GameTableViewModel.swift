@@ -13,15 +13,20 @@ final class GameTableViewModel: ObservableObject {
     @Published var score: SolitaireScore
     @Published var ui: SolitaireGameUIModel
     
+    @Published var isGameOver: Bool = false
+    @Published var leadersSheet: LeadersSheet?
+    
     // use as temp for moving card by hand
     @Published var moving: SolitaireState?
     
     let layout: ICardLayout
     let feedbackService: IFeedbackService
+    let isItChallengeOfWeek: Bool
     
     private let gameEngine: SolitaireGameEngine
     private let moveEngine: SolitaireMoveCardEngine
     private let gameStore: IGamePersistentStore
+    private let network: Network = Network()
     
     // timer
     private var timerTask: Task<Void, Never>?
@@ -31,6 +36,7 @@ final class GameTableViewModel: ObservableObject {
     
     init(
         with game: SolitaireGame?,
+        deck: DeckShuffler? = nil,
         gameStore: IGamePersistentStore,
         feedbackService: IFeedbackService,
         layout: ICardLayout
@@ -43,10 +49,12 @@ final class GameTableViewModel: ObservableObject {
         
         self.ui = SolitaireGameUIModel()
 
-        self.state = game?.state ?? gameEngine.vm()
+        self.state = game?.state ?? gameEngine.vm(for: deck)
         self.history = game?.history ?? []
         self.score = game?.score ?? SolitaireScore()
 
+        self.isItChallengeOfWeek = deck != nil
+        
         gameEngine.addPoints = { [weak self] _ in
             guard let self else { return }
             let coefficient = self.timeAndMovesCoefficient()
@@ -79,7 +87,7 @@ final class GameTableViewModel: ObservableObject {
     func onAuto() { // add move
         withAnimation { applay(gameEngine.auto(for: state)) }
 
-        guard !ui.gameOver else { return }
+        guard !isGameOver else { return }
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 125_000_000)
             onAuto()
@@ -152,16 +160,11 @@ final class GameTableViewModel: ObservableObject {
 
         state = newState
         
-        if ui.gameOver {
-            stopTimer()
-            gameStore.reset()
-        } else {
-            startTimerIfNeeded()
-        }
+        startTimerIfNeeded()
     }
     
     private func save() {
-        guard !ui.gameOver else { return }
+        guard !isGameOver else { return }
         gameStore.save(
             SolitaireGame(
                 state: state,
@@ -194,7 +197,7 @@ final class GameTableViewModel: ObservableObject {
     }
     
     private func startTimerIfNeeded() {
-        guard !timerIsActive, !ui.gameOver else { return }
+        guard !timerIsActive, !isGameOver else { return }
         timerIsActive = true
 
         startTimer()
@@ -239,8 +242,25 @@ final class GameTableViewModel: ObservableObject {
             ui.hasAllCardOpened = true
         }
 
-        if !ui.gameOver, gameEngine.allCardsInFStacks(for: state) {
-            ui.gameOver = true
+        if !isGameOver, gameEngine.allCardsInFStacks(for: state) {
+            onEndGame()
+        }
+    }
+    
+    private func onEndGame() {
+        isGameOver = true
+
+        stopTimer()
+        gameStore.reset()
+
+        if isItChallengeOfWeek {
+            Task { @MainActor in
+                do {
+                    leadersSheet = try await network.sendResultOfChallenge(points: score.pointsNumber)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
 }

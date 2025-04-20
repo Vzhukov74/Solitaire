@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SolitaireGameUIModel {
     var hasCancelMove: Bool = false
-    var gameOver: Bool = false
     var hasAllCardOpened: Bool = false
 
     var timeStr: String = "0:00"

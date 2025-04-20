@@ -26,6 +26,20 @@ struct Card: Codable, Hashable, Identifiable {
             default: return nil
             }
         }
+
+        init?(title: String) {
+            switch title {
+            case "♣":
+                self = .clubs
+            case "♦":
+                self = .diamonds
+            case "♥︎":
+                self = .hearts
+            case "♠︎":
+                self = .spades
+            default: return nil
+            }
+        }
     }
 
     enum Rank: Int, Codable, CaseIterable {
@@ -83,7 +97,7 @@ struct Card: Codable, Hashable, Identifiable {
         let cSuit = String(cSuitChar)
  
         guard let rank = Card.Rank(name: cRank),
-              let suit = Card.Suit(name: cSuit) else { return nil }
+              let suit = Card.Suit(title: cSuit) else { return nil }
         
         self.rank = rank
         self.suit = suit
@@ -146,7 +160,7 @@ extension Card.Rank {
         case .seven: return "7"
         case .eight: return "8"
         case .nine: return "9"
-        case .ten: return "10"
+        case .ten: return "1"
         case .jack: return "J"
         case .queen: return "Q"
         case .king: return "K"

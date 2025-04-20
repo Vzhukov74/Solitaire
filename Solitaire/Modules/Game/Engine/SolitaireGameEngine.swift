@@ -21,8 +21,9 @@ final class SolitaireGameEngine {
         self.layout = layout
     }
     
-    func vm(for deckShuffler: DeckShuffler = DeckShuffler()) -> SolitaireState {
-        let stacks = deckShuffler.stacks
+    func vm(for deckShuffler: DeckShuffler? = nil) -> SolitaireState {
+        let deck = deckShuffler ?? DeckShuffler()
+        let stacks = deck.stacks
 
         let state = SolitaireState(cards: stacks.indices.compactMap { column in
             stacks[column].indices.compactMap { row in

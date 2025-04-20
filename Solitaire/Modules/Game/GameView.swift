@@ -25,13 +25,13 @@ struct GameView: View {
         .frame(maxWidth: .infinity)
         .padding(.bottom, 24)
         .overlay {
-            if vm.ui.gameOver {
+            if vm.isGameOver {
                 GameOverView(
-                    isPresenting: $vm.ui.gameOver,
+                    isPresenting: $vm.isGameOver,
                     feedbackService: vm.feedbackService,
-                    moveNumber: vm.score.movesNumber,
-                    timeNumber: vm.ui.timeStr,
-                    pointsNumber: vm.score.pointsNumber,
+                    isItChallengeOfWeek: vm.isItChallengeOfWeek,
+                    leadersSheet: vm.leadersSheet,
+                    score: vm.score,
                     width: vm.layout.size.width - 24,
                     onNewGame: { withAnimation { vm.newGame() } },
                     onMainScreen: { dismiss() }

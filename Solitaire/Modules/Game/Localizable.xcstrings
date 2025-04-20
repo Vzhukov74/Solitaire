@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld" : {
+
+    },
     "Автосбор" : {
       "localizations" : {
         "ru" : {
@@ -185,6 +188,9 @@
           }
         }
       }
+    },
+    "Раскладка недели" : {
+
     },
     "Результат" : {
       "localizations" : {

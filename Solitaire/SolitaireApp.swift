@@ -30,7 +30,8 @@ struct SolitaireApp: App {
             MainView(
                 vm: MainViewModel(
                     gameStore: AppDI.shared.service(),
-                    scoreStore: scoreStore
+                    scoreStore: scoreStore,
+                    network: Network()
                 )
             )
             .onAppear {
