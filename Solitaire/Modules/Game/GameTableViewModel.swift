@@ -62,6 +62,8 @@ final class GameTableViewModel: ObservableObject {
         }
         
         updateUIModel(for: state)
+        
+        isGameOver = true
     }
         
     func newGame() {
@@ -252,16 +254,6 @@ final class GameTableViewModel: ObservableObject {
 
         stopTimer()
         gameStore.reset()
-
-        if isItChallengeOfWeek {
-            Task { @MainActor in
-                do {
-                    leadersSheet = try await network.sendResultOfChallenge(points: score.pointsNumber)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
     }
 }
 

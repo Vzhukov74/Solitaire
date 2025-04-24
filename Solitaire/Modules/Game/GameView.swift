@@ -26,16 +26,7 @@ struct GameView: View {
         .padding(.bottom, 24)
         .overlay {
             if vm.isGameOver {
-                GameOverView(
-                    isPresenting: $vm.isGameOver,
-                    feedbackService: vm.feedbackService,
-                    isItChallengeOfWeek: vm.isItChallengeOfWeek,
-                    leadersSheet: vm.leadersSheet,
-                    score: vm.score,
-                    width: vm.layout.size.width - 24,
-                    onNewGame: { withAnimation { vm.newGame() } },
-                    onMainScreen: { dismiss() }
-                )
+                gameOver
                     .transition(.opacity)
             }
         }
@@ -114,7 +105,7 @@ struct GameView: View {
                 }
                 .frame(maxWidth: 320)
                 .padding(.horizontal, 32)
-        } else {
+        } else if vm.isGameOver == false {
             HStack(alignment: .center, spacing: 16) {
                 Image(systemName: "arrow.counterclockwise")
                     .resizable()
@@ -156,5 +147,26 @@ struct GameView: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(.white.opacity(0.8))
         }
+    }
+    
+    @ViewBuilder
+    private var gameOver: some View {
+        GameOverView(
+            isPresenting: $vm.isGameOver,
+            vm: gameOverViewModel(),
+            width: vm.layout.size.width - 24,
+            onNewGame: { withAnimation { vm.newGame() } },
+            onMainScreen: { dismiss() }
+        )
+    }
+    
+    private func gameOverViewModel() -> GameOverViewModel {
+        GameOverViewModel(
+            userInfo: AppDI.shared.service(),
+            network: Network(),
+            feedbackService: vm.feedbackService,
+            score: vm.score,
+            isItChallengeOfWeek: vm.isItChallengeOfWeek
+        )
     }
 }

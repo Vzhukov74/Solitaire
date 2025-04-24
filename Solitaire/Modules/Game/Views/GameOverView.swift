@@ -10,11 +10,8 @@ import SwiftUI
 struct GameOverView: View {
     
     @Binding var isPresenting: Bool
-    let feedbackService: IFeedbackService
-    
-    let isItChallengeOfWeek: Bool
-    let leadersSheet: LeadersSheet?
-    let score: SolitaireScore
+    @StateObject var vm: GameOverViewModel
+    @State var isNeedShowNameInput: Bool = false
     
     let width: CGFloat
     
@@ -34,34 +31,42 @@ struct GameOverView: View {
                 VStack {
                     Spacer(minLength: 0)
                     infoView
+                        .padding(.top, 48)
                         .frame(width: width)
+                        .alert("Введите имя", isPresented: $isNeedShowNameInput) {
+                            TextField("имя", text: $vm.name)
+                            Button("Готово", role: nil, action: vm.sendResult)
+                            Button("Пропущу", role: .cancel, action: { isNeedShowNameInput = false })
+                                } message: {
+                                    Text("Мы отобразим его в общих результатах недели.")
+                                }
+                                .onAppear { onAppearAction() }
                     Spacer(minLength: 0)
                 }
             }
-            .onAppear { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } ; feedbackService.won() }
+            .onAppear { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } ; vm.feedbackService.won() }
             .onTapGesture { withAnimation { confettiCannonCounter += 1; scaleFactor1 = 1.3; scaleFactor2 = 1.3 } }
     }
     
     private var infoView: some View {
         VStack(spacing: 8) {
-            Text("Результат")
-                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                .font(.title)
-                .padding(16)
-                .foregroundColor(.white)
-            
-            resultValueView(title: "Ходы", value: "\(score.movesNumber)")
-            resultValueView(title: "Время", value: "\(score.timeNumber)")
-            resultValueView(title: "Очки", value: "\(score.pointsNumber)")
-                .padding(.bottom, 16)
+            gameResulView
+                .background {
+                    RoundedRectangle(cornerRadius: 16)
+                        .foregroundColor(Color(.mainViewBg))
+                }
+                .padding(.horizontal, 24)
+                
 
-            if isItChallengeOfWeek {
+            if vm.isItChallengeOfWeek {
                 leadersSheetView
                     .padding(.bottom, 16)
             }
 
+            Spacer(minLength: 0)
             btns
-                .padding(.bottom, 16)
+                .padding(.bottom, 24)
+                .padding(.horizontal, 24)
         }
         .overlay {
             VStack {
@@ -93,11 +98,6 @@ struct GameOverView: View {
                 Spacer(minLength: 0)
             }
         }
-            .background {
-                RoundedRectangle(cornerRadius: 16)
-                    .foregroundColor(Color(.mainViewBg))
-            }
-            .padding(.horizontal, 32)
     }
     
     private var btns: some View {
@@ -127,33 +127,56 @@ struct GameOverView: View {
     }
     
     @ViewBuilder
+    private var gameResulView: some View {
+        VStack(spacing: 12) {
+            Text("Результат")
+                .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                .font(.title)
+                .padding(16)
+                .foregroundColor(.white)
+            
+            HStack(spacing: 8) {
+                resultValueView(title: "Ходы", value: "\(vm.score.movesNumber)")
+                resultValueView(title: "Время", value: "\(vm.score.timeNumber)")
+                resultValueView(title: "Очки", value: "\(vm.score.pointsNumber)")
+            }
+                .padding(.bottom, 16)
+        }
+            .padding(.horizontal, 16)
+    }
+    
+    @ViewBuilder
     private func resultValueView(title: String, value: String) -> some View {
-        HStack {
+        VStack {
             Text(title)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(Font.system(size: 16, weight: .regular, design: .rounded))
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(Font.system(size: 20, weight: .regular, design: .rounded))
                 .foregroundColor(.white)
             Text(value)
-                .font(.caption)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(Font.system(size: 18, weight: .regular, design: .rounded))
                 .foregroundColor(.white)
         }
-        .padding(.horizontal, 16)
     }
     
     @ViewBuilder
     private var leadersSheetView: some View {
-        if let leadersSheet {
-            VStack(spacing: 8) {
-                ForEach(leadersSheet.leaders, id: \.self) { leader in
-                    HStack {
-                        Text("\(leader.place)")
-                        Text(leader.name)
-                        Text("\(leader.points)")
-                    }
-                }
-            }
-        } else {
+        if vm.leaders.isEmpty {
             ProgressView()
+        } else {
+            LeadersSheetView(leaders: vm.leaders)
+                .transition(.opacity)
+        }
+    }
+    
+    private func onAppearAction() {
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: 500000000)
+            if vm.name.isEmpty {
+                isNeedShowNameInput = true
+            } else {
+                vm.sendResult()
+            }
         }
     }
 }

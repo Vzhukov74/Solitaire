@@ -60,12 +60,12 @@ final class Network {
         return leadersSheet
     }
     
-    func sendResultOfChallenge(points: Int) async throws -> LeadersSheet {
+    func sendResultOfChallenge(name: String, id: String, points: Int) async throws -> LeadersSheet {
         let path = "solitaire/result"
         
         let result = ChallengeResult(
-            name: "hello",
-            id: UUID().uuidString.lowercased(),
+            name: name,
+            id: id,
             points: points
         )
         

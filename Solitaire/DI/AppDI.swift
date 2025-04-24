@@ -33,4 +33,8 @@ final class AppDI {
     func service() -> ICardUIServices {
         cardUIServices
     }
+    
+    func service() -> UserInfo {
+        UserInfo()
+    }
 }
