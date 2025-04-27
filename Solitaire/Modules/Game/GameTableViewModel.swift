@@ -62,8 +62,6 @@ final class GameTableViewModel: ObservableObject {
         }
         
         updateUIModel(for: state)
-        
-        isGameOver = true
     }
         
     func newGame() {

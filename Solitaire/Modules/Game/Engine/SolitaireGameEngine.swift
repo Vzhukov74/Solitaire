@@ -124,18 +124,39 @@ final class SolitaireGameEngine {
 
         for fStacksInd in (Int.fStacksMinInd...Int.fStacksMaxInd) {
             let map = getMap(for: state)
-            if let cardInd = map[fStacksInd]?.last, let next = state.cards[cardInd].card.next {
-                for stackInd in (0...Int.tStacksMaxInd) where !map[stackInd]!.isEmpty {
-                    let stackCardInd = map[stackInd]!.last!
-                    if state.cards[stackCardInd].card == next {
-                        move(index: stackCardInd, to: fStacksInd, for: &newState)
-                    }
-                }
-                for stackInd in (Int.stockInd...Int.talonInd) where !map[stackInd]!.isEmpty {
-                    for stackCardInd in map[stackInd]! {
+            if let cardInd = map[fStacksInd]?.last {
+                if let next = state.cards[cardInd].card.next {
+                    for stackInd in (0...Int.tStacksMaxInd) where !map[stackInd]!.isEmpty {
+                        let stackCardInd = map[stackInd]!.last!
                         if state.cards[stackCardInd].card == next {
                             move(index: stackCardInd, to: fStacksInd, for: &newState)
                         }
+                    }
+                    for stackInd in (Int.stockInd...Int.talonInd) where !map[stackInd]!.isEmpty {
+                        for stackCardInd in map[stackInd]! {
+                            if state.cards[stackCardInd].card == next {
+                                move(index: stackCardInd, to: fStacksInd, for: &newState)
+                            }
+                        }
+                    }
+                }
+            } else { // один из тузов еще не в fStacks
+                var allAces = [
+                    Card(suit: .clubs, rank: .ace),
+                    Card(suit: .diamonds, rank: .ace),
+                    Card(suit: .hearts, rank: .ace),
+                    Card(suit: .spades, rank: .ace)
+                ]
+                
+                (Int.fStacksMinInd...Int.fStacksMaxInd).forEach { fStacksInd in
+                    if let cardInd = map[fStacksInd]?.first {
+                        allAces.removeAll { $0 == state.cards[cardInd].card }
+                    }
+                }
+                
+                if let missingAce = allAces.first {
+                    if let missingAceIndex = state.cards.firstIndex(where: { $0.card == missingAce }) {
+                        move(index: missingAceIndex, to: fStacksInd, for: &newState)
                     }
                 }
             }
