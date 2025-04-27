@@ -51,7 +51,17 @@ struct LeadersSheetView: View {
     
     private func leaderView(leader: LeadersSheet.Leaders, isOdd: Bool, isPlayer: Bool) -> some View {
         HStack {
-            Text("\(leader.place)")
+            HStack(alignment: .center, spacing: 8) {
+                if leader.place <= 3 {
+                    Image(.laurelwreath)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(leader.place.placeColor)
+                } else {
+                    Text("\(leader.place)")
+                }
+            }
                 .frame(maxWidth: .infinity, alignment: .center)
             Text(leader.name)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -67,5 +77,21 @@ struct LeadersSheetView: View {
                     .foregroundStyle(isOdd ? Color.clear : Color(.accent).opacity(0.6))
             }
             .padding(.horizontal, 16)
+    }
+}
+
+private extension Int {
+    var placeColor: Color {
+        if self > 0, self <= 3 {
+            if self == 1 {
+                return Color(.gold)
+            } else if self == 2 {
+                return Color(.silver)
+            } else {
+                return Color(.bronze)
+            }
+        } else {
+            return .clear
+        }
     }
 }

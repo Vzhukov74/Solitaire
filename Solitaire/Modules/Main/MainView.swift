@@ -154,21 +154,34 @@ struct ChallengeOfWeekView: View {
     
     private var challengeView: some View {
         HStack(spacing: 16) {
-            Image(.ca1)
+            Image(.laurelwreath)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 20, height: 30)
-            VStack {
+                .frame(width: 48, height: 48)
+                .foregroundStyle(Color(.gold))
+                .overlay {
+                    Image(.firstplace)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .foregroundStyle(Color.black)
+                }
+            VStack(spacing: 6) {
                 Text("Раскладка недели")
-                    .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                    .font(Font.system(size: 20, weight: .semibold, design: .rounded))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(Color.white)
+                Text("Соревнуйся с другими игроками")
+                    .font(Font.system(size: 16, weight: .regular, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(Color.white.opacity(0.7))
             }
         }
+        .padding(.vertical, 8)
         .padding(12)
         .background {
-            RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(Color.accentColor)
+            Color(.vega1)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
 }

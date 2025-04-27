@@ -25,7 +25,7 @@ struct GameOverView: View {
     var body: some View {
         Color
             .black
-            .opacity(0.6)
+            .opacity(0.8)
             .ignoresSafeArea()
             .overlay {
                 VStack {

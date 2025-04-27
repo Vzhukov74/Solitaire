@@ -400,6 +400,22 @@
         }
       }
     },
+    "Соревнуйся с другими игроками" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Competition with other players"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Competition with other players"
+          }
+        }
+      }
+    },
     "ходы" : {
       "extractionState" : "manual",
       "localizations" : {

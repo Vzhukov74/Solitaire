@@ -52,9 +52,6 @@ final class GameOverViewModel: ObservableObject {
                     points: score.pointsNumber
                 )
                 
-                withAnimation {
-                    leaders = resultOfChallenge.leaders
-                }
             } catch {
                 print(error.localizedDescription)
                 withAnimation {
