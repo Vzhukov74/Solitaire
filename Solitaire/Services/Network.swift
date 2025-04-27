@@ -32,7 +32,7 @@ final class Network {
         let points: Int
     }
     
-    private let baseUrl: URL = URL(string: "http://127.0.0.1:8080")!
+    private let baseUrl: URL = URL(string: "https://mdlab.tech")! // http://127.0.0.1:8080
     
     func fetchChallengeOfWeek() async throws -> DeckShuffler {
         let path = "solitaire/challenge"
