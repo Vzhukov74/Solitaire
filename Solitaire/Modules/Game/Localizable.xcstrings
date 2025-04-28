@@ -38,7 +38,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter your name"
+            "value" : "Введите имя"
           }
         }
       }
@@ -105,7 +105,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Done"
+            "value" : "Готово"
           }
         }
       }
@@ -138,7 +138,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "name"
+            "value" : "имя"
           }
         }
       }
@@ -154,7 +154,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Name"
+            "value" : "Имя"
           }
         }
       }
@@ -170,7 +170,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Place"
+            "value" : "Место"
           }
         }
       }
@@ -186,7 +186,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We will display it in the overall results of the week."
+            "value" : "Мы отобразим его в общих результатах недели."
           }
         }
       }
@@ -283,7 +283,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "points"
+            "value" : "очки"
           }
         }
       }
@@ -299,7 +299,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Points"
+            "value" : "Очки"
           }
         }
       }
@@ -331,7 +331,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skip"
+            "value" : "Пропущу"
           }
         }
       }
@@ -347,7 +347,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solitaire of the week"
+            "value" : "Раскладка недели"
           }
         }
       }
@@ -379,7 +379,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Results of the week"
+            "value" : "Результаты недели"
           }
         }
       }
@@ -411,7 +411,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Competition with other players"
+            "value" : "Соревнуйся с другими игроками"
           }
         }
       }
@@ -428,7 +428,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "moves"
+            "value" : "ходы"
           }
         }
       }
@@ -445,7 +445,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Table color"
+            "value" : "Цвет стола"
           }
         }
       }
