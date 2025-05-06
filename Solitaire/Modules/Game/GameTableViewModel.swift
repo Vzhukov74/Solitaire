@@ -34,6 +34,9 @@ final class GameTableViewModel: ObservableObject {
     private var isPauseBetweenMoves = false
     private var history: [SolitaireState] = []
     
+    //
+    private var game: String?
+    
     init(
         with game: SolitaireGame?,
         deck: DeckShuffler? = nil,
@@ -49,11 +52,20 @@ final class GameTableViewModel: ObservableObject {
         
         self.ui = SolitaireGameUIModel()
 
-        self.state = game?.state ?? gameEngine.vm(for: deck)
+        let rDeck: DeckShuffler
+        if let deck {
+            self.isItChallengeOfWeek = true
+            self.game = nil
+            rDeck = deck
+        } else {
+            self.isItChallengeOfWeek = false
+            rDeck = DeckShuffler()
+            self.game = rDeck.deckStr
+        }
+        
+        self.state = game?.state ?? gameEngine.vm(for: rDeck)
         self.history = game?.history ?? []
         self.score = game?.score ?? SolitaireScore()
-
-        self.isItChallengeOfWeek = deck != nil
         
         gameEngine.addPoints = { [weak self] _ in
             guard let self else { return }
@@ -252,6 +264,12 @@ final class GameTableViewModel: ObservableObject {
 
         stopTimer()
         gameStore.reset()
+        
+        if let game {
+            Task {
+                try? await network.uploadGame(game: game)
+            }
+        }
     }
 }
 
@@ -269,6 +287,7 @@ extension Float {
         String(format: "%.1f", self)
     }
 }
+
 //        let data = Data(base64Encoded: gStateStr)
 //        let gState = try! JSONDecoder().decode(GameState.self, from: data!)
 //        self.state = gState

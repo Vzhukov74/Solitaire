@@ -14,19 +14,8 @@ enum DeckShufflerErrors: Error {
 struct DeckShuffler {
     let stacks: [[Card]]
 
-    init(with deck: [Card] = Card.all()) {
-        var deck = deck.shuffled()
-
-        var temp: [[Card]] = (1...7).compactMap {
-            let cards = Array(deck[0..<$0])
-            deck.removeSubrange(0..<$0)
-            return cards
-        }
-        
-        temp.append(deck)
-        stacks = temp
-        
-        print(deckStr)
+    init(with stacks: [[Card]] = Deck.generate()) {
+        self.stacks = stacks
     }
     
     init(from: String) throws {

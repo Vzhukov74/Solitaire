@@ -90,38 +90,40 @@ struct GameView: View {
     
     @ViewBuilder
     private var footerView: some View {
-        if vm.ui.hasAllCardOpened {
-            Text("Автосбор")
-                .font(.system(size: 22, weight: .semibold, design: .rounded))
-                .frame(maxWidth: .infinity)
-                .foregroundColor(Color.white)
+        if vm.isGameOver == false {
+            if vm.ui.hasAllCardOpened {
+                Text("Автосбор")
+                    .font(.system(size: 22, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color.white)
+                    .frame(height: 46)
+                    .padding(.horizontal, 16)
+                    .background {
+                        CustomButtonBgShape().foregroundColor(Color(.accent))
+                    }
+                    .onTapGesture {
+                        vm.onAuto()
+                    }
+                    .frame(maxWidth: 320)
+                    .padding(.horizontal, 32)
+            } else {
+                HStack(alignment: .center, spacing: 16) {
+                    Image(systemName: "arrow.counterclockwise")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                    Text("Отменить ход")
+                        .font(.system(size: 16, weight: .regular))
+                }
+                .foregroundColor(vm.ui.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
                 .frame(height: 46)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 36)
                 .background {
-                    CustomButtonBgShape().foregroundColor(Color(.accent))
+                    CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
                 }
                 .onTapGesture {
-                    vm.onAuto()
+                    if vm.ui.hasCancelMove { withAnimation { vm.cancelMove() } }
                 }
-                .frame(maxWidth: 320)
-                .padding(.horizontal, 32)
-        } else if vm.isGameOver == false {
-            HStack(alignment: .center, spacing: 16) {
-                Image(systemName: "arrow.counterclockwise")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 22, height: 22)
-                Text("Отменить ход")
-                    .font(.system(size: 16, weight: .regular))
-            }
-            .foregroundColor(vm.ui.hasCancelMove ? Color(.accent) : Color(.accent).opacity(0.3))
-            .frame(height: 46)
-            .padding(.horizontal, 36)
-            .background {
-                CustomButtonBgShape().foregroundColor(.black.opacity(0.4))
-            }
-            .onTapGesture {
-                if vm.ui.hasCancelMove { withAnimation { vm.cancelMove() } }
             }
         }
     }
