@@ -37,34 +37,34 @@ final class GameOverViewModel: ObservableObject {
     }
     
     func sendResult() {
-        guard isItChallengeOfWeek else { return }
-                
-        if !name.isEmpty {
-            userInfo.set(name: name)
-        }
-        
-        Task { @MainActor in
-            let userName = userInfo.userName.isEmpty ? "unknown" : userInfo.userName
-            do {
-                let resultOfChallenge = try await network.sendResultOfChallenge(
-                    name: userName,
-                    id: userInfo.userId,
-                    points: score.pointsNumber
-                )
-                
-            } catch {
-                print(error.localizedDescription)
-                withAnimation {
-                    leaders = [
-                        LeadersSheet.Leaders(
-                            id: userInfo.userId,
-                            name: userName,
-                            points: score.pointsNumber,
-                            place: 1
-                        )
-                    ]
-                }
-            }
-        }
+//        guard isItChallengeOfWeek else { return }
+//                
+//        if !name.isEmpty {
+//            userInfo.set(name: name)
+//        }
+//        
+//        Task { @MainActor in
+//            let userName = userInfo.userName.isEmpty ? "unknown" : userInfo.userName
+//            do {
+//                let resultOfChallenge = try await network.sendResultOfChallenge(
+//                    name: userName,
+//                    id: userInfo.userId,
+//                    points: score.pointsNumber
+//                )
+//                
+//            } catch {
+//                print(error.localizedDescription)
+//                withAnimation {
+//                    leaders = [
+//                        LeadersSheet.Leaders(
+//                            id: userInfo.userId,
+//                            name: userName,
+//                            points: score.pointsNumber,
+//                            place: 1
+//                        )
+//                    ]
+//                }
+//            }
+//        }
     }
 }

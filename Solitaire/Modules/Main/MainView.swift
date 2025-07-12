@@ -54,17 +54,17 @@ struct MainView: View {
     
     private var gearSettingsView: some View {
         HStack(spacing: 16) {
-            Color.clear
-                .frame(width: 44, height: 44)
-                .overlay {
-                    Image(.laurelwreath)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color("accent"))
-                        .padding(9)
-                }
-                .onTapGesture { withAnimation { vm.presentSettingsScreen = true } }
+//            Color.clear
+//                .frame(width: 44, height: 44)
+//                .overlay {
+//                    Image(.laurelwreath)
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 40, height: 40)
+//                        .foregroundColor(Color("accent"))
+//                        .padding(9)
+//                }
+//                .onTapGesture { withAnimation { vm.presentSettingsScreen = true } }
             Spacer()
             Color.clear
                 .frame(width: 44, height: 44)

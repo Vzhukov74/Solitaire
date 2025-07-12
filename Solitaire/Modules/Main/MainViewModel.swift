@@ -34,13 +34,13 @@ final class MainViewModel: ObservableObject {
     }
     
     private func fetchChallengeOfWeek() {
-        Task { @MainActor in
-            guard challengeOfWeek == nil else { return }
-            do {
-                challengeOfWeek = try await network.fetchChallengeOfWeek()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+//        Task { @MainActor in
+//            guard challengeOfWeek == nil else { return }
+//            do {
+//                challengeOfWeek = try await network.fetchChallengeOfWeek()
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }
     }
 }
