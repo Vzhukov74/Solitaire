@@ -21,7 +21,7 @@ final class GameTableViewModel: ObservableObject {
     
     let layout: ICardLayout
     let feedbackService: IFeedbackService
-    let isItChallengeOfWeek: Bool
+    let isItChallengeOfDay: Bool
     
     private let gameEngine: SolitaireGameEngine
     private let moveEngine: SolitaireMoveCardEngine
@@ -54,11 +54,11 @@ final class GameTableViewModel: ObservableObject {
 
         let rDeck: DeckShuffler
         if let deck {
-            self.isItChallengeOfWeek = true
+            self.isItChallengeOfDay = true
             self.game = nil
             rDeck = deck
         } else {
-            self.isItChallengeOfWeek = false
+            self.isItChallengeOfDay = false
             rDeck = DeckShuffler()
             self.game = rDeck.deckStr
         }

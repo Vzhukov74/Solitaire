@@ -12,9 +12,13 @@ final class GameOverViewModel: ObservableObject {
     @Published var isNeedShowNameInput: Bool = false
     @Published var leaders: [LeadersSheet.Leaders] = []
     
-    let isItChallengeOfWeek: Bool
+    let isItChallengeOfDay: Bool
     let score: SolitaireScore
     let feedbackService: IFeedbackService
+    
+    var userAskForReview: Bool {
+        userInfo.userAskForReview
+    }
     
     private let userInfo: UserInfo
     private let network: Network
@@ -24,21 +28,25 @@ final class GameOverViewModel: ObservableObject {
         network: Network,
         feedbackService: IFeedbackService,
         score: SolitaireScore,
-        isItChallengeOfWeek: Bool = false
+        isItChallengeOfDay: Bool = false
     ) {
         self.userInfo = userInfo
         self.network = network
         self.feedbackService = feedbackService
         self.score = score
-        self.isItChallengeOfWeek = isItChallengeOfWeek
+        self.isItChallengeOfDay = isItChallengeOfDay
         
         name = userInfo.userName
-        isNeedShowNameInput = name.isEmpty
+        isNeedShowNameInput = name.isEmpty && isItChallengeOfDay
+    }
+    
+    func setUserAskForReview() {
+        userInfo.setUserAskForReview()
     }
     
     func sendResult() {
-//        guard isItChallengeOfWeek else { return }
-//                
+        guard isItChallengeOfDay else { return }
+                
 //        if !name.isEmpty {
 //            userInfo.set(name: name)
 //        }

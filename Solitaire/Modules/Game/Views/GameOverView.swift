@@ -5,6 +5,7 @@
 //  Created by Владислав Жуков on 01.05.2024.
 //
 
+import StoreKit
 import SwiftUI
 
 struct GameOverView: View {
@@ -12,6 +13,7 @@ struct GameOverView: View {
     @Binding var isPresenting: Bool
     @StateObject var vm: GameOverViewModel
     @State var isNeedShowNameInput: Bool = false
+    @Environment(\.requestReview) private var requestReview
     
     let width: CGFloat
     
@@ -58,7 +60,7 @@ struct GameOverView: View {
                 .padding(.horizontal, 24)
                 
 
-            if vm.isItChallengeOfWeek {
+            if vm.isItChallengeOfDay {
                 leadersSheetView
                     .padding(.bottom, 16)
             }
@@ -172,11 +174,22 @@ struct GameOverView: View {
     private func onAppearAction() {
         Task { @MainActor in
             try await Task.sleep(nanoseconds: 500000000)
-            if vm.name.isEmpty {
+            if vm.isNeedShowNameInput {
                 isNeedShowNameInput = true
             } else {
                 vm.sendResult()
+                presentReview()
             }
+        }
+    }
+    
+    private func presentReview() {
+        guard !vm.userAskForReview else { return }
+        Task {
+            // Delay for two seconds to avoid interrupting the person using the app.
+            try await Task.sleep(for: .seconds(1.3))
+            requestReview()
+            vm.setUserAskForReview()
         }
     }
 }

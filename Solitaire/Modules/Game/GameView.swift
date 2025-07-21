@@ -168,7 +168,7 @@ struct GameView: View {
             network: Network(),
             feedbackService: vm.feedbackService,
             score: vm.score,
-            isItChallengeOfWeek: vm.isItChallengeOfWeek
+            isItChallengeOfDay: vm.isItChallengeOfDay
         )
     }
 }

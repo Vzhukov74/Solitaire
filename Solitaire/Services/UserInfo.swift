@@ -9,8 +9,9 @@ import Foundation
 
 final class UserInfo {
     private enum Const {
-        static let userIdKey: String = "com.solitaire.game.user.id.v1.key"
-        static let userNameKey: String = "com.solitaire.game.user.name.v1.key"
+        static let userIdKey: String = "com.solitaire.game.user.id.v2.key"
+        static let userNameKey: String = "com.solitaire.game.user.name.v2.key"
+        static let userAskForReviewKey: String = "com.solitaire.game.user.ask.for.review.v1.key"
     }
     
     private let userDefaults: UserDefaults
@@ -27,6 +28,10 @@ final class UserInfo {
         }
     }
     
+    var userAskForReview: Bool {
+        userDefaults.bool(forKey: Const.userAskForReviewKey)
+    }
+    
     var userName: String {
         userDefaults.string(forKey: Const.userNameKey) ?? ""
     }
@@ -37,5 +42,9 @@ final class UserInfo {
     
     func set(name: String) {
         userDefaults.set(name, forKey: Const.userNameKey)
+    }
+    
+    func setUserAskForReview() {
+        userDefaults.set(true, forKey: Const.userAskForReviewKey)
     }
 }
