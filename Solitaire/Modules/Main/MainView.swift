@@ -23,8 +23,8 @@ struct MainView: View {
                         .padding(.vertical, 24)
                         .padding(.bottom, 24)
 
-                    if vm.challengeOfWeek != nil {
-                        ChallengeOfWeekView(challenge: vm.challengeOfWeek!)
+                    if vm.challengeOfDay != nil {
+                        ChallengeOfDayView(challenge: vm.challengeOfDay!)
                             .padding(.horizontal, 24)
                     }
 
@@ -141,9 +141,9 @@ struct MainView: View {
     }
 }
 
-struct ChallengeOfWeekView: View {
+struct ChallengeOfDayView: View {
     
-    let challenge: DeckShuffler
+    let challenge: Challenge
     
     var body: some View {
         NavigationLink(
@@ -153,7 +153,7 @@ struct ChallengeOfWeekView: View {
                     feedbackService: AppDI.shared.service(),
                     cardUIServices: AppDI.shared.service(),
                     game: nil,
-                    deck: challenge
+                    challengeOfDay: challenge
                 )
                     .toolbar(.hidden)
             },

@@ -13,7 +13,7 @@ struct TableView: View {
     let feedbackService: IFeedbackService
     let cardUIServices: ICardUIServices
     let game: SolitaireGame?
-    var deck: DeckShuffler? = nil
+    var challengeOfDay: Challenge? = nil
     
     var body: some View {
         GeometryReader { geo in
@@ -23,7 +23,7 @@ struct TableView: View {
                     cardUIServices: cardUIServices,
                     vm: GameTableViewModel(
                         with: game,
-                        deck: deck,
+                        challengeOfDay: challengeOfDay,
                         gameStore: gameStore,
                         feedbackService: feedbackService,
                         layout: CardLayout(size: size, cardSize: cardSize)

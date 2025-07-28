@@ -11,8 +11,10 @@ final class GameOverViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var isNeedShowNameInput: Bool = false
     @Published var leaders: [LeadersSheet.Leaders] = []
-    
-    let isItChallengeOfDay: Bool
+
+    private let challengeOfDay: Challenge?
+
+    var isItChallengeOfDay: Bool { challengeOfDay != nil }
     let score: SolitaireScore
     let feedbackService: IFeedbackService
     
@@ -28,13 +30,13 @@ final class GameOverViewModel: ObservableObject {
         network: Network,
         feedbackService: IFeedbackService,
         score: SolitaireScore,
-        isItChallengeOfDay: Bool = false
+        challengeOfDay: Challenge? = nil
     ) {
         self.userInfo = userInfo
         self.network = network
         self.feedbackService = feedbackService
         self.score = score
-        self.isItChallengeOfDay = isItChallengeOfDay
+        self.challengeOfDay = challengeOfDay
         
         name = userInfo.userName
         isNeedShowNameInput = name.isEmpty && isItChallengeOfDay
@@ -45,34 +47,40 @@ final class GameOverViewModel: ObservableObject {
     }
     
     func sendResult() {
-        guard isItChallengeOfDay else { return }
+        guard let challengeOfDay else { return }
                 
-//        if !name.isEmpty {
-//            userInfo.set(name: name)
-//        }
-//        
-//        Task { @MainActor in
-//            let userName = userInfo.userName.isEmpty ? "unknown" : userInfo.userName
-//            do {
-//                let resultOfChallenge = try await network.sendResultOfChallenge(
-//                    name: userName,
-//                    id: userInfo.userId,
-//                    points: score.pointsNumber
-//                )
-//                
-//            } catch {
-//                print(error.localizedDescription)
-//                withAnimation {
-//                    leaders = [
-//                        LeadersSheet.Leaders(
-//                            id: userInfo.userId,
-//                            name: userName,
-//                            points: score.pointsNumber,
-//                            place: 1
-//                        )
-//                    ]
-//                }
-//            }
-//        }
+        if !name.isEmpty {
+            userInfo.set(name: name)
+        }
+        
+        Task { @MainActor in
+            let userName = userInfo.userName.isEmpty ? "unknown" : userInfo.userName
+            do {
+                try await network.sendResultOfChallenge(
+                    name: userName,
+                    id: userInfo.userId,
+                    points: score.pointsNumber,
+                    challenge: challengeOfDay
+                )
+                
+                let resultOfChallenge = try await network.fetchLeadersSheet(id: userInfo.userId)
+                
+                withAnimation {
+                    leaders = resultOfChallenge.leaders
+                }
+            } catch {
+                print(error.localizedDescription)
+                withAnimation {
+                    leaders = [
+                        LeadersSheet.Leaders(
+                            id: userInfo.userId,
+                            name: userName,
+                            points: score.pointsNumber
+                        )
+                    ]
+                }
+            }
+        }
     }
 }
+

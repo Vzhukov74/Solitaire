@@ -10,7 +10,7 @@ import SwiftUI
 final class MainViewModel: ObservableObject {
     @Published var hasPausedGame: Bool = false
     @Published var presentSettingsScreen: Bool = false
-    @Published var challengeOfWeek: DeckShuffler?
+    @Published var challengeOfDay: Challenge?
         
     let gameStore: IGamePersistentStore
     let scoreStore: ScoreStore
@@ -30,17 +30,17 @@ final class MainViewModel: ObservableObject {
     
     func checkForSavedGame() {
         hasPausedGame = gameStore.hasSavedGame
-        fetchChallengeOfWeek()
+        fetchChallengeOfDay()
     }
     
-    private func fetchChallengeOfWeek() {
-//        Task { @MainActor in
-//            guard challengeOfWeek == nil else { return }
-//            do {
-//                challengeOfWeek = try await network.fetchChallengeOfWeek()
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
+    private func fetchChallengeOfDay() {
+        Task { @MainActor in
+            guard challengeOfDay == nil else { return }
+            do {
+                challengeOfDay = try await network.fetchChallengeOfDay()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }

@@ -21,7 +21,8 @@ struct LeadersSheetView: View {
                         leaderView(
                             leader: leaders[index],
                             isOdd: index % 2 == 0,
-                            isPlayer: leaders[index].id == ""
+                            isPlayer: leaders[index].id == "",
+                            place: index + 1
                         )
                     }
                 }
@@ -49,17 +50,17 @@ struct LeadersSheetView: View {
             .padding(.horizontal,16)
     }
     
-    private func leaderView(leader: LeadersSheet.Leaders, isOdd: Bool, isPlayer: Bool) -> some View {
+    private func leaderView(leader: LeadersSheet.Leaders, isOdd: Bool, isPlayer: Bool, place: Int) -> some View {
         HStack {
             HStack(alignment: .center, spacing: 8) {
-                if leader.place <= 3 {
+                if place <= 3 {
                     Image(.laurelwreath)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                        .foregroundStyle(leader.place.placeColor)
+                        .foregroundStyle(place.placeColor)
                 } else {
-                    Text("\(leader.place)")
+                    Text("\(place)")
                 }
             }
                 .frame(maxWidth: .infinity, alignment: .center)

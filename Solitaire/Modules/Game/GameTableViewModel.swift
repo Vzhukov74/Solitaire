@@ -21,7 +21,7 @@ final class GameTableViewModel: ObservableObject {
     
     let layout: ICardLayout
     let feedbackService: IFeedbackService
-    let isItChallengeOfDay: Bool
+    let challengeOfDay: Challenge?
     
     private let gameEngine: SolitaireGameEngine
     private let moveEngine: SolitaireMoveCardEngine
@@ -39,12 +39,13 @@ final class GameTableViewModel: ObservableObject {
     
     init(
         with game: SolitaireGame?,
-        deck: DeckShuffler? = nil,
+        challengeOfDay: Challenge? = nil,
         gameStore: IGamePersistentStore,
         feedbackService: IFeedbackService,
         layout: ICardLayout
     ) {
         self.gameStore = gameStore
+        self.challengeOfDay = challengeOfDay
         self.feedbackService = feedbackService
         self.layout = layout
         self.gameEngine = SolitaireGameEngine(layout: layout)
@@ -53,12 +54,10 @@ final class GameTableViewModel: ObservableObject {
         self.ui = SolitaireGameUIModel()
 
         let rDeck: DeckShuffler
-        if let deck {
-            self.isItChallengeOfDay = true
+        if let deck = challengeOfDay?.deck {
             self.game = nil
             rDeck = deck
         } else {
-            self.isItChallengeOfDay = false
             rDeck = DeckShuffler()
             self.game = rDeck.deckStr
         }
@@ -265,7 +264,7 @@ final class GameTableViewModel: ObservableObject {
         stopTimer()
         gameStore.reset()
         
-        if let game {
+        if let game, challengeOfDay == nil { // don't upload challengeOfDay
             Task {
                 try? await network.uploadGame(game: game)
             }
