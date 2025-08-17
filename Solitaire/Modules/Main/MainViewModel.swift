@@ -20,8 +20,6 @@ final class MainViewModel: ObservableObject {
         self.gameStore = gameStore
         self.scoreStore = scoreStore
         self.network = network
-        
-        checkForSavedGame()
     }
 
     func newGame() {
@@ -37,6 +35,8 @@ final class MainViewModel: ObservableObject {
         Task { @MainActor in
             guard challengeOfDay == nil else { return }
             do {
+                //try await network.uploadGame(game: "♦3|♠︎5♠︎1|♥︎8♣3♣4|♥︎7♣8♣K♠︎8|♠︎7♦4♦1♣6♣1|♣Q♥︎J♣A♠︎9♥︎Q♠︎6|♣2♦2♠︎4♥︎3♥︎K♦9♦K|♦Q♦6♦7♠︎K♠︎Q♥︎4♦J♠︎2♥︎9♥︎A♣J♥︎5♠︎A♠︎J♥︎6♦8♦5♣9♣7♥︎2♠︎3♥︎1♦A♣5|")
+                
                 challengeOfDay = try await network.fetchChallengeOfDay()
             } catch {
                 print(error.localizedDescription)

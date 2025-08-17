@@ -24,6 +24,7 @@ struct LeadersSheet: Codable {
     
     let leaders: [Leaders]
     let position: Int?
+    let points: Int?
 }
 
 final class Network {
@@ -36,8 +37,9 @@ final class Network {
     }
     
     private struct ChallengeResult: Codable {
-        let name: String
-        let id: String
+        let playerId: String
+        let playerName: String
+        let challengeId: String
         let points: Int
     }
     
@@ -45,7 +47,7 @@ final class Network {
         let value: String
     }
     
-    private let baseUrl: URL = URL(string: "https://mdlab.tech")! // http://127.0.0.1:8080
+    private let baseUrl: URL = URL(string: "http://127.0.0.1:8080")! // "https://mdlab.tech")! // http://127.0.0.1:8080
     
     func fetchChallengeOfDay() async throws -> Challenge {
         let path = "solitaire/challenge"
@@ -67,8 +69,8 @@ final class Network {
         )
     }
     
-    func fetchLeadersSheet(id: String) async throws -> LeadersSheet {
-        let path = "solitaire/player/rating?id=\(id)"
+    func fetchDayRating(id: String) async throws -> LeadersSheet {
+        let path = "solitaire/player/day-rating?id=\(id)"
         
         var request = URLRequest(url: baseUrl.appending(path: path))
         request.httpMethod = "GET"
@@ -89,8 +91,9 @@ final class Network {
         let path = "solitaire/player/rating"
         
         let result = ChallengeResult(
-            name: name,
-            id: id,
+            playerId: id,
+            playerName: name,
+            challengeId: challenge.id.uuidString,
             points: points
         )
         

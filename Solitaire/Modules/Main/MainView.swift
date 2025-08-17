@@ -33,7 +33,6 @@ struct MainView: View {
                     buttonsView
                 }
                     .padding(.vertical, 16)
-                    .onAppear { vm.checkForSavedGame() }
                 
                 if vm.presentSettingsScreen {
                     SettingsView(

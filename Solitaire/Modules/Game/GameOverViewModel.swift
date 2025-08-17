@@ -63,7 +63,7 @@ final class GameOverViewModel: ObservableObject {
                     challenge: challengeOfDay
                 )
                 
-                let resultOfChallenge = try await network.fetchLeadersSheet(id: userInfo.userId)
+                let resultOfChallenge = try await network.fetchDayRating(id: userInfo.userId)
                 
                 withAnimation {
                     leaders = resultOfChallenge.leaders
@@ -83,4 +83,3 @@ final class GameOverViewModel: ObservableObject {
         }
     }
 }
-
