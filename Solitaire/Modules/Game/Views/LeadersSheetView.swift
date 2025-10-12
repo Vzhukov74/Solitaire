@@ -81,7 +81,7 @@ struct LeadersSheetView: View {
     }
 }
 
-private extension Int {
+extension Int {
     var placeColor: Color {
         if self > 0, self <= 3 {
             if self == 1 {

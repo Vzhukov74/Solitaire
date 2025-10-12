@@ -12,6 +12,17 @@ struct MainView: View {
     
     var body: some View {
         NavigationStack {
+//            NavigationLink(value: vm.challengeOfDayForPlay) {
+//                TableView(
+//                    gameStore: AppDI.shared.service(),
+//                    feedbackService: AppDI.shared.service(),
+//                    cardUIServices: AppDI.shared.service(),
+//                    game: nil,
+//                    challengeOfDay: vm.challengeOfDayForPlay!
+//                )
+//                    .toolbar(.hidden)
+//            }
+                        
             ZStack {
                 Color.white
                     .ignoresSafeArea()
@@ -22,11 +33,6 @@ struct MainView: View {
                         .padding()
                         .padding(.vertical, 24)
                         .padding(.bottom, 24)
-
-                    if vm.challengeOfDay != nil {
-                        ChallengeOfDayView(challenge: vm.challengeOfDay!)
-                            .padding(.horizontal, 24)
-                    }
 
                     Spacer(minLength: 0)
                     
@@ -48,23 +54,34 @@ struct MainView: View {
                 }
             }
             .onAppear { vm.checkForSavedGame() }
+            .sheet(isPresented: $vm.showTournamentOnboarding) {
+                SimpleAnimatedPageView(
+                    onFinish: {
+                        vm.didShowTournamentOnboarding()
+                        vm.challengeOfDayForPlay = vm.challengeOfDay
+                    },
+                    onCancel: {
+                        vm.didShowTournamentOnboarding()
+                    }
+                )
+            }
         }
     }
     
     private var gearSettingsView: some View {
         HStack(spacing: 16) {
-//            Color.clear
-//                .frame(width: 44, height: 44)
-//                .overlay {
-//                    Image(.laurelwreath)
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 40, height: 40)
-//                        .foregroundColor(Color("accent"))
-//                        .padding(9)
-//                }
-//                .onTapGesture { withAnimation { vm.presentSettingsScreen = true } }
             Spacer()
+            Color.clear
+                .frame(width: 44, height: 44)
+                .overlay {
+                    Image(systemName: "trophy")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color("accent"))
+                        .padding(9)
+                }
+                .onTapGesture { withAnimation { vm.presentSettingsScreen = true } }
             Color.clear
                 .frame(width: 44, height: 44)
                 .overlay {
@@ -84,34 +101,42 @@ struct MainView: View {
     }
     
     private var buttonsView: some View {
-        VStack(alignment: .center, spacing: 16) {
-            if vm.hasPausedGame {
+        VStack(alignment: .center, spacing: 8) {
+            if vm.challengeOfDay != nil {
                 NavigationLink(
                     destination: {
                         TableView(
-                            gameStore: vm.gameStore,
+                            gameStore: AppDI.shared.service(),
                             feedbackService: AppDI.shared.service(),
                             cardUIServices: AppDI.shared.service(),
-                            game: vm.gameStore.game
+                            game: nil,
+                            challengeOfDay: vm.challengeOfDay!
                         )
                             .toolbar(.hidden)
                     },
                     label: {
-                        Text("Продолжить")
-                            .font(Font.system(size: 22, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(Color.white)
+                        HStack(alignment: .center, spacing: 8) {
+                            Image(.laurelwreath)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.white)
+                            Text("Рейтинг Дня")
+                                .font(Font.system(size: 20, weight: .semibold, design: .rounded))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(.white)
+                        }
                             .frame(height: 46)
                             .padding(.horizontal, 36)
                             .background {
                                 CustomButtonBgShape().foregroundColor(Color("accent"))
                             }
                             .frame(maxWidth: 320)
-                            .padding(.horizontal, 32)
                     }
                 )
+                .padding(.bottom, 11)
             }
-    
+            
             NavigationLink(
                 destination: {
                     TableView(
@@ -133,65 +158,31 @@ struct MainView: View {
                         .frame(maxWidth: 320)
                 }
             )
+            if vm.hasPausedGame {
+                NavigationLink(
+                    destination: {
+                        TableView(
+                            gameStore: vm.gameStore,
+                            feedbackService: AppDI.shared.service(),
+                            cardUIServices: AppDI.shared.service(),
+                            game: vm.gameStore.game
+                        )
+                            .toolbar(.hidden)
+                    },
+                    label: {
+                        Text("Продолжить")
+                            .font(Font.system(size: 22, weight: .semibold, design: .rounded))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(Color("accent"))
+                            .padding(.horizontal, 32)
+                            .frame(height: 46)
+                            .frame(maxWidth: 320)
+                    }
+                )
+            }
         }
         .padding(.horizontal, 32)
         .padding(.bottom, 24)
         .frame(maxWidth: .infinity)
-    }
-}
-
-struct ChallengeOfDayView: View {
-    
-    let challenge: Challenge
-    
-    var body: some View {
-        NavigationLink(
-            destination: {
-                TableView(
-                    gameStore: AppDI.shared.service(),
-                    feedbackService: AppDI.shared.service(),
-                    cardUIServices: AppDI.shared.service(),
-                    game: nil,
-                    challengeOfDay: challenge
-                )
-                    .toolbar(.hidden)
-            },
-            label: {
-                challengeView
-            }
-        )
-    }
-    
-    private var challengeView: some View {
-        HStack(spacing: 16) {
-            Image(.laurelwreath)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 48, height: 48)
-                .foregroundStyle(Color(.gold))
-                .overlay {
-                    Image(.firstplace)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 18, height: 18)
-                        .foregroundStyle(Color.black)
-                }
-            VStack(spacing: 6) {
-                Text("Раскладка недели")
-                    .font(Font.system(size: 20, weight: .semibold, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(Color.white)
-                Text("Соревнуйся с другими игроками")
-                    .font(Font.system(size: 16, weight: .regular, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(Color.white.opacity(0.7))
-            }
-        }
-        .padding(.vertical, 8)
-        .padding(12)
-        .background {
-            Color(.vega1)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
     }
 }

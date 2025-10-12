@@ -31,7 +31,8 @@ struct SolitaireApp: App {
                 vm: MainViewModel(
                     gameStore: AppDI.shared.service(),
                     scoreStore: scoreStore,
-                    network: Network()
+                    network: Network(),
+                    userInfo: AppDI.shared.service()
                 )
             )
             .onAppear {

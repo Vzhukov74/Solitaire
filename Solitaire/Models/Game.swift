@@ -11,7 +11,7 @@ enum DeckShufflerErrors: Error {
     case BadSeckStr
 }
 
-struct DeckShuffler {
+struct DeckShuffler: Codable, Hashable {
     let stacks: [[Card]]
 
     init(with stacks: [[Card]] = Deck.generate()) {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Challenge {
+struct Challenge: Codable, Hashable {
     let id: UUID
     let value: String
     let year: Int
@@ -47,7 +47,7 @@ final class Network {
         let value: String
     }
     
-    private let baseUrl: URL = URL(string: "http://127.0.0.1:8080")! // "https://mdlab.tech")! // http://127.0.0.1:8080
+    private let baseUrl: URL = URL(string: "https://mdlab.tech")! // "https://mdlab.tech")! // http://127.0.0.1:8080
     
     func fetchChallengeOfDay() async throws -> Challenge {
         let path = "solitaire/challenge"

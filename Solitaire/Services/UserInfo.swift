@@ -12,6 +12,7 @@ final class UserInfo {
         static let userIdKey: String = "com.solitaire.game.user.id.v2.key"
         static let userNameKey: String = "com.solitaire.game.user.name.v2.key"
         static let userAskForReviewKey: String = "com.solitaire.game.user.ask.for.review.v1.key"
+        static let hasSeenTournamentOnboardingKey: String = "com.solitaire.game.user.has.seen.tournament.onboarding"
     }
     
     private let userDefaults: UserDefaults
@@ -36,6 +37,10 @@ final class UserInfo {
         userDefaults.string(forKey: Const.userNameKey) ?? ""
     }
     
+    var hasSeenTournamentOnboarding: Bool {
+        userDefaults.bool(forKey: Const.hasSeenTournamentOnboardingKey)
+    }
+    
     init(userDefaults: UserDefaults = UserDefaults.standard) {
         self.userDefaults = userDefaults
     }
@@ -46,5 +51,9 @@ final class UserInfo {
     
     func setUserAskForReview() {
         userDefaults.set(true, forKey: Const.userAskForReviewKey)
+    }
+    
+    func setHasSeenTournamentOnboarding() {
+        userDefaults.set(true, forKey: Const.hasSeenTournamentOnboardingKey)
     }
 }
